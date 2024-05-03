@@ -11,9 +11,9 @@ import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "MonitoreoMercadoFormWebPartStrings";
-import MonitoreoMercadoForm from "./components/FormMonitoreo";
 import { IDropDownClienteProps } from "./components/interfaces/IDropDownClienteProps";
 import { IFormularioProductosProps } from "./components/interfaces/IFormularioProductosProps";
+import FormMonitoreo from "./components/FormMonitoreo";
 
 export interface IMonitoreoMercadoFormWebPartProps {
 	description: string;
@@ -50,7 +50,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 
 	public render(): void {
 		const element: React.ReactElement<FluentProviderProps> = React.createElement(FluentProvider, {},
-				React.createElement(MonitoreoMercadoForm, {
+				React.createElement(FormMonitoreo, {
 					listaClientes:this.listaClientes,
 					listaUnidades:this.listaUnidades,
 					listaFamiliaProductos:this.listaFamiliaProductos

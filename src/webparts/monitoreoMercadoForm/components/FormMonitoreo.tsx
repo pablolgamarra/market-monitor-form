@@ -69,7 +69,7 @@ const ControlesPagina: React.FC<IControlesPagina> = (props) => {
   return codigo;
 }
 
-const MonitoreoMercadoForm: React.FC<IFormMonitoreoProps> = (props) => {
+const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   const {
     listaClientes,
     listaUnidades,
@@ -108,4 +108,4 @@ const MonitoreoMercadoForm: React.FC<IFormMonitoreoProps> = (props) => {
   );
 }
 
-export default MonitoreoMercadoForm;
+export default FormMonitoreo;

@@ -1,14 +1,17 @@
 import * as React from "react";
-import { Dropdown, Field, Input, Label, Option, Title2, makeStyles, shorthands } from "@fluentui/react-components";
+import { Dropdown, Field, Input, Option, Title2, makeStyles, shorthands } from "@fluentui/react-components";
 
 import { IFormularioProductosProps } from "./interfaces/IFormularioProductosProps";
 
 
 const useStyles = makeStyles({
 	root: {
-		display: "flex",
-		flexDirection: "column",
+		display:"flex",
+		flexDirection:"column",
+		justifyItems:"start",
 		...shorthands.gap("2px"),
+		...shorthands.margin("25px"),
+		backgroundColor:""
 	},
 })
 
@@ -30,11 +33,12 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
 				<Field id={`${idFamilia}-precio`} label={"Precio USD"}>
 					<Input placeholder="Ingresar precio USD" />
 				</Field>
-				<Label htmlFor={`${idFamilia}-condicion-pago`}>Condición de Pago</Label>
-				<Dropdown id={`${idFamilia}-condicion-pago`} name="condicion-pago">
-					<Option value={"credito"}>Crédito</Option>
-					<Option value={"contado"}>Contado</Option>
-				</Dropdown >
+				<Field id={`${idFamilia}-condicion-pago`} label={"Condición de Pago"}>
+					<Dropdown id={`${idFamilia}-condicion-pago`} inlinePopup={true} className="DpDown" placeholder="Condición de Pago">
+						<Option value={"credito"}>Crédito</Option>
+						<Option value={"contado"}>Contado</Option>
+					</Dropdown >
+				</Field>
 				<Field label={"Proveedor Principal"}>
 					<Input id={`${idFamilia}-proveedor-principal`} placeholder="Ingresar proveedor principal" />
 				</Field>
