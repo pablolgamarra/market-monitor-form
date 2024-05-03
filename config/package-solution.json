@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "monitoreo-mercado-client-side-solution",
+    "id": "6718216b-427b-4ed1-b783-0f21c7b3b357",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.2"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "MonitoreoMercado description"
+      },
+      "longDescription": {
+        "default": "MonitoreoMercado description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "monitoreo-mercado Feature",
+        "description": "The feature that activates elements of the monitoreo-mercado solution.",
+        "id": "ea470205-8214-467d-aeda-e3931dfaed42",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/monitoreo-mercado.sppkg"
+  }
+}

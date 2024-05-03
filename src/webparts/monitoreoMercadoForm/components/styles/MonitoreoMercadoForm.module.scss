@@ -1,0 +1,27 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+$formFondo : #073b3a66;
+$inputFondo: #38263388;
+$fondoCardCategoria: #6BBF59;
+
+$fonts: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+
+*{
+  font-family: $fonts;
+}
+
+.formTitle{
+  margin: 10px auto 30px auto;
+  font-size: large;
+}
+
+.monitoreoMercadoForm {
+  display:flex;
+  flex-direction: column;
+  padding: 1em;
+  margin: 5px;
+}
+
+.formProductos{
+  //background-color: $fondoCardCategoria;
+}
