@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
 	const {
 		familiaProducto,
-		idFamilia,
+		idFamilia
 	} = props;
 
 	const styles = useStyles();
@@ -28,7 +28,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
 			<Title2>{familiaProducto}</Title2>
 			<form>
 				<Field id={`${idFamilia}-vol-comprado`} label={"Volumen ya comprado"}>
-					<Input id={`${idFamilia}-vol-comprado`} placeholder="Ingresar volumen comprado" />
+					<Input id={`${idFamilia}-vol-comprado`} placeholder="Ingresar volumen comprado"/>
 				</Field>
 				<Field id={`${idFamilia}-precio`} label={"Precio USD"}>
 					<Input placeholder="Ingresar precio USD" />

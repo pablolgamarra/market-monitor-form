@@ -1,8 +1,9 @@
+import { IUnidad } from "../../MonitoreoMercadoFormWebPart";
 import { IDropDownClienteProps } from "./IDropDownClienteProps";
 import { IFormularioProductosProps } from "./IFormularioProductosProps";
 
 export interface IFormMonitoreoProps {
   listaClientes: Array<IDropDownClienteProps>,
-  listaUnidades: Array<string>
+  listaUnidades: IUnidad[]
   listaFamiliaProductos: Array<IFormularioProductosProps>
 }

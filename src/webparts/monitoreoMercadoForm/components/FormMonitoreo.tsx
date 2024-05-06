@@ -6,7 +6,7 @@ import { IFormularioProductosProps } from './interfaces/IFormularioProductosProp
 
 import styles from './styles/MonitoreoMercadoForm.module.scss'
 
-import { Button } from '@fluentui/react-components';
+import { Button, Title1, Image } from '@fluentui/react-components';
 
 export interface IFuncionBtn{
   ():void;
@@ -17,6 +17,13 @@ export interface IControlesPagina{
   max:number,
   retroceder: IFuncionBtn,
   avanzar: IFuncionBtn
+}
+
+export interface IFormData{
+    FamiliaProducto:string,
+    Precio:number,
+    condicionPago:string,
+    ProveedorPrincipal:string,
 }
 
 const ControlesPagina: React.FC<IControlesPagina> = (props) => {
@@ -76,11 +83,13 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     listaFamiliaProductos
   } = props;
 
-
-  const [index, setIndex] = React.useState<number>(0)
-  const [pagina, setPagina] = React.useState<IFormularioProductosProps>(listaFamiliaProductos[0])
-
   const largoLista = listaFamiliaProductos.length;
+  
+  //const inicialForm = new Array<IFormData>(largoLista);
+
+  const [index, setIndex] = React.useState<number>(0);
+  const [pagina, setPagina] = React.useState<IFormularioProductosProps>(listaFamiliaProductos[0]);
+  //const [formulario, setFormulario] = React.useState<Array<IFormData> >(inicialForm);
 
   const btnPasarClick = (): void => {
     if (index < largoLista - 1) {
@@ -98,7 +107,8 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   return (
     <article className={styles.monitoreoMercadoForm}>
-      <h1 className={styles.formTitle}>Monitoreo del Mercado</h1>
+      <Image src="../assets/glymax.png" alt={"Logo de Glymax Paraguay S.A."}/>
+      <Title1 align='center'>Monitoreo del Mercado</Title1>
       <CabeceraForm listaClientes={listaClientes} listaUnidades={listaUnidades} />
       <FormularioProductos {...pagina} />
       <ControlesPagina index={index} max={largoLista} avanzar={btnPasarClick} retroceder={btnRetrocederClick} />

@@ -1,3 +1,5 @@
+import { IUnidad } from "../../MonitoreoMercadoFormWebPart";
+
 export interface IDropDownUnidadProps{
-    unidades:Array<string>
+    unidades:IUnidad[]
 }

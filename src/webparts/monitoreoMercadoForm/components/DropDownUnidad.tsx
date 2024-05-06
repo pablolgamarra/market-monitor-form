@@ -29,7 +29,7 @@ const DropDownUnidad: React.FC<IDropDownUnidadProps> = (props) => {
             <label htmlFor='unidad-cliente'>Unidad: </label>
             <Dropdown name="unidad-cliente" id="unidad-cliente" placeholder='Seleccione Unidad' inlinePopup={true}>
                 {unidades.map((unidad) => (
-                    <Option value={unidad.toLowerCase()} key={unidad}>{unidad}</Option>
+                    <Option value={unidad.Title} key={unidad.Id}>{unidad.Title}</Option>
                 ))}
             </Dropdown>
         </div>
