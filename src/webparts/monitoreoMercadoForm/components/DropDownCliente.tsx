@@ -29,8 +29,8 @@ const DropDownCliente:React.FC<IClientesList> = (props) => {
 			<label htmlFor="cliente">Cliente: </label>
 			<Dropdown name='cliente' id='cliente' placeholder="Seleccione Cliente" inlinePopup={true}>
 				{clientes.map((cliente) => (
-					<Option value={cliente.nombre.toLowerCase()} key={cliente.id}>
-						{cliente.nombre}
+					<Option value={cliente.Nombre} key={cliente.Id}>
+						{cliente.Nombre}
 					</Option>
 				))}
 			</Dropdown>

@@ -1,9 +1,7 @@
-import { IUnidad } from "../../MonitoreoMercadoFormWebPart";
-
 export interface IDropDownClienteProps{
-    Id:number,
+	Id:number,
 	Nombre: string,
 	NroFiscal: string,
-	Unidad: IUnidad,
+	IdUnidad: number,
 	NombreCNG: string,
 }

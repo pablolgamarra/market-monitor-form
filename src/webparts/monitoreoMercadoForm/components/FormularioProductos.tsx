@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dropdown, Field, Input, Option, Title2, makeStyles, shorthands } from "@fluentui/react-components";
 
 import { IFormularioProductosProps } from "./interfaces/IFormularioProductosProps";
+import DropdownVolumen from "./DropDownVolumen";
 
 
 const useStyles = makeStyles({
@@ -27,9 +28,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
 		<section className={styles.root}>
 			<Title2>{familiaProducto}</Title2>
 			<form>
-				<Field id={`${idFamilia}-vol-comprado`} label={"Volumen ya comprado"}>
-					<Input id={`${idFamilia}-vol-comprado`} placeholder="Ingresar volumen comprado"/>
-				</Field>
+				<DropdownVolumen id={`${idFamilia}-vol-comprado`} label={"Volumen ya comprado"} placeholder={"Seleccione Volumen"}/>
 				<Field id={`${idFamilia}-precio`} label={"Precio USD"}>
 					<Input placeholder="Ingresar precio USD" />
 				</Field>

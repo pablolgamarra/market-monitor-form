@@ -3,6 +3,7 @@ import type { IFormMonitoreoProps } from './interfaces/IFormMonitoreoProps';
 import CabeceraForm from './CabeceraForm';
 import FormularioProductos from './FormularioProductos';
 import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
+import {ArrowLeftFilled, ArrowRightFilled, SaveRegular} from '@fluentui/react-icons';
 
 import styles from './styles/MonitoreoMercadoForm.module.scss'
 
@@ -35,13 +36,13 @@ const ControlesPagina: React.FC<IControlesPagina> = (props) => {
     if (index + 1 === max) {
       codigo=(
         <section>
-          <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded'>
+          <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded' icon={<ArrowLeftFilled />} iconPosition='before'>
             Página Anterior
           </Button>
           <p>
             {index + 1} de {max}
           </p>
-          <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded'>
+          <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<SaveRegular />} iconPosition='after'>
             Guardar
           </Button>
         </section>
@@ -49,13 +50,13 @@ const ControlesPagina: React.FC<IControlesPagina> = (props) => {
     } else {
       codigo=(
         <section>
-          <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded'>
+          <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded' icon={<ArrowLeftFilled/>} iconPosition='before'>
             Página Anterior
           </Button>
           <p>
             {index + 1} de {max}
           </p>
-          <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded'>
+          <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<ArrowRightFilled/>} iconPosition='after'>
             Página Siguiente
           </Button>
         </section>
@@ -67,7 +68,7 @@ const ControlesPagina: React.FC<IControlesPagina> = (props) => {
         <p>
           {index + 1} de {max}
         </p>
-        <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded'>
+        <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<ArrowRightFilled/>} iconPosition='after'>
           Página Siguiente
         </Button>
       </section>
@@ -107,7 +108,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   return (
     <article className={styles.monitoreoMercadoForm}>
-      <Image src="../assets/glymax.png" alt={"Logo de Glymax Paraguay S.A."}/>
+      <Image block={false} src={require("../assets/glymax.png")} alt={"Logo de Glymax Paraguay S.A."} width={"150px"}/>
       <Title1 align='center'>Monitoreo del Mercado</Title1>
       <CabeceraForm listaClientes={listaClientes} listaUnidades={listaUnidades} />
       <FormularioProductos {...pagina} />

@@ -18,7 +18,6 @@ import {SPHttpClient,
 	ISPHttpClientOptions
 } from '@microsoft/sp-http';
 
-import { IDropDownClienteProps } from "./components/interfaces/IDropDownClienteProps";
 import { IFormularioProductosProps } from "./components/interfaces/IFormularioProductosProps";
 import FormMonitoreo from "./components/FormMonitoreo";
 
@@ -39,17 +38,11 @@ export interface ICliente{
 	Id:number,
 	Nombre: string,
 	NroFiscal: string,
-	Unidad: IUnidad,
+	IdUnidad: number,
 	NombreCNG: string,
 }
 
 export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<IMonitoreoMercadoFormWebPartProps> {
-	
-	/*private listaClientes: Array<IDropDownClienteProps> = [
-		{ id: 1, nombre: "Pablo" },
-		{ id: 2, nombre: "Agro" },
-		{ id: 3, nombre: "Glymax" },
-	];*/
 
 	private listaFamiliaProductos: Array<IFormularioProductosProps> = [
 		{ idFamilia: "fert-conv", familiaProducto: "Fertilizante Convencional" },
@@ -198,18 +191,21 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 
 	private _listarClientes():Promise<ICliente[]> {
 		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
-		const url = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id"
+		const url = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items/?$select=Id,Title,RUC_x002f_CI,Nombre_x0020_CNG,UnidadId"
 		return this.context.httpClient.get(url, SPHttpClient.configurations.v1, head)
 		.then((respuesta) => {
-			return respuesta.json();
+			if(respuesta.status === 200){
+				return respuesta.json();
+			}
+			return [];
 		})
 		.then((data:any)=>{
 			const clientes:ICliente[] = data.value.map((item:any) => ({
-				Id: item.id,
-				Nombre: item.nombre,
-				NroFiscal: item.NroFiscal,
-				Unidad: {},
-				NombreCNG: item.NombreCNG
+				Id: item.Id,
+				Nombre: item.Title,
+				NroFiscal: item.Ruc_x002f_CI,
+				Unidad: item.UnidadId,
+				NombreCNG: item.Nombre_x0020_CNG
 			}))
 			return clientes;
 		})
