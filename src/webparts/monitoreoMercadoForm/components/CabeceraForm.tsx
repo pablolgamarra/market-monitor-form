@@ -23,7 +23,7 @@ const CabeceraForm:React.FC<ICabeceraClientesProps> = (props) => {
             <section className={styles.root}>
                 <DropDownUnidad unidades={listaUnidades}/>
                 <DropDownCliente clientes={listaClientes}/>
-                <Field label="Año de Zafra">
+                <Field label="Año de Zafra" color={styles.root}>
                     <Input defaultValue="2024/2025" disabled={true}/>   
                 </Field>
             </section>

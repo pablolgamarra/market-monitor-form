@@ -3,6 +3,7 @@
 $formFondo : #073b3a66;
 $inputFondo: #38263388;
 $fondoCardCategoria: #6BBF59;
+$textColor: #2C3C79;
 
 $fonts: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
 
@@ -22,5 +23,8 @@ $fonts: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSyste
   margin: 5px;
   img{
     align-self: center;
+  }
+  Title1{
+    color: $textColor;
   }
 }

@@ -5,9 +5,10 @@ import FormularioProductos from './FormularioProductos';
 import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
 import {ArrowLeftFilled, ArrowRightFilled, SaveRegular} from '@fluentui/react-icons';
 
-import styles from './styles/MonitoreoMercadoForm.module.scss'
+//import styles from './styles/MonitoreoMercadoForm.module.scss'
 
-import { Button, Title1, Image } from '@fluentui/react-components';
+import { Button, Title1, Image, makeStyles, shorthands, Body1Strong } from '@fluentui/react-components';
+import { Stack, StackItem } from '@fluentui/react';
 
 export interface IFuncionBtn{
   ():void;
@@ -27,6 +28,19 @@ export interface IFormData{
     ProveedorPrincipal:string,
 }
 
+const useStyles = makeStyles({
+  root:{
+    color: "#2C3C79",
+    display: "flex",
+    flexDirection: "column",
+    ...shorthands.padding("1em"),
+    ...shorthands.margin("5px"),
+    "> img":{
+      alignSelf: "center",
+    }
+  },
+})
+
 const ControlesPagina: React.FC<IControlesPagina> = (props) => {
   const { index, max, retroceder, avanzar } = props;
 
@@ -34,44 +48,64 @@ const ControlesPagina: React.FC<IControlesPagina> = (props) => {
 
   if (index !== 0) {
     if (index + 1 === max) {
+      //TODO:Estilar los botones para que el tamaño no varie cuando se cambia el icono
       codigo=(
-        <section>
-          <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded' icon={<ArrowLeftFilled />} iconPosition='before'>
-            Página Anterior
-          </Button>
-          <p>
-            {index + 1} de {max}
-          </p>
-          <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<SaveRegular />} iconPosition='after'>
-            Guardar
-          </Button>
-        </section>
+        <Stack horizontal horizontalAlign='space-around' verticalAlign='center' >
+          <StackItem>
+            <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded' icon={<ArrowLeftFilled />} iconPosition='before'>
+              Página Anterior
+            </Button>
+          </StackItem>
+          <StackItem>
+            <Body1Strong>
+              {index + 1} de {max}
+            </Body1Strong>
+          </StackItem>
+          <StackItem>
+            <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<SaveRegular />} iconPosition='after'>
+              Guardar
+            </Button>
+          </StackItem>
+        </Stack>
       );
     } else {
       codigo=(
-        <section>
+        <Stack horizontal horizontalAlign='space-around' verticalAlign='center'>
+          <StackItem>
           <Button onClick={() => { retroceder() }} appearance='secondary' shape='rounded' icon={<ArrowLeftFilled/>} iconPosition='before'>
             Página Anterior
           </Button>
-          <p>
+
+          </StackItem>
+          <StackItem>
+          <Body1Strong>
             {index + 1} de {max}
-          </p>
+          </Body1Strong>
+
+          </StackItem>
+          <StackItem>
           <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<ArrowRightFilled/>} iconPosition='after'>
             Página Siguiente
           </Button>
-        </section>
+            
+          </StackItem>
+        </Stack>
       );
     }
   } else {
     codigo=(
-      <section>
-        <p>
-          {index + 1} de {max}
-        </p>
-        <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<ArrowRightFilled/>} iconPosition='after'>
-          Página Siguiente
-        </Button>
-      </section>
+      <Stack horizontal horizontalAlign='space-around' verticalAlign='center'>
+        <StackItem>
+          <Body1Strong>
+            {index + 1} de {max}
+          </Body1Strong>
+        </StackItem>
+        <StackItem>
+          <Button onClick={() => { avanzar() }} appearance='primary' shape='rounded' icon={<ArrowRightFilled/>} iconPosition='after'>
+            Página Siguiente
+          </Button>
+        </StackItem>
+      </Stack>
     );
   }
   return codigo;
@@ -83,6 +117,8 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     listaUnidades,
     listaFamiliaProductos
   } = props;
+
+  const styles = useStyles();
 
   const largoLista = listaFamiliaProductos.length;
   
@@ -107,7 +143,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   }
 
   return (
-    <article className={styles.monitoreoMercadoForm}>
+    <article className={styles.root}>
       <Image block={false} src={require("../assets/glymax.png")} alt={"Logo de Glymax Paraguay S.A."} width={"150px"}/>
       <Title1 align='center'>Monitoreo del Mercado</Title1>
       <CabeceraForm listaClientes={listaClientes} listaUnidades={listaUnidades} />
