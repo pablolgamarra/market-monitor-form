@@ -36,16 +36,20 @@ export interface IUnidad{
 }
 
 export interface ICliente{
-
+	Id:number,
+	Nombre: string,
+	NroFiscal: string,
+	Unidad: IUnidad,
+	NombreCNG: string,
 }
 
 export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<IMonitoreoMercadoFormWebPartProps> {
 	
-	private listaClientes: Array<IDropDownClienteProps> = [
+	/*private listaClientes: Array<IDropDownClienteProps> = [
 		{ id: 1, nombre: "Pablo" },
 		{ id: 2, nombre: "Agro" },
 		{ id: 3, nombre: "Glymax" },
-	];
+	];*/
 
 	private listaFamiliaProductos: Array<IFormularioProductosProps> = [
 		{ idFamilia: "fert-conv", familiaProducto: "Fertilizante Convencional" },
@@ -61,10 +65,11 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 
 	public async render(): Promise<void> {
 		const listaUnidades = await this._getUnidades();
+		const listaClientes = await this._listarClientes();
 	
 		const element: React.ReactElement<FluentProviderProps> = React.createElement(FluentProvider, {},
 				React.createElement(FormMonitoreo, {
-					listaClientes:this.listaClientes,
+					listaClientes:listaClientes,
 					listaUnidades:listaUnidades,
 					listaFamiliaProductos:this.listaFamiliaProductos
 				})
@@ -173,7 +178,8 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 	private _getUnidades():Promise<IUnidad[]>{
 		//TODO: Usar variables de entorno para 'glymaxparaguay.sharepoint.com'
 		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
-		return this.context.httpClient.get("https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id", SPHttpClient.configurations.v1, head)
+		const url = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id"
+		return this.context.httpClient.get(url, SPHttpClient.configurations.v1, head)
 			.then((respuesta:SPHttpClientResponse)=>{
 				return respuesta.json();
 			})
@@ -188,5 +194,28 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 				console.log(`Error al listar ${e}`);
 				return [];
 			});
+	}
+
+	private _listarClientes():Promise<ICliente[]> {
+		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
+		const url = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id"
+		return this.context.httpClient.get(url, SPHttpClient.configurations.v1, head)
+		.then((respuesta) => {
+			return respuesta.json();
+		})
+		.then((data:any)=>{
+			const clientes:ICliente[] = data.value.map((item:any) => ({
+				Id: item.id,
+				Nombre: item.nombre,
+				NroFiscal: item.NroFiscal,
+				Unidad: {},
+				NombreCNG: item.NombreCNG
+			}))
+			return clientes;
+		})
+		.catch((e)=>{
+			console.log(`Error al listar clientes ${e}`);
+			return [];
+		})
 	}
 }
