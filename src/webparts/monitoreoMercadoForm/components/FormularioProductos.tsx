@@ -18,8 +18,7 @@ const useStyles = makeStyles({
 
 const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
 	const {
-		familiaProducto,
-		idFamilia
+		familiaProducto
 	} = props;
 
 	const styles = useStyles();
@@ -28,18 +27,18 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
 		<section className={styles.root}>
 			<Title2>{familiaProducto}</Title2>
 			<form>
-				<DropdownVolumen id={`${idFamilia}-vol-comprado`} label={"Volumen ya comprado"} placeholder={"Seleccione Volumen"}/>
-				<Field id={`${idFamilia}-precio`} label={"Precio USD"}>
+				<DropdownVolumen id={`${familiaProducto.Id}-vol-comprado`} label={"Volumen ya comprado"} placeholder={"Seleccione Volumen"}/>
+				<Field id={`${familiaProducto.Id}-precio`} label={"Precio USD"}>
 					<Input placeholder="Ingresar precio USD" />
 				</Field>
-				<Field id={`${idFamilia}-condicion-pago`} label={"Condición de Pago"}>
-					<Dropdown id={`${idFamilia}-condicion-pago`} inlinePopup={true} className="DpDown" placeholder="Condición de Pago">
+				<Field id={`${familiaProducto.Id}-condicion-pago`} label={"Condición de Pago"}>
+					<Dropdown id={`${familiaProducto.Id}-condicion-pago`} inlinePopup={true} className="DpDown" placeholder="Condición de Pago">
 						<Option value={"credito"}>Crédito</Option>
 						<Option value={"contado"}>Contado</Option>
 					</Dropdown >
 				</Field>
 				<Field label={"Proveedor Principal"}>
-					<Input id={`${idFamilia}-proveedor-principal`} placeholder="Ingresar proveedor principal" />
+					<Input id={`${familiaProducto.Id}-proveedor-principal`} placeholder="Ingresar proveedor principal" />
 				</Field>
 			</form>
 		</section>

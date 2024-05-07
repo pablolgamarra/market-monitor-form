@@ -1,6 +1,5 @@
-
+import { IFamiliaProducto } from "./IFamiliaProducto";
 
 export interface IFormularioProductosProps{
-    familiaProducto:string
-    idFamilia:string
+    familiaProducto:IFamiliaProducto,
 }

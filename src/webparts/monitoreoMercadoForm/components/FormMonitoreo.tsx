@@ -9,6 +9,7 @@ import {ArrowLeftFilled, ArrowRightFilled, SaveRegular} from '@fluentui/react-ic
 
 import { Button, Title1, Image, makeStyles, shorthands, Body1Strong } from '@fluentui/react-components';
 import { Stack, StackItem } from '@fluentui/react';
+import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 
 export interface IFuncionBtn{
   ():void;
@@ -125,7 +126,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   //const inicialForm = new Array<IFormData>(largoLista);
 
   const [index, setIndex] = React.useState<number>(0);
-  const [pagina, setPagina] = React.useState<IFormularioProductosProps>(listaFamiliaProductos[0]);
+  const [pagina, setPagina] = React.useState<IFamiliaProducto>(listaFamiliaProductos[0]);
   //const [formulario, setFormulario] = React.useState<Array<IFormData> >(inicialForm);
 
   const btnPasarClick = (): void => {
@@ -147,7 +148,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
       <Image block={false} src={require("../assets/glymax.png")} alt={"Logo de Glymax Paraguay S.A."} width={"150px"}/>
       <Title1 align='center'>Monitoreo del Mercado</Title1>
       <CabeceraForm listaClientes={listaClientes} listaUnidades={listaUnidades} />
-      <FormularioProductos {...pagina} />
+      <FormularioProductos familiaProducto={pagina} />
       <ControlesPagina index={index} max={largoLista} avanzar={btnPasarClick} retroceder={btnRetrocederClick} />
     </article>
 

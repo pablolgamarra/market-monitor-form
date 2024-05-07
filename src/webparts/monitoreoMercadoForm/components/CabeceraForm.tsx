@@ -1,34 +1,43 @@
-import * as React from "react";
-import {Field, Input, makeStyles} from '@fluentui/react-components';
+import * as React from 'react';
+import { Field, Input, makeStyles } from '@fluentui/react-components';
 
-import {ICabeceraClientesProps} from './interfaces/ICabeceraClientesProps';
+import { IUnidad } from './interfaces/IUnidad';
+import { ICliente } from './interfaces/ICliente';
+import DropdownCliente from './DropDownCliente';
+import DropdownUnidad from './DropDownUnidad';
 
-import DropDownCliente from "./DropDownCliente";
-import DropDownUnidad from "./DropDownUnidad";
+export interface ICabeceraForm {
+  listaUnidades: IUnidad[];
+  listaClientes: ICliente[];
+}
 
 const useStyles = makeStyles({
-    root:{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth:"400px"
-    },
-})
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: '400px',
+  },
+});
 
-const CabeceraForm:React.FC<ICabeceraClientesProps> = (props) => {
-    const {listaUnidades, listaClientes} = props;
-    
-    const styles = useStyles();
+const CabeceraForm: React.FC<ICabeceraForm> = (props) => {
+  const { listaUnidades, listaClientes } = props;
 
-    return(
-            <section className={styles.root}>
-                <DropDownUnidad unidades={listaUnidades}/>
-                <DropDownCliente clientes={listaClientes}/>
-                <Field label="Año de Zafra" color={styles.root}>
-                    <Input defaultValue="2024/2025" disabled={true}/>   
-                </Field>
-            </section>
-        );
+  const styles = useStyles();
 
-}
+  return (
+    <section className={styles.root}>
+      <DropdownUnidad unidades={listaUnidades} />
+      <DropdownCliente clientes={listaClientes} />
+      <Field
+        label="Año de Zafra"
+        color={styles.root}>
+        <Input
+          defaultValue="2024/2025"
+          disabled={true}
+        />
+      </Field>
+    </section>
+  );
+};
 
 export default CabeceraForm;
