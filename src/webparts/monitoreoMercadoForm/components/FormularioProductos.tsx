@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Dropdown, Field, Input, Option, Title2, makeStyles, shorthands } from "@fluentui/react-components";
 
-import { IFormularioProductosProps } from "./interfaces/IFormularioProductosProps";
 import DropdownVolumen from "./DropDownVolumen";
+import { IFamiliaProducto } from "./interfaces/IFamiliaProducto";
 
 
 const useStyles = makeStyles({
@@ -16,29 +16,31 @@ const useStyles = makeStyles({
 	},
 })
 
-const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
+const FormularioProductos: React.FC<IFamiliaProducto> = (props) => {
 	const {
-		familiaProducto
+		Id,
+		Nombre,
+		UnidadMedida
 	} = props;
 
 	const styles = useStyles();
 
 	return (
 		<section className={styles.root}>
-			<Title2>{familiaProducto}</Title2>
+			<Title2>{Nombre}</Title2>
 			<form>
-				<DropdownVolumen id={`${familiaProducto.Id}-vol-comprado`} label={"Volumen ya comprado"} placeholder={"Seleccione Volumen"}/>
-				<Field id={`${familiaProducto.Id}-precio`} label={"Precio USD"}>
-					<Input placeholder="Ingresar precio USD" />
+				<DropdownVolumen id={`${Id}-vol-comprado`} label={"Volumen ya comprado"} placeholder={"Seleccione Volumen"}/>
+				<Field id={`${Id}-precio`} label={`Precio por ${UnidadMedida}`}>
+					<Input placeholder={`Ingresar precio ${UnidadMedida}`} />
 				</Field>
-				<Field id={`${familiaProducto.Id}-condicion-pago`} label={"Condición de Pago"}>
-					<Dropdown id={`${familiaProducto.Id}-condicion-pago`} inlinePopup={true} className="DpDown" placeholder="Condición de Pago">
+				<Field id={`${Id}-condicion-pago`} label={"Condición de Pago"}>
+					<Dropdown id={`${Id}-condicion-pago`} inlinePopup={true} className="DpDown" placeholder="Condición de Pago">
 						<Option value={"credito"}>Crédito</Option>
 						<Option value={"contado"}>Contado</Option>
 					</Dropdown >
 				</Field>
 				<Field label={"Proveedor Principal"}>
-					<Input id={`${familiaProducto.Id}-proveedor-principal`} placeholder="Ingresar proveedor principal" />
+					<Input id={`${Id}-proveedor-principal`} placeholder="Ingresar proveedor principal" />
 				</Field>
 			</form>
 		</section>

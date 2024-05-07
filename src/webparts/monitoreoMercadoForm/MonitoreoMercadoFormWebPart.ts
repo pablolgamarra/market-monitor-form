@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
-import { FluentProvider, FluentProviderProps } from '@fluentui/react-components';
+import { FluentProvider, FluentProviderProps, Title1 } from '@fluentui/react-components';
 
 import { Version } from "@microsoft/sp-core-library";
 import {
@@ -22,6 +22,7 @@ import FormMonitoreo from "./components/FormMonitoreo";
 import { IUnidad } from "./components/interfaces/IUnidad";
 import { ICliente } from "./components/interfaces/ICliente";
 import { IFamiliaProducto } from "./components/interfaces/IFamiliaProducto";
+import { isEmpty } from "@microsoft/sp-lodash-subset";
 
 export interface IMonitoreoMercadoFormWebPartProps {
 	description: string;
@@ -43,18 +44,24 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 
 	public async render(): Promise<void> {
 		const listaUnidades = await this._getUnidades();
-		const listaClientes = await this._listarClientes();
+		const listaClientes = await this._getClientes();
 		const listaFamiliasProductos = await this._getFamiliaProductos();
-	
-		const element: React.ReactElement<FluentProviderProps> = React.createElement(FluentProvider, {},
+		
+		let element: React.ReactElement<FluentProviderProps>
+
+		if (isEmpty(listaClientes) || isEmpty(listaUnidades) || isEmpty(listaFamiliasProductos)){
+			element = React.createElement(FluentProvider,{},
+				React.createElement(Title1,{},"Error, listas vacias")
+			);
+		}
+
+		element = React.createElement(FluentProvider, {},
 				React.createElement(FormMonitoreo, {
 					listaClientes:listaClientes,
 					listaUnidades:listaUnidades,
 					listaFamiliaProductos:listaFamiliasProductos
 				})
 		);
-
-		console.log(this.context.pageContext.web.absoluteUrl);
 
 		ReactDom.render(element, this.domElement);
 	}
@@ -156,6 +163,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 	}
 
 	private async _getUnidades():Promise<IUnidad[]>{
+		//this.context.pageContext.web.absoluteUrl
 		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
 		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id"
 		
@@ -169,7 +177,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 		.then((data:any) => {
 			const unidades:IUnidad[] = data.value.map((item:any)=>({
 				Id: item.Id,
-				Nombre: item.Nombre,
+				Nombre: item.Title,
 			}))
 			return unidades;
 		})
@@ -179,7 +187,8 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 		})
 	}
 
-	private async _listarClientes():Promise<ICliente[]> {
+	private async _getClientes():Promise<ICliente[]> {
+		//this.context.pageContext.web.absoluteUrl
 		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
 		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items/?$select=Id,Title,RUC_x002f_CI,Nombre_x0020_CNG,UnidadId"
 		
@@ -196,7 +205,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 				Nombre: item.Title,
 				NroFiscal: item.RUC_x002f_CI,
 				Unidad: item.UnidadId,
-				NombreCNG: item.item.Nombre_x0020_CNG, 
+				NombreCNG: item.Nombre_x0020_CNG, 
 			}))
 			return clientes;
 		})
@@ -207,8 +216,9 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 	}
 
 	private async _getFamiliaProductos():Promise<IFamiliaProducto[]> {
+		//this.context.pageContext.web.absoluteUrl
 		const head:ISPHttpClientOptions ={headers:{"Accept":"Application/json"}}
-		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/items/?$select=Id,Title,UnidaddeMedida"
+		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$select=Id,Title,UnidaddeMedida"
 		
 		return this.consultarSP(url, head)
 		.then(

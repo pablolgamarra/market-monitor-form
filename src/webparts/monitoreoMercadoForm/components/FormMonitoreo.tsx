@@ -121,12 +121,9 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   const styles = useStyles();
 
   const largoLista = listaFamiliaProductos.length;
-  
-  //const inicialForm = new Array<IFormData>(largoLista);
 
   const [index, setIndex] = React.useState<number>(0);
   const [pagina, setPagina] = React.useState<IFamiliaProducto>(listaFamiliaProductos[0]);
-  //const [formulario, setFormulario] = React.useState<Array<IFormData> >(inicialForm);
 
   const btnPasarClick = (): void => {
     if (index < largoLista - 1) {
@@ -147,7 +144,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
       <Image block={false} src={require("../assets/glymax.png")} alt={"Logo de Glymax Paraguay S.A."} width={"150px"}/>
       <Title1 align='center'>Monitoreo del Mercado</Title1>
       <CabeceraForm listaClientes={listaClientes} listaUnidades={listaUnidades} />
-      <FormularioProductos familiaProducto={pagina} />
+      <FormularioProductos {...pagina} />
       <ControlesPagina index={index} max={largoLista} avanzar={btnPasarClick} retroceder={btnRetrocederClick} />
     </article>
 
