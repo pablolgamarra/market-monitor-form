@@ -2,7 +2,6 @@ import * as React from 'react';
 import type { IFormMonitoreoProps } from './interfaces/IFormMonitoreoProps';
 import CabeceraForm from './CabeceraForm';
 import FormularioProductos from './FormularioProductos';
-import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
 import {ArrowLeftFilled, ArrowRightFilled, SaveRegular} from '@fluentui/react-icons';
 
 //import styles from './styles/MonitoreoMercadoForm.module.scss'

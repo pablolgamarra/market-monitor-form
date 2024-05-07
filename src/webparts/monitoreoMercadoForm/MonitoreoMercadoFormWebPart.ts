@@ -18,7 +18,6 @@ import {SPHttpClient,
 	ISPHttpClientOptions
 } from '@microsoft/sp-http';
 
-import { IFormularioProductosProps } from "./components/interfaces/IFormularioProductosProps";
 import FormMonitoreo from "./components/FormMonitoreo";
 import { IUnidad } from "./components/interfaces/IUnidad";
 import { ICliente } from "./components/interfaces/ICliente";

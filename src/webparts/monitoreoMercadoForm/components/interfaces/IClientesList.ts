@@ -1,5 +1,5 @@
-import { IDropDownClienteProps } from "./IDropdownClienteProps";
+import { IDropdownClienteProps } from "./IDropdownClienteProps";
 
 export interface IClientesList{
-    clientes:Array<IDropDownClienteProps>
+    clientes:Array<IDropdownClienteProps>
 }

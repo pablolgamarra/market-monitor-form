@@ -3,8 +3,8 @@ import { Field, Input, makeStyles } from '@fluentui/react-components';
 
 import { IUnidad } from './interfaces/IUnidad';
 import { ICliente } from './interfaces/ICliente';
-import DropdownCliente from './DropDownCliente';
-import DropdownUnidad from './DropDownUnidad';
+import DropdownCliente from './DropdownCliente';
+import DropdownUnidad from './DropdownUnidad';
 
 export interface ICabeceraForm {
   listaUnidades: IUnidad[];

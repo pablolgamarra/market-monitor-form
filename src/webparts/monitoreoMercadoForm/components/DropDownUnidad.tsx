@@ -6,7 +6,7 @@ import {
   shorthands,
 } from '@fluentui/react-components';
 
-import { IDropdownUnidadProps } from './interfaces/IDropDownUnidadProps';
+import { IDropdownUnidadProps } from './interfaces/IDropdownUnidadProps';
 import { IUnidad } from './interfaces/IUnidad';
 
 const useStyles = makeStyles({
