@@ -105,7 +105,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
         listaClientes={listaClientes}
         listaUnidades={listaUnidades}
       />
-      <FormularioProductos Id={familiaActiva.Id} Nombre={familiaActiva.Nombre} UnidadMedida={familiaActiva.UnidadMedida} handleCambioValor={handleCambioValor]/>
+      <FormularioProductos Id={familiaActiva.Id} Nombre={familiaActiva.Nombre} UnidadMedida={familiaActiva.UnidadMedida} handleCambioValor={handleCambioValor}/>
       <BotonesNavegacionPagina
         index={index}
         max={largoLista}
