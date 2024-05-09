@@ -12,7 +12,7 @@ import {
 
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import BotonesNavegacionPagina from './BotonesNavegacionPagina';
-import { IFamiliasValores } from './interfaces/IFamiliasValoresProps';
+import { IFamiliasValores } from './interfaces/IFamiliasValores';
 
 const useStyles = makeStyles({
   root: {
@@ -40,6 +40,8 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   const informacionInicial: IFamiliasValores[] =
     new Array<IFamiliasValores>(largoLista).fill(
       {
+        idCliente:0,
+        idFamilia:0,
         precio: 0,
         volumenComprado: '',
         condicionPago: '',
@@ -48,7 +50,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
       0,
       largoLista
     );
-
+  
   const [index, setIndex] = React.useState<number>(0);
   const [familiaActiva, setFamiliaActiva] = React.useState<IFamiliaProducto>(
     listaFamiliaProductos[0]
@@ -60,6 +62,10 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     if (index < largoLista - 1) {
       setIndex(index + 1);
       setFamiliaActiva(listaFamiliaProductos[index + 1]);
+    }else{
+      valoresForm.map((a:any) => {
+        console.log(a);
+      });
     }
   };
 

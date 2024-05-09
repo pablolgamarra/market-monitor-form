@@ -10,7 +10,7 @@ import {
 
 import DropdownVolumen from './DropDownVolumen';
 import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
-import { IFamiliasValores } from './interfaces/IFamiliasValoresProps';
+import { IFamiliasValores } from './interfaces/IFamiliasValores';
 
 const useStyles = makeStyles({
   root: {

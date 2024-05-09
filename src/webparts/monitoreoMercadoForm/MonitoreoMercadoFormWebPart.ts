@@ -240,7 +240,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 			}
 		)
 	}
-	
+
 	private async consultarSP(url:string, headers:ISPHttpClientOptions):Promise<SPHttpClientResponse>{
 		return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1, headers);
 	}

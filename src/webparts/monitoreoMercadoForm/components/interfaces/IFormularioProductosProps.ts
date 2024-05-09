@@ -1,5 +1,5 @@
 import { IFamiliaProducto } from "./IFamiliaProducto";
-import { IFamiliasValores } from "./IFamiliasValoresProps";
+import { IFamiliasValores } from "./IFamiliasValores";
 
 export interface IHandleFuncion{
     (campo:keyof IFamiliasValores, valor:any):void,
