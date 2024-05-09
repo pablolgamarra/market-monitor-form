@@ -1,16 +1,16 @@
 import * as React from 'react';
 import {
-  Dropdown,
   Field,
   Input,
-  Option,
+  Select,
   Title2,
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
 
 import DropdownVolumen from './DropDownVolumen';
-import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
+import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
+import { IFamiliasValores } from './interfaces/IFamiliasValoresProps';
 
 const useStyles = makeStyles({
   root: {
@@ -23,41 +23,63 @@ const useStyles = makeStyles({
   },
 });
 
-const FormularioProductos: React.FC<IFamiliaProducto> = (props) => {
-  const { Id, Nombre, UnidadMedida, Precio , HandleCambioValor} = props;
+const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
+  const { familia, valores, handleCambioValor } = props;
 
   const styles = useStyles();
 
+  const handleCambio = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ):void => {
+    const { name, value } = e.target;
+    handleCambioValor(name as keyof IFamiliasValores, value);
+  };
+
   return (
     <section className={styles.root}>
-      <Title2>{Nombre}</Title2>
+      <Title2>{familia.Nombre}</Title2>
       <form>
         <DropdownVolumen
-          id={`${Id}-vol-comprado`}
+          id={`${familia.Id}-vol-comprado`}
+          name={'volumenComprado'}
           label={'Volumen ya comprado'}
           placeholder={'Seleccione Volumen'}
+          value={valores.volumenComprado}
+          onChange={handleCambio}
         />
         <Field
-          id={`${Id}-precio`}
-          label={`Precio por ${UnidadMedida}`}>
-          <Input placeholder={`Ingresar precio ${UnidadMedida}`} value={Precio.toString()}/>
+          id={`${familia.Id}-precio`}
+          label={`Precio por ${familia.UnidadMedida}`}>
+          <Input
+            name={'precio'}
+            placeholder={`Ingresar precio ${familia.UnidadMedida}`}
+            value={valores.precio.toString()}
+            onChange={handleCambio}
+          />
         </Field>
         <Field
-          id={`${Id}-condicion-pago`}
+          id={`${familia.Id}-condicion-pago`}
           label={'Condición de Pago'}>
-          <Dropdown
-            id={`${Id}-condicion-pago`}
-            inlinePopup={true}
+          <Select
+            id={`${familia.Id}-condicion-pago`}
+            name={'condicionPago'}
             className="DpDown"
-            placeholder="Condición de Pago">
-            <Option value={'credito'}>Crédito</Option>
-            <Option value={'contado'}>Contado</Option>
-          </Dropdown>
+            placeholder="Condición de Pago"
+            value={valores.condicionPago}
+            onChange={handleCambio}>
+            <option value={'credito'}>Crédito</option>
+            <option value={'contado'}>Contado</option>
+          </Select>
         </Field>
         <Field label={'Proveedor Principal'}>
           <Input
-            id={`${Id}-proveedor-principal`}
+            id={`${familia.Id}-proveedor-principal`}
             placeholder="Ingresar proveedor principal"
+            name={'proveedorPrincipal'}
+            value={valores.proveedorPrincipal}
+            onChange={handleCambio}
           />
         </Field>
       </form>

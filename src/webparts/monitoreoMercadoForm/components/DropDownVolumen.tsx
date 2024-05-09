@@ -1,7 +1,6 @@
 import * as React from "react";
 import { 
-	Dropdown,
-	Option,
+	Select,
 	makeStyles,
 	shorthands
 } from "@fluentui/react-components";
@@ -26,21 +25,24 @@ const volumenes:string[] = new Array<string>;
 
 const DropdownVolumen:React.FC<IDropdownVolumen>= (props) => {
 	const {
-		label, placeholder, id
+		label, placeholder, id, name, value, onChange
 	} = props;
 
 	const styles = useStyles();
 
 	return (
 		<div className={styles.root}>
-			<label htmlFor='volumen'>{label}</label>
-			<Dropdown name='volumen' id={id} placeholder={placeholder} inlinePopup={true}>
+			<label htmlFor={name}>{label}</label>
+			<Select name={name} id={id} placeholder={placeholder} onChange={onChange} value={value} >
+				<option value={'defaults'}>
+					Seleccionar volumen ya comprado
+				</option>
 				{volumenes.map((volumen) => (
-					<Option value={volumen} key={volumen}>
+					<option value={volumen} key={volumen}>
 						{volumen}
-					</Option>
+					</option>
 				))}
-			</Dropdown>
+			</Select>
 		</div>
 	);
 }

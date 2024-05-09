@@ -12,33 +12,7 @@ import {
 
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import BotonesNavegacionPagina from './BotonesNavegacionPagina';
-
-export interface IFamiliasInformacion{
-  /*
-  Familia de Producto
-  Familia_x0020_de_x0020_ProductoId
-  
-  Volumen ya Comprado
-  VolumenYaComprado
-
-  Condicion de Pago
-  Condici_x00f3_nPago
-
-  Proveedor Principal
-  ProveedorPrincipal
-
-  Cliente
-  ClienteId
-
-  
-  familiaDeProducto:IFamiliaProducto;
-
-  */
-  volumenComprado: string,
-  precio: number,
-  condicionPago: string,
-  proveedorPrincipal: string,
-}
+import { IFamiliasValores } from './interfaces/IFamiliasValoresProps';
 
 const useStyles = makeStyles({
   root: {
@@ -56,7 +30,6 @@ const useStyles = makeStyles({
   },
 });
 
-
 const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   const { listaClientes, listaUnidades, listaFamiliaProductos } = props;
 
@@ -64,33 +37,47 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   const largoLista = listaFamiliaProductos.length;
 
-  const informacionInicial:IFamiliasInformacion[] = new Array<IFamiliasInformacion>(largoLista).fill({precio:0, volumenComprado:'', condicionPago:'', proveedorPrincipal:'' },0,largoLista);
+  const informacionInicial: IFamiliasValores[] =
+    new Array<IFamiliasValores>(largoLista).fill(
+      {
+        precio: 0,
+        volumenComprado: '',
+        condicionPago: '',
+        proveedorPrincipal: '',
+      },
+      0,
+      largoLista
+    );
 
   const [index, setIndex] = React.useState<number>(0);
-  const [familiaActiva, setFamiliaActiva] = React.useState<IFamiliaProducto>(listaFamiliaProductos[0]);
-  const [valoresForm, setValoresForm] = React.useState<Array<IFamiliasInformacion>>(informacionInicial);
+  const [familiaActiva, setFamiliaActiva] = React.useState<IFamiliaProducto>(
+    listaFamiliaProductos[0]
+  );
+  const [valoresForm, setValoresForm] =
+    React.useState<Array<IFamiliasValores>>(informacionInicial);
 
-  //TODO:Cambiar estado a contexto
   const btnPasarClick = (): void => {
     if (index < largoLista - 1) {
       setIndex(index + 1);
       setFamiliaActiva(listaFamiliaProductos[index + 1]);
-     }
+    }
   };
 
-  const btnRetrocederClick = (e:Event): void => {
+  const btnRetrocederClick = (): void => {
     if (index > 0) {
-      console.log(e);
       setIndex(index - 1);
       setFamiliaActiva(listaFamiliaProductos[index - 1]);
     }
   };
 
-  const handleCambioValor = (campo: keyof IFamiliaProducto, valor:any) =>{
+  const handleCambioValor = (
+    campo: keyof IFamiliasValores,
+    valor: any
+  ): void => {
     const nuevosValores = [...valoresForm];
-    nuevosValores[index] = {...nuevosValores[index], [campo]:valor};
+    nuevosValores[index] = { ...nuevosValores[index], [campo]: valor };
     setValoresForm(nuevosValores);
-  }
+  };
 
   return (
     <article className={styles.root}>
@@ -105,7 +92,11 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
         listaClientes={listaClientes}
         listaUnidades={listaUnidades}
       />
-      <FormularioProductos Id={familiaActiva.Id} Nombre={familiaActiva.Nombre} UnidadMedida={familiaActiva.UnidadMedida} handleCambioValor={handleCambioValor]/>
+      <FormularioProductos
+        familia={familiaActiva}
+        valores={valoresForm[index]}
+        handleCambioValor={handleCambioValor}
+      />
       <BotonesNavegacionPagina
         index={index}
         max={largoLista}
