@@ -9,5 +9,4 @@ export interface IFormularioProductosProps{
     familia:IFamiliaProducto,
     valores:IFamiliasValores,
     handleCambioValor:IHandleFuncion,
-
 }

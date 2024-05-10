@@ -78,7 +78,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   const handleCambioValor = (
     campo: keyof IFamiliasValores,
-    valor: any
+    valor: string|number
   ): void => {
     const nuevosValores = [...valoresForm];
     nuevosValores[index] = { ...nuevosValores[index], [campo]: valor };

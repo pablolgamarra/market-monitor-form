@@ -4,5 +4,5 @@ export interface IDropdownVolumen{
     placeholder:string,
     name:string,
     value:string,
-    onChange(e:| React.ChangeEvent<HTMLInputElement>| React.ChangeEvent<HTMLSelectElement>):void,
+    onChange(e:{name:string, value:string|number}):void,
 }

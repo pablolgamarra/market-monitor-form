@@ -32,7 +32,9 @@ const DropdownUnidad: React.FC<IDropdownUnidadProps> = (props) => {
         name="unidad-cliente"
         id="unidad-cliente"
         placeholder="Seleccione Unidad"
-        inlinePopup={true}>
+        inlinePopup={true}
+        clearable={true}
+        >
         {unidades.map((unidad:IUnidad) => (
           <Option
             value={unidad.Nombre}

@@ -32,7 +32,9 @@ const DropdownCliente: React.FC<IDropdownClienteProps> = (props) => {
         name="cliente"
         id="cliente"
         placeholder="Seleccione Cliente"
-        inlinePopup={true}>
+        inlinePopup={true}
+        clearable={true}
+        >
         {clientes.map((cliente:ICliente) => (
           <Option
             value={cliente.Nombre}

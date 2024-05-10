@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {
+  Dropdown,
   Field,
   Input,
-  Select,
+  Option,
   Title2,
   makeStyles,
   shorthands,
@@ -33,9 +34,23 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
   ):void => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
+
     handleCambioValor(name as keyof IFamiliasValores, value);
   };
+
+  const handleCambioDpDown = (e:{name: keyof IFamiliasValores, value:string|number}) => {
+    const {name, value} = e;
+
+    handleCambioValor(name, value);
+  }
+
+  const handleCambioDpDownCond = React.useCallback((_,e)=>{
+    const name='condicionPago';
+    const value= e.nextOption.value;
+
+    handleCambioValor(name, value)
+  },[handleCambioValor]);
 
   return (
     <section className={styles.root}>
@@ -47,7 +62,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
           label={'Volumen ya comprado'}
           placeholder={'Seleccione Volumen'}
           value={valores.volumenComprado}
-          onChange={handleCambio}
+          onChange={handleCambioDpDown}
         />
         <Field
           id={`${familia.Id}-precio`}
@@ -62,16 +77,18 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
         <Field
           id={`${familia.Id}-condicion-pago`}
           label={'Condición de Pago'}>
-          <Select
+          <Dropdown
             id={`${familia.Id}-condicion-pago`}
             name={'condicionPago'}
             className="DpDown"
             placeholder="Condición de Pago"
+            clearable={true}
             value={valores.condicionPago}
-            onChange={handleCambio}>
-            <option value={'credito'}>Crédito</option>
-            <option value={'contado'}>Contado</option>
-          </Select>
+            inlinePopup={true}
+            onActiveOptionChange={handleCambioDpDownCond}>
+            <Option value={'Crédito'}>Crédito</Option>
+            <Option value={'Contado'}>Contado</Option>
+          </Dropdown>
         </Field>
         <Field label={'Proveedor Principal'}>
           <Input
