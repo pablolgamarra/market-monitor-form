@@ -1,7 +1,4 @@
 import * as React from 'react';
-import type { IFormMonitoreoProps } from './interfaces/IFormMonitoreoProps';
-import CabeceraForm from './CabeceraForm';
-import FormularioProductos from './FormularioProductos';
 
 import {
   Title1,
@@ -9,6 +6,10 @@ import {
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
+
+import type { IFormMonitoreoProps } from './interfaces/IFormMonitoreoProps';
+import CabeceraForm from './CabeceraForm';
+import FormularioProductos from './FormularioProductos';
 
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import BotonesNavegacionPagina from './BotonesNavegacionPagina';
@@ -37,20 +38,21 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   const largoLista = listaFamiliaProductos.length;
 
-  const informacionInicial: FamiliasValores[] =
-    new Array<FamiliasValores>(largoLista).fill(
-      {
-        idCliente:0,
-        idFamiliaProducto:0,
-        precio: 0,
-        volumenComprado: '',
-        condicionPago: '',
-        proveedorPrincipal: '',
-      },
-      0,
-      largoLista
-    );
-  
+  const informacionInicial: FamiliasValores[] = new Array<FamiliasValores>(
+    largoLista
+  ).fill(
+    {
+      idCliente: 0,
+      idFamiliaProducto: 0,
+      precio: 0,
+      volumenComprado: '',
+      condicionPago: '',
+      proveedorPrincipal: '',
+    },
+    0,
+    largoLista
+  );
+
   const [index, setIndex] = React.useState<number>(0);
   const [familiaActiva, setFamiliaActiva] = React.useState<IFamiliaProducto>(
     listaFamiliaProductos[0]
@@ -62,10 +64,9 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     if (index < largoLista - 1) {
       setIndex(index + 1);
       setFamiliaActiva(listaFamiliaProductos[index + 1]);
-    }else{
-      valoresForm.map((a:any) => {
+    } else {
+      valoresForm.map((a: any) => {
         console.log(a);
-        
       });
     }
   };
@@ -79,7 +80,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   const handleCambioValor = (
     campo: keyof FamiliasValores,
-    valor: string|number
+    valor: string | number
   ): void => {
     const nuevosValores = [...valoresForm];
     nuevosValores[index] = { ...nuevosValores[index], [campo]: valor };
