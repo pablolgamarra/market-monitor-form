@@ -5,10 +5,16 @@ import { IUnidad } from './interfaces/IUnidad';
 import { ICliente } from './interfaces/ICliente';
 import DropdownCliente from './DropdownCliente';
 import DropdownUnidad from './DropdownUnidad';
+import { FamiliasValores } from './interfaces/FamiliasValores';
+
+interface IHandleFuncion{
+  (campo:keyof FamiliasValores, valor:string|number):void,
+}
 
 export interface ICabeceraForm {
   listaUnidades: IUnidad[];
   listaClientes: ICliente[];
+  handleCambioValor:IHandleFuncion;
 }
 
 const useStyles = makeStyles({
@@ -20,13 +26,19 @@ const useStyles = makeStyles({
 });
 
 const CabeceraForm: React.FC<ICabeceraForm> = (props) => {
-  const { listaUnidades, listaClientes } = props;
+  const { listaUnidades, listaClientes, handleCambioValor} = props;
 
   const styles = useStyles();
 
+  const handleCambioDpDown = (e:{name: keyof FamiliasValores, value:string|number}):void => {
+    const {name, value} = e;
+
+    handleCambioValor(name, value);
+  }
+
   return (
     <section className={styles.root}>
-      <DropdownUnidad unidades={listaUnidades} />
+      <DropdownUnidad unidades={listaUnidades} handleCambioValor={handleCambioDpDown} />
       <DropdownCliente clientes={listaClientes} />
       <Field
         label="Año de Zafra"

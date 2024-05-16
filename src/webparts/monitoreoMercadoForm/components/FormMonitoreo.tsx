@@ -12,7 +12,7 @@ import {
 
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import BotonesNavegacionPagina from './BotonesNavegacionPagina';
-import { IFamiliasValores } from './interfaces/IFamiliasValores';
+import { FamiliasValores } from './interfaces/FamiliasValores';
 
 const useStyles = makeStyles({
   root: {
@@ -37,11 +37,11 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   const largoLista = listaFamiliaProductos.length;
 
-  const informacionInicial: IFamiliasValores[] =
-    new Array<IFamiliasValores>(largoLista).fill(
+  const informacionInicial: FamiliasValores[] =
+    new Array<FamiliasValores>(largoLista).fill(
       {
         idCliente:0,
-        idFamilia:0,
+        idFamiliaProducto:0,
         precio: 0,
         volumenComprado: '',
         condicionPago: '',
@@ -56,7 +56,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     listaFamiliaProductos[0]
   );
   const [valoresForm, setValoresForm] =
-    React.useState<Array<IFamiliasValores>>(informacionInicial);
+    React.useState<Array<FamiliasValores>>(informacionInicial);
 
   const btnPasarClick = (): void => {
     if (index < largoLista - 1) {
@@ -65,6 +65,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     }else{
       valoresForm.map((a:any) => {
         console.log(a);
+        
       });
     }
   };
@@ -77,7 +78,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
   };
 
   const handleCambioValor = (
-    campo: keyof IFamiliasValores,
+    campo: keyof FamiliasValores,
     valor: string|number
   ): void => {
     const nuevosValores = [...valoresForm];
@@ -97,6 +98,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
       <CabeceraForm
         listaClientes={listaClientes}
         listaUnidades={listaUnidades}
+        handleCambioValor={handleCambioValor}
       />
       <FormularioProductos
         familia={familiaActiva}

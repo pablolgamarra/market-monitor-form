@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  Dropdown,
+  Combobox,
   Option,
   makeStyles,
   shorthands,
@@ -20,31 +20,42 @@ const useStyles = makeStyles({
   },
 });
 
-const DropdownUnidad: React.FC<IDropdownUnidadProps> = (props) => {
-  const { unidades } = props;
+const ComboboxUnidad: React.FC<IDropdownUnidadProps> = (props) => {
+  const { unidades, handleCambioValor } = props;
 
   const styles = useStyles();
+
+  const HandleCambio = React.useCallback(
+    (_, e) => {
+      handleCambioValor({
+        name: 'idUnidad',
+        value: e?.nextOption?.value,
+      });
+    },
+    [handleCambioValor]
+  );
 
   return (
     <div className={styles.root}>
       <label htmlFor="unidad-cliente">Unidad: </label>
-      <Dropdown
+      <Combobox
         name="unidad-cliente"
         id="unidad-cliente"
         placeholder="Seleccione Unidad"
         inlinePopup={true}
         clearable={true}
+        onActiveOptionChange={HandleCambio}
         >
-        {unidades.map((unidad:IUnidad) => (
+        {unidades.map((unidad: IUnidad) => (
           <Option
             value={unidad.Nombre}
             key={unidad.Id}>
             {unidad.Nombre}
           </Option>
         ))}
-      </Dropdown>
+      </Combobox>
     </div>
   );
 };
 
-export default DropdownUnidad;
+export default ComboboxUnidad;

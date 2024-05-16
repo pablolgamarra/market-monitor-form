@@ -1,12 +1,12 @@
 import { IFamiliaProducto } from "./IFamiliaProducto";
-import { IFamiliasValores } from "./IFamiliasValores";
+import { FamiliasValores } from "./FamiliasValores";
 
-export interface IHandleFuncion{
-    (campo:keyof IFamiliasValores, valor:any):void,
+interface IHandleFuncion{
+    (campo:keyof FamiliasValores, valor:any):void,
 }
 
 export interface IFormularioProductosProps{
     familia:IFamiliaProducto,
-    valores:IFamiliasValores,
+    valores:FamiliasValores,
     handleCambioValor:IHandleFuncion,
 }

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-  Dropdown,
+  Combobox,
   Option,
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
 
-import { IDropdownClienteProps } from './interfaces/IDropdownClienteProps';
+import { IDropdownClienteProps } from './interfaces/ComboboxClienteProps';
 import { ICliente } from './interfaces/ICliente';
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 
-const DropdownCliente: React.FC<IDropdownClienteProps> = (props) => {
+const ComboboxCliente: React.FC<IDropdownClienteProps> = (props) => {
   const { clientes } = props;
 
   const styles = useStyles();
@@ -28,7 +28,7 @@ const DropdownCliente: React.FC<IDropdownClienteProps> = (props) => {
   return (
     <div className={styles.root}>
       <label htmlFor="cliente">Cliente: </label>
-      <Dropdown
+      <Combobox
         name="cliente"
         id="cliente"
         placeholder="Seleccione Cliente"
@@ -42,9 +42,9 @@ const DropdownCliente: React.FC<IDropdownClienteProps> = (props) => {
             {cliente.Nombre}
           </Option>
         ))}
-      </Dropdown>
+      </Combobox>
     </div>
   );
 };
 
-export default DropdownCliente;
+export default ComboboxCliente;
