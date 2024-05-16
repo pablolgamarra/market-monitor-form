@@ -3,8 +3,8 @@ import { Field, Input, makeStyles } from '@fluentui/react-components';
 
 import { IUnidad } from './interfaces/IUnidad';
 import { ICliente } from './interfaces/ICliente';
-import DropdownCliente from './DropdownCliente';
-import DropdownUnidad from './DropdownUnidad';
+import ComboboxCliente from './ComboboxCliente';
+import ComboboxUnidad from './ComboboxUnidad';
 import { FamiliasValores } from './interfaces/FamiliasValores';
 
 interface IHandleFuncion{
@@ -38,8 +38,8 @@ const CabeceraForm: React.FC<ICabeceraForm> = (props) => {
 
   return (
     <section className={styles.root}>
-      <DropdownUnidad unidades={listaUnidades} handleCambioValor={handleCambioDpDown} />
-      <DropdownCliente clientes={listaClientes} />
+      <ComboboxUnidad unidades={listaUnidades} handleCambioValor={handleCambioDpDown} />
+      <ComboboxCliente clientes={listaClientes} />
       <Field
         label="Año de Zafra"
         color={styles.root}>
