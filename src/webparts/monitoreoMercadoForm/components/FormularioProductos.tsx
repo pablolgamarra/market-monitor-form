@@ -4,12 +4,12 @@ import {
   Field,
   Input,
   Option,
+  OptionOnSelectData,
+  SelectionEvents,
   Title2,
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
-
-import {DeleteRegular} from '@fluentui/react-icons';
 
 import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
 import { FamiliasValores } from './interfaces/FamiliasValores';
@@ -48,30 +48,19 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
     handleCambioValor(name as keyof FamiliasValores, value);
   };
 
-  const handleCambioDpDownCond = React.useCallback(
-    (_, e) => {
-      const name = 'condicionPago';
-      const value = e.nextOption.value;
+  const manejarCambioDpDown = React.useCallback((e: SelectionEvents, data: OptionOnSelectData) => {
+    const event: HTMLElement = e.target as HTMLElement;
 
-      handleCambioValor(name, value);
-    },
+    console.log(document.querySelector(`[aria-controls=${event.parentElement?.getAttribute('id')}]`)?.getAttribute('name'));
+    const elementName = document.querySelector(`[aria-controls=${event.parentElement?.getAttribute('id')}]`)?.getAttribute('name')
+    
+    const name = elementName === null || elementName === undefined ? '' : elementName;
+    const value = data.optionValue !== undefined ? data.optionValue : '';
+
+    handleCambioValor(name as keyof FamiliasValores, value);
+  },
     [handleCambioValor]
-  );
-
-  const handleCambioDpDownVolumen = React.useCallback(
-    (_, e) => {
-      console.log(e.nextOption.value);
-      const name = 'volumenComprado';
-      const value = e.nextOption.value;
-
-      handleCambioValor(name, value);
-    },
-    [handleCambioValor]
-  );
-
-  const clickBtnCancelar = (e: React.DOMAttributes<SVGElement>)=>{
-    e.
-  }
+  )
 
   return (
     <section className={styles.root}>
@@ -88,9 +77,8 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
             value={valores.volumenComprado}
             clearable={true}
             inlinePopup={true}
-            onActiveOptionChange={handleCambioDpDownVolumen}
-            clearIcon={<DeleteRegular name={'volumenComprado'} onClick={}/>}
-            >
+            onOptionSelect={manejarCambioDpDown}
+          >
             {volumenes.map((volumen) => (
               <Option
                 value={volumen}
@@ -121,7 +109,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
             clearable={true}
             value={valores.condicionPago}
             inlinePopup={true}
-            onActiveOptionChange={handleCambioDpDownCond}>
+            onOptionSelect={manejarCambioDpDown}>
             <Option value={'Crédito'}>Crédito</Option>
             <Option value={'Contado'}>Contado</Option>
           </Combobox>
