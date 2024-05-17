@@ -21,9 +21,19 @@ const useStyles = makeStyles({
 });
 
 const ComboboxCliente: React.FC<ComboboxClientesProps> = (props) => {
-  const { clientes } = props;
+  const { clientes, handleCambioValor } = props;
 
   const styles = useStyles();
+
+  const handleCambio = React.useCallback(
+    (_, e) => {
+      handleCambioValor({
+        name: 'idCliente',
+        value: e?.nextOption?.value,
+      });
+    },
+    [handleCambioValor]
+  );
 
   return (
     <div className={styles.root}>
@@ -34,10 +44,11 @@ const ComboboxCliente: React.FC<ComboboxClientesProps> = (props) => {
         placeholder="Seleccione Cliente"
         inlinePopup={true}
         clearable={true}
+        onActiveOptionChange={handleCambio}
         >
-        {clientes.map((cliente:ICliente) => (
+        {clientes.map((cliente: ICliente) => (
           <Option
-            value={cliente.Nombre}
+            value={cliente.Id.toString()}
             key={cliente.Id}>
             {cliente.Nombre}
           </Option>

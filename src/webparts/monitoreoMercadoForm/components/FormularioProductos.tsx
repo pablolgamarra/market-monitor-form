@@ -9,6 +9,8 @@ import {
   shorthands,
 } from '@fluentui/react-components';
 
+import {DeleteRegular} from '@fluentui/react-icons';
+
 import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
 import { FamiliasValores } from './interfaces/FamiliasValores';
 
@@ -26,12 +28,12 @@ const useStyles = makeStyles({
 const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
   const { familia, valores, handleCambioValor } = props;
 
-  const volumenMinimo:number = 0;
-  const volumenMaximo:number = 100;
-  const volumenes:string[] = new Array<string>
-  
-  for(let i = volumenMinimo; i <= volumenMaximo; i+=10){
-    volumenes.push(`${i}%`)
+  const volumenMinimo: number = 0;
+  const volumenMaximo: number = 100;
+  const volumenes: string[] = new Array<string>();
+
+  for (let i = volumenMinimo; i <= volumenMaximo; i += 10) {
+    volumenes.push(`${i}%`);
   }
 
   const styles = useStyles();
@@ -40,25 +42,36 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
-  ):void => {
-    const {name, value} = e.target;
+  ): void => {
+    const { name, value } = e.target;
 
     handleCambioValor(name as keyof FamiliasValores, value);
   };
 
-  const handleCambioDpDownCond = React.useCallback((_,e)=>{
-    const name='condicionPago';
-    const value= e.nextOption.value;
+  const handleCambioDpDownCond = React.useCallback(
+    (_, e) => {
+      const name = 'condicionPago';
+      const value = e.nextOption.value;
 
-    handleCambioValor(name, value)
-  },[handleCambioValor]);
+      handleCambioValor(name, value);
+    },
+    [handleCambioValor]
+  );
 
-  const handleCambioDpDownVolumen = React.useCallback((_,e)=>{
-    const name='volumenComprado';
-    const value= e.nextOption.value;
+  const handleCambioDpDownVolumen = React.useCallback(
+    (_, e) => {
+      console.log(e.nextOption.value);
+      const name = 'volumenComprado';
+      const value = e.nextOption.value;
 
-    handleCambioValor(name, value)
-  },[handleCambioValor]);
+      handleCambioValor(name, value);
+    },
+    [handleCambioValor]
+  );
+
+  const clickBtnCancelar = (e: React.DOMAttributes<SVGElement>)=>{
+    e.
+  }
 
   return (
     <section className={styles.root}>
@@ -66,25 +79,25 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
       <form>
         <Field
           id={`${familia.Id}-vol-comprado`}
-          label={'Volumen ya comprado'}
-        >
+          label={'Volumen ya comprado'}>
           <Combobox
-          id={`${familia.Id}-vol-comprado`}
-          name={'volumenComprado'}
-          className="DpDown"
-          placeholder="Volumen Ya Comprado"
-          value={valores.volumenComprado}
-          clearable={true}
-          inlinePopup={true}
-          onActiveOptionChange={handleCambioDpDownVolumen}
-          >
+            id={`${familia.Id}-vol-comprado`}
+            name={'volumenComprado'}
+            className="DpDown"
+            placeholder="Volumen Ya Comprado"
+            value={valores.volumenComprado}
+            clearable={true}
+            inlinePopup={true}
+            onActiveOptionChange={handleCambioDpDownVolumen}
+            clearIcon={<DeleteRegular name={'volumenComprado'} onClick={}/>}
+            >
             {volumenes.map((volumen) => (
-          <Option
-            value={volumen}
-            key={volumen}>
-            {volumen}
-          </Option>
-        ))}
+              <Option
+                value={volumen}
+                key={volumen}>
+                {volumen}
+              </Option>
+            ))}
           </Combobox>
         </Field>
         <Field
