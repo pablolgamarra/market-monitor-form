@@ -14,6 +14,7 @@ import FormularioProductos from './FormularioProductos';
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import BotonesNavegacionPagina from './BotonesNavegacionPagina';
 import { FamiliasValores } from './interfaces/FamiliasValores';
+import { DatosValores } from './interfaces/DatosValores';
 
 const useStyles = makeStyles({
   root: {
@@ -32,13 +33,13 @@ const useStyles = makeStyles({
 });
 
 const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
-  const { listaClientes, listaUnidades, listaFamiliaProductos } = props;
+  const { listaClientes, listaUnidades, listaFamiliaProductos, onSave} = props;
 
   const styles = useStyles();
 
   const largoLista = listaFamiliaProductos.length;
   const estadoInicial: FamiliasValores = {
-    idFamiliaProducto: 0,
+    idFamiliaProducto: listaFamiliaProductos[0].Id,
     precio: 0,
     volumenComprado: '',
     condicionPago: '',
@@ -49,38 +50,82 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     largoLista
   ).fill(estadoInicial, 0, largoLista);
 
+  const [cliente, setCliente] = React.useState<number>(-1);
+  const [unidad, setUnidad] = React.useState<number>(-1);
+
   const [index, setIndex] = React.useState<number>(0);
-  const [familiaActiva, setFamiliaActiva] = React.useState<IFamiliaProducto>(
-    listaFamiliaProductos[0]
-  );
+  const [familiaActiva, setFamiliaActiva] = React.useState<IFamiliaProducto>(listaFamiliaProductos[0]);
   const [valoresForm, setValoresForm] =
     React.useState<Array<FamiliasValores>>(informacionInicial);
+
+  const actualizarFamilia = (index:number):IFamiliaProducto=>{
+    return listaFamiliaProductos[index];
+  }
+
+  const actualizarValores = (valores:FamiliasValores[]):FamiliasValores[]=>{
+    const prevValores=valores;
+    const nuevosValores = [...prevValores];
+    nuevosValores[index] = { ...nuevosValores[index], idFamiliaProducto: familiaActiva.Id };
+    setValoresForm(nuevosValores);
+    return nuevosValores;
+  }
 
   const handleCambioValor = (
     campo: keyof FamiliasValores,
     valor: string | number
   ): void => {
-    const nuevosValores = [...valoresForm];
-    nuevosValores[index] = { ...nuevosValores[index], [campo]: valor };
-    setValoresForm(nuevosValores);
+
+    setValoresForm(prevValores => {
+      const nuevosValores = [...prevValores];
+      nuevosValores[index] = { ...nuevosValores[index], [campo]: valor };
+      return nuevosValores;
+    });
   };
+
+  const handleCambioCliente = (idCliente:number|string):void=>{
+    setCliente(idCliente as number);
+  }
+
+  const handleCambioUnidad= (idUnidad:number|string):void=>{
+    setUnidad(idUnidad as number);
+  }
 
   const btnPasarClick = (): void => {
     if (index < largoLista - 1) {
-      handleCambioValor('idFamiliaProducto', index);
-      setIndex(index + 1);
-      setFamiliaActiva(listaFamiliaProductos[index + 1]);
-    } else {
-      valoresForm.map((a: FamiliasValores) => {
-        console.log(a);
+      const indexNuevo = index + 1;
+      const familiaNueva = actualizarFamilia(indexNuevo);
+      setFamiliaActiva(familiaNueva);
+      setValoresForm(prevValores => {
+        const nuevosValores = [...prevValores];
+        nuevosValores[index] = { ...nuevosValores[index], idFamiliaProducto: familiaActiva.Id };
+        return nuevosValores;
       });
+      setIndex(indexNuevo);
+    } else {
+      const listaValoresProductos = actualizarValores(valoresForm);
+
+      const dataGuardar:DatosValores[] = listaValoresProductos.map(
+        (valoresProducto: FamiliasValores)  => ({
+          idCliente: cliente,
+          idUnidad: unidad,
+          idFamilia: valoresProducto.idFamiliaProducto,
+          volumenComprado: valoresProducto.volumenComprado,
+          precio: valoresProducto.precio,
+          condicionPago: valoresProducto.condicionPago,
+          proveedorPrincipal: valoresProducto.proveedorPrincipal,
+    }));
+      dataGuardar.map((data:DatosValores)=>{
+        onSave(data);
+      })
     }
   };
 
   const btnRetrocederClick = (): void => {
     if (index > 0) {
-      setIndex(index - 1);
-      setFamiliaActiva(listaFamiliaProductos[index - 1]);
+      const indexNuevo = index - 1;
+      const familiaNueva = actualizarFamilia(indexNuevo);
+      setFamiliaActiva(familiaNueva);
+      setIndex(indexNuevo);
     }
   };
 
@@ -96,7 +141,8 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
       <CabeceraForm
         listaClientes={listaClientes}
         listaUnidades={listaUnidades}
-        handleCambioValor={handleCambioValor}
+        handleCambioCliente={handleCambioCliente}
+        handleCambioUnidad={handleCambioUnidad}
       />
       <FormularioProductos
         familia={familiaActiva}

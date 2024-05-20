@@ -25,30 +25,20 @@ const ComboboxUnidad: React.FC<ComboboxUnidadesProps> = (props) => {
 
   const styles = useStyles();
 
-  const HandleCambio = React.useCallback(
-    (_, e) => {
-      handleCambioValor({
-        name: 'idUnidad',
-        value: e?.nextOption?.value,
-      });
-    },
-    [handleCambioValor]
-  );
-
   return (
     <div className={styles.root}>
       <label htmlFor="unidad-cliente">Unidad: </label>
       <Combobox
-        name="unidad-cliente"
+        name="idUnidad"
         id="unidad-cliente"
         placeholder="Seleccione Unidad"
         inlinePopup={true}
         clearable={true}
-        onActiveOptionChange={HandleCambio}
+        onOptionSelect={handleCambioValor}
         >
         {unidades.map((unidad: IUnidad) => (
           <Option
-            value={unidad.Nombre}
+            value={unidad.Id.toString()}
             key={unidad.Id}>
             {unidad.Nombre}
           </Option>

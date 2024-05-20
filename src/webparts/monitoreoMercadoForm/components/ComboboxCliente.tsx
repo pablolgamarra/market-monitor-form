@@ -25,26 +25,16 @@ const ComboboxCliente: React.FC<ComboboxClientesProps> = (props) => {
 
   const styles = useStyles();
 
-  const handleCambio = React.useCallback(
-    (_, e) => {
-      handleCambioValor({
-        name: 'idCliente',
-        value: e?.nextOption?.value,
-      });
-    },
-    [handleCambioValor]
-  );
-
   return (
     <div className={styles.root}>
-      <label htmlFor="cliente">Cliente: </label>
+      <label htmlFor="idCliente">Cliente: </label>
       <Combobox
-        name="cliente"
+        name="idCliente"
         id="cliente"
         placeholder="Seleccione Cliente"
         inlinePopup={true}
         clearable={true}
-        onActiveOptionChange={handleCambio}
+        onOptionSelect={handleCambioValor}
         >
         {clientes.map((cliente: ICliente) => (
           <Option

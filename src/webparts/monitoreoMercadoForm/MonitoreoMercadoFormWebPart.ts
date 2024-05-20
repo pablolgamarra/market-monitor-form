@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDom from "react-dom";
+
 import { FluentProvider, FluentProviderProps, Title1 } from '@fluentui/react-components';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 
 import { Version } from "@microsoft/sp-core-library";
 import {
@@ -13,41 +15,54 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "MonitoreoMercadoFormWebPartStrings";
 
-import QuerySP from "./utils/QuerySP";
+import { getClientes, getFamiliaProductos, getUnidades, registrarDatos } from "./utils/QuerySP";
 
 import FormMonitoreo from "./components/FormMonitoreo";
 
 import { isEmpty } from "@microsoft/sp-lodash-subset";
+import { DatosValores } from "./components/interfaces/DatosValores";
 
 export interface IMonitoreoMercadoFormWebPartProps {
 	description: string;
 }
 
 export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<IMonitoreoMercadoFormWebPartProps> {
-
+	
 	public async render(): Promise<void> {
 		const url = this.context.pageContext.web.absoluteUrl;
 		const context = this.context
 
-		const listaUnidades = await QuerySP.getUnidades(url, context);
-		const listaClientes = await QuerySP.getClientes(url, context);
-		const listaFamiliasProductos = await QuerySP.getFamiliaProductos(url, context);
+		const listaUnidades = await getUnidades(url, context);
+		const listaClientes = await getClientes(url, context);
+		const listaFamiliasProductos = await getFamiliaProductos(url, context);
 		
+		const onSave = (data:DatosValores):void=>{
+			registrarDatos(data, this.context.pageContext.web.absoluteUrl, this.context)
+			.then(()=>{
+				alert('Datos Guardados Correctamente');
+			})
+			.catch((e:Error) => {
+				console.log(`Error al guardar datos: ${e}`);
+				alert('Error al guardar los datos');
+			})
+		}
+
 		let element: React.ReactElement<FluentProviderProps>
 
 		if (isEmpty(listaClientes) || isEmpty(listaUnidades) || isEmpty(listaFamiliasProductos)){
 			element = React.createElement(FluentProvider,{},
 				React.createElement(Title1,{},"Error, listas vacias")
 			);
-		}
-
-		element = React.createElement(FluentProvider, {},
+		}else{
+			element = React.createElement(FluentProvider, {},
 				React.createElement(FormMonitoreo, {
 					listaClientes:listaClientes,
 					listaUnidades:listaUnidades,
-					listaFamiliaProductos:listaFamiliasProductos
+					listaFamiliaProductos:listaFamiliasProductos,
+					onSave:onSave,
 				})
 		);
+		}
 
 		ReactDom.render(element, this.domElement);
 	}

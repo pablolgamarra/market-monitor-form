@@ -1,6 +1,7 @@
+import { OptionOnSelectData, SelectionEvents } from "@fluentui/react-components";
 import { IUnidad } from "./IUnidad";
 
 export interface ComboboxUnidadesProps{
     unidades:IUnidad[],
-    handleCambioValor(e:{name:string, value:string|number}):void,
+    handleCambioValor(e:SelectionEvents, data: OptionOnSelectData):void,
 }

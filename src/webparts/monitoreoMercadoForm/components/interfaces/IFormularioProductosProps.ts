@@ -2,7 +2,7 @@ import { IFamiliaProducto } from "./IFamiliaProducto";
 import { FamiliasValores } from "./FamiliasValores";
 
 interface IHandleFuncion{
-    (campo:keyof FamiliasValores, valor:any):void,
+    (campo:keyof FamiliasValores, valor:string|number):void,
 }
 
 export interface IFormularioProductosProps{

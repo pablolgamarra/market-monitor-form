@@ -157,4 +157,4 @@ const registrarDatos = async (
     return false;
 };
 
-export default { getUnidades, getClientes, getFamiliaProductos, registrarDatos};
+export { getUnidades, getClientes, getFamiliaProductos, registrarDatos};
