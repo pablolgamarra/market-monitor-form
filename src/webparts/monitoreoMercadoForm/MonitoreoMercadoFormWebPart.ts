@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDom from "react-dom";
 
 import { FluentProvider, FluentProviderProps, Title1 } from '@fluentui/react-components';
-import { MessageBar, MessageBarType } from '@fluentui/react';
 
 import { Version } from "@microsoft/sp-core-library";
 import {
