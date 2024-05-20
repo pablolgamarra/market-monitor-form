@@ -38,7 +38,6 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
 
   const largoLista = listaFamiliaProductos.length;
   const estadoInicial: FamiliasValores = {
-    idCliente: 0,
     idFamiliaProducto: 0,
     precio: 0,
     volumenComprado: '',

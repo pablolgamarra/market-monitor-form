@@ -13,15 +13,10 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "MonitoreoMercadoFormWebPartStrings";
 
-import {SPHttpClient, 
-	SPHttpClientResponse,
-	ISPHttpClientOptions
-} from '@microsoft/sp-http';
+import QuerySP from "./utils/QuerySP";
 
 import FormMonitoreo from "./components/FormMonitoreo";
-import { IUnidad } from "./components/interfaces/IUnidad";
-import { ICliente } from "./components/interfaces/ICliente";
-import { IFamiliaProducto } from "./components/interfaces/IFamiliaProducto";
+
 import { isEmpty } from "@microsoft/sp-lodash-subset";
 
 export interface IMonitoreoMercadoFormWebPartProps {
@@ -30,22 +25,13 @@ export interface IMonitoreoMercadoFormWebPartProps {
 
 export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<IMonitoreoMercadoFormWebPartProps> {
 
-	/*private listaFamiliaProductos: Array<IFormularioProductosProps> = [
-		{ idFamilia: "fert-conv", familiaProducto: "Fertilizante Convencional" },
-		{ idFamilia: "fert-esp", familiaProducto: "Fertilizante Especial" },
-		{ idFamilia: "fert-fol", familiaProducto: "Fertilizante Foliar" },
-		{ idFamilia: "fungic", familiaProducto: "Fungicidas" },
-		{ idFamilia: "herbic", familiaProducto: "Herbicidas" },
-		{ idFamilia: "insect", familiaProducto: "Insecticidas" },
-		{ idFamilia: "biolog", familiaProducto: "Biologicos" },
-		{ idFamilia: "sem-maiz-zaf", familiaProducto: "Semilla de Maiz Zafriña" },
-		{ idFamilia: "sem-soja-ver", familiaProducto: "Semilla de Soja Verano" },
-	];*/
-
 	public async render(): Promise<void> {
-		const listaUnidades = await this._getUnidades();
-		const listaClientes = await this._getClientes();
-		const listaFamiliasProductos = await this._getFamiliaProductos();
+		const url = this.context.pageContext.web.absoluteUrl;
+		const context = this.context
+
+		const listaUnidades = await QuerySP.getUnidades(url, context);
+		const listaClientes = await QuerySP.getClientes(url, context);
+		const listaFamiliasProductos = await QuerySP.getFamiliaProductos(url, context);
 		
 		let element: React.ReactElement<FluentProviderProps>
 
@@ -162,86 +148,5 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 		};
 	}
 
-	private async _getUnidades():Promise<IUnidad[]>{
-		//this.context.pageContext.web.absoluteUrl
-		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
-		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id"
-		
-		return await this.consultarSP(url, head)
-		.then((respuesta:SPHttpClientResponse) => {
-			if(respuesta.status === 200){
-				return respuesta.json();
-			}
-			return [];
-		})
-		.then((data:any) => {
-			const unidades:IUnidad[] = data.value.map((item:any)=>({
-				Id: item.Id,
-				Nombre: item.Title,
-			}))
-			return unidades;
-		})
-		.catch((e)=>{
-			console.log(`Error al listar unidades ${e}`)
-			return [];
-		})
-	}
 
-	private async _getClientes():Promise<ICliente[]> {
-		//this.context.pageContext.web.absoluteUrl
-		const head:ISPHttpClientOptions = {headers: {"Accept":"Application/json"} }
-		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items/?$select=Id,Title,RUC_x002f_CI,Nombre_x0020_CNG,UnidadId"
-		
-		return await this.consultarSP(url, head)
-		.then((respuesta:SPHttpClientResponse) => {
-			if(respuesta.status === 200){
-				return respuesta.json()
-			}
-			return [];
-		})
-		.then((data:any) => {
-			const clientes:ICliente[] = data.value.map((item:any) => ({
-				Id: item.Id,
-				Nombre: item.Title,
-				NroFiscal: item.RUC_x002f_CI,
-				Unidad: item.UnidadId,
-				NombreCNG: item.Nombre_x0020_CNG, 
-			}))
-			return clientes;
-		})
-		.catch((e) => {
-			console.log(`Error listando clientes: ${e}`)
-			return [];
-		})
-	}
-
-	private async _getFamiliaProductos():Promise<IFamiliaProducto[]> {
-		//this.context.pageContext.web.absoluteUrl
-		const head:ISPHttpClientOptions ={headers:{"Accept":"Application/json"}}
-		const url:string = "https://glymaxparaguay.sharepoint.com/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$select=Id,Title,UnidaddeMedida"
-		
-		return this.consultarSP(url, head)
-		.then(
-			(respuesta:SPHttpClientResponse) => {
-				if(respuesta.status === 200){
-					return respuesta.json();
-				}
-				return [];
-			}
-		)
-		.then(
-			(data:any) => {
-				const familiasProductos:IFamiliaProducto[] = data.value.map((item:any) => ({
-					Id: item.Id,
-					Nombre: item.Title,
-					UnidadMedida: item.UnidaddeMedida
-				}))
-				return familiasProductos;
-			}
-		)
-	}
-
-	private async consultarSP(url:string, headers:ISPHttpClientOptions):Promise<SPHttpClientResponse>{
-		return this.context.spHttpClient.get(url,SPHttpClient.configurations.v1, headers);
-	}
 }
