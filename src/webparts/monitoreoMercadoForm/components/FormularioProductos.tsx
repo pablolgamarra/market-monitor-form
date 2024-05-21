@@ -93,6 +93,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
           label={`Precio por ${familia.UnidadMedida}`}>
           <Input
             name={'precio'}
+            type='number'
             placeholder={`Ingresar precio ${familia.UnidadMedida}`}
             value={valores.precio.toString()}
             onChange={handleCambio}

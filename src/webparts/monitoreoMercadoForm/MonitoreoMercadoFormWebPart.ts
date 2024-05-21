@@ -14,12 +14,12 @@ import { IReadonlyTheme } from "@microsoft/sp-component-base";
 
 import * as strings from "MonitoreoMercadoFormWebPartStrings";
 
-import { getClientes, getFamiliaProductos, getUnidades, registrarDatos } from "./utils/QuerySP";
+import { getClientes, getFamiliaProductos, getUnidades} from "./utils/QuerySP";
 
-import FormMonitoreo from "./components/FormMonitoreo";
+import App from "./components/App";
 
 import { isEmpty } from "@microsoft/sp-lodash-subset";
-import { DatosValores } from "./components/interfaces/DatosValores";
+
 
 export interface IMonitoreoMercadoFormWebPartProps {
 	description: string;
@@ -35,30 +35,20 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 		const listaClientes = await getClientes(url, context);
 		const listaFamiliasProductos = await getFamiliaProductos(url, context);
 		
-		const onSave = (data:DatosValores):void=>{
-			registrarDatos(data, this.context.pageContext.web.absoluteUrl, this.context)
-			.then(()=>{
-				alert('Datos Guardados Correctamente');
-			})
-			.catch((e:Error) => {
-				console.log(`Error al guardar datos: ${e}`);
-				alert('Error al guardar los datos');
-			})
-		}
-
 		let element: React.ReactElement<FluentProviderProps>
 
 		if (isEmpty(listaClientes) || isEmpty(listaUnidades) || isEmpty(listaFamiliasProductos)){
 			element = React.createElement(FluentProvider,{},
-				React.createElement(Title1,{},"Error, listas vacias")
+				React.createElement(Title1,{},"Error, en la aplicación")
 			);
 		}else{
 			element = React.createElement(FluentProvider, {},
-				React.createElement(FormMonitoreo, {
+				React.createElement(App, {
+					url: url,
+					context: context,
 					listaClientes:listaClientes,
 					listaUnidades:listaUnidades,
 					listaFamiliaProductos:listaFamiliasProductos,
-					onSave:onSave,
 				})
 		);
 		}

@@ -90,6 +90,14 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     setUnidad(idUnidad as number);
   }
 
+  const reset = ():void => {
+    setCliente(-1);
+    setUnidad(-1);
+    setIndex(0);
+    setFamiliaActiva(listaFamiliaProductos[0]);
+    setValoresForm(informacionInicial);
+  }
+
   const btnPasarClick = (): void => {
     if (index < largoLista - 1) {
       const indexNuevo = index + 1;
@@ -116,6 +124,7 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
     }));
       dataGuardar.map((data:DatosValores)=>{
         onSave(data);
+        reset();
       })
     }
   };
