@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Stack, StackItem } from '@fluentui/react';
-import { Body1Strong, Button} from '@fluentui/react-components';
+import { Body2, Button, makeStyles, Text } from '@fluentui/react-components';
+
 import {
 	ArrowLeftFilled,
 	ArrowRightFilled,
@@ -9,66 +9,75 @@ import {
 
 import { IBotonesNavegacionPagina } from './interfaces/IBotonesNavegacionPagina';
 
+const useStyles = makeStyles({
+	NavegacionContainer: {
+		display: 'flex',
+		width: '100%',
+		height: 'auto',
+	},
+	BotonesContainer: {
+		display: 'flex',
+		width: '100%',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+	},
+	Boton: {
+		minWidth: '180px',
+	},
+	BotonRetroceso: {
+		minWidth: '180px',
+		marginRight: 'auto',
+	},
+});
+
 const BotonesNavegacionPagina: React.FC<IBotonesNavegacionPagina> = (props) => {
 	const { index, max, retroceder, avanzar } = props;
+	const styles = useStyles();
 
 	return (
-		<Stack
-      horizontal
-			verticalAlign='center'
-      horizontalAlign='space-between'
-			tokens={{ childrenGap: 10 }}
-		>
-			<Stack
-      horizontal
-      verticalAlign='center'
-      >
+		<section className={styles.NavegacionContainer}>
+			<div className={`${styles.BotonesContainer}`}>
 				{index > 0 && (
-					<StackItem align='start'>
-						<Button
-							onClick={() => {
-								retroceder();
-							}}
-							appearance='secondary'
-							shape='rounded'
-							icon={<ArrowLeftFilled />}
-							iconPosition='before'
-						>
-							Página Anterior
-						</Button>
-					</StackItem>
-				)}
-				<StackItem align={'center'} grow={true}>
-					<Body1Strong align='center'>
-						{index + 1} de {max}
-					</Body1Strong>
-				</StackItem>
-			</Stack>
-      <Stack
-      horizontal
-      horizontalAlign='end'
-      verticalAlign='center'>
-      <StackItem>
 					<Button
+						className={styles.BotonRetroceso + '' + styles.Boton}
 						onClick={() => {
-							avanzar();
+							retroceder();
 						}}
-						appearance='primary'
+						appearance='secondary'
 						shape='rounded'
-						icon={
-							index + 1 === max ? (
-								<SaveRegular />
-							) : (
-								<ArrowRightFilled />
-							)
-						}
-						iconPosition='after'
+						icon={<ArrowLeftFilled />}
+						iconPosition='before'
 					>
-						{index + 1 === max ? 'Guardar' : 'Siguiente Página'}
+						<Text size={400} weight={'semibold'}>Página Anterior</Text>
 					</Button>
-				</StackItem>
-      </Stack>
-		</Stack>
+				)}
+				<Body2>
+					{index + 1} de {max}
+				</Body2>
+			</div>
+			<div className={`${styles.BotonesContainer}`}>
+				<Button
+					className={`${styles.Boton}`}
+					onClick={() => {
+						avanzar();
+					}}
+					appearance='primary'
+					shape='rounded'
+					icon={
+						index + 1 === max ? (
+							<SaveRegular />
+						) : (
+							<ArrowRightFilled />
+						)
+					}
+					iconPosition='after'
+				>
+					<Text size={400} weight={'semibold'}>
+						{index + 1 === max ? 'Guardar' : 'Siguiente Página'}
+					</Text>
+				</Button>
+			</div>
+		</section>
 	);
 };
 
