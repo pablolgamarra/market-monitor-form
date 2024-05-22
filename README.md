@@ -1,4 +1,4 @@
-# monitoreo-mercado
+# monitoreo-mercado-form
 
 ## Summary
 
@@ -6,7 +6,9 @@ SPFx Web Part Form.
 
 Created for the marketing department to retrieve market information about the best products, sales levels and competition in a market segment.
 
-[!screenshot](https://github.com/pablolgamarra/market-monitor-form/blob/main/images/image.png)
+<p align="center">
+  <img src="https://github.com/pablolgamarra/market-monitor-form/blob/master/images/image.png" width="350" title="Main Form Screenshot" alt="Monitoreo Mercado Web Part Screenshot">
+</p>
 
 ## Used SharePoint Framework Version
 
@@ -16,8 +18,6 @@ Created for the marketing department to retrieve market information about the be
 
 - [SharePoint Framework](https://aka.ms/spfx)
 - [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
-
-> Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
 
 ## Solution
 
@@ -29,8 +29,7 @@ Created for the marketing department to retrieve market information about the be
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
+| 1.0     | May 5, 2024 | Initial release (MVP) |
 
 ## Disclaimer
 
@@ -38,9 +37,10 @@ Created for the marketing department to retrieve market information about the be
 
 ---
 
-## Minimal Path to Awesome
+## How to implement this web part
 
 - Clone this repository
+`git clone https://github.com/pablolgamarra/market-monitor-form.git`
 - Ensure that you are at the solution folder
 - in the command-line run:
   - **npm install**
