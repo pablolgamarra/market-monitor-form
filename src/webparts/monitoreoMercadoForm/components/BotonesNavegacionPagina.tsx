@@ -1,124 +1,84 @@
 import * as React from 'react';
-import { Stack, StackItem } from '@fluentui/react';
-import { Body1Strong, Button } from '@fluentui/react-components';
+import { Body2, Button, makeStyles, Text } from '@fluentui/react-components';
+
 import {
-  ArrowLeftFilled,
-  ArrowRightFilled,
-  SaveRegular,
+	ArrowLeftFilled,
+	ArrowRightFilled,
+	SaveRegular,
 } from '@fluentui/react-icons';
 
 import { IBotonesNavegacionPagina } from './interfaces/IBotonesNavegacionPagina';
 
+const useStyles = makeStyles({
+	NavegacionContainer: {
+		display: 'flex',
+		width: '100%',
+		height: 'auto',
+	},
+	BotonesContainer: {
+		display: 'flex',
+		width: '100%',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+	},
+	Boton: {
+		minWidth: '180px',
+	},
+	BotonRetroceso: {
+		minWidth: '180px',
+		marginRight: 'auto',
+	},
+});
+
 const BotonesNavegacionPagina: React.FC<IBotonesNavegacionPagina> = (props) => {
-  const { index, max, retroceder, avanzar } = props;
+	const { index, max, retroceder, avanzar } = props;
+	const styles = useStyles();
 
-  let codigo: React.ReactElement;
-
-  if (index !== 0) {
-    if (index + 1 === max) {
-      //TODO:Estilar los botones para que el tamaño no varie cuando se cambia el icono
-      codigo = (
-        <Stack
-          horizontal
-          horizontalAlign="space-around"
-          verticalAlign="center">
-          <StackItem>
-            <Button
-              onClick={() => {
-                retroceder();
-              }}
-              appearance="secondary"
-              shape="rounded"
-              icon={<ArrowLeftFilled />}
-              iconPosition="before">
-              Página Anterior
-            </Button>
-          </StackItem>
-          <StackItem>
-            <Body1Strong>
-              {index + 1} de {max}
-            </Body1Strong>
-          </StackItem>
-          <StackItem>
-            <Button
-              onClick={() => {
-                avanzar();
-              }}
-              appearance="primary"
-              shape="rounded"
-              icon={<SaveRegular />}
-              iconPosition="after">
-              Guardar
-            </Button>
-          </StackItem>
-        </Stack>
-      );
-    } else {
-      codigo = (
-        <Stack
-          horizontal
-          horizontalAlign="space-around"
-          verticalAlign="center">
-          <StackItem>
-            <Button
-              onClick={() => {
-                retroceder();
-              }}
-              appearance="secondary"
-              shape="rounded"
-              icon={<ArrowLeftFilled />}
-              iconPosition="before">
-              Página Anterior
-            </Button>
-          </StackItem>
-          <StackItem>
-            <Body1Strong>
-              {index + 1} de {max}
-            </Body1Strong>
-          </StackItem>
-          <StackItem>
-            <Button
-              onClick={() => {
-                avanzar();
-              }}
-              appearance="primary"
-              shape="rounded"
-              icon={<ArrowRightFilled />}
-              iconPosition="after">
-              Página Siguiente
-            </Button>
-          </StackItem>
-        </Stack>
-      );
-    }
-  } else {
-    codigo = (
-      <Stack
-        horizontal
-        horizontalAlign="space-around"
-        verticalAlign="center">
-        <StackItem>
-          <Body1Strong>
-            {index + 1} de {max}
-          </Body1Strong>
-        </StackItem>
-        <StackItem>
-          <Button
-            onClick={() => {
-              avanzar();
-            }}
-            appearance="primary"
-            shape="rounded"
-            icon={<ArrowRightFilled />}
-            iconPosition="after">
-            Página Siguiente
-          </Button>
-        </StackItem>
-      </Stack>
-    );
-  }
-
-  return codigo;
+	return (
+		<section className={styles.NavegacionContainer}>
+			<div className={`${styles.BotonesContainer}`}>
+				{index > 0 && (
+					<Button
+						className={styles.BotonRetroceso + '' + styles.Boton}
+						onClick={() => {
+							retroceder();
+						}}
+						appearance='secondary'
+						shape='rounded'
+						icon={<ArrowLeftFilled />}
+						iconPosition='before'
+					>
+						<Text size={400} weight={'semibold'}>Página Anterior</Text>
+					</Button>
+				)}
+				<Body2>
+					{index + 1} de {max}
+				</Body2>
+			</div>
+			<div className={`${styles.BotonesContainer}`}>
+				<Button
+					className={`${styles.Boton}`}
+					onClick={() => {
+						avanzar();
+					}}
+					appearance='primary'
+					shape='rounded'
+					icon={
+						index + 1 === max ? (
+							<SaveRegular />
+						) : (
+							<ArrowRightFilled />
+						)
+					}
+					iconPosition='after'
+				>
+					<Text size={400} weight={'semibold'}>
+						{index + 1 === max ? 'Guardar' : 'Siguiente Página'}
+					</Text>
+				</Button>
+			</div>
+		</section>
+	);
 };
 
 export default BotonesNavegacionPagina;

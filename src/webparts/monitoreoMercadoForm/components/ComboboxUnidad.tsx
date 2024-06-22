@@ -1,12 +1,16 @@
 import * as React from 'react';
 import {
-  Dropdown,
+  Combobox,
   Option,
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
 
+<<<<<<< HEAD:src/webparts/monitoreoMercadoForm/components/DropDownUnidad.tsx
 
+=======
+import { ComboboxUnidadesProps } from './interfaces/ComboboxUnidadesProps';
+>>>>>>> 69ca604457d23766894531998e3892e037192545:src/webparts/monitoreoMercadoForm/components/ComboboxUnidad.tsx
 import { IUnidad } from './interfaces/IUnidad';
 import { IDropdownUnidadProps } from './interfaces/IDropDownUnidadProps';
 
@@ -21,29 +25,32 @@ const useStyles = makeStyles({
   },
 });
 
-const DropdownUnidad: React.FC<IDropdownUnidadProps> = (props) => {
-  const { unidades } = props;
+const ComboboxUnidad: React.FC<ComboboxUnidadesProps> = (props) => {
+  const { unidades, handleCambioValor } = props;
 
   const styles = useStyles();
 
   return (
     <div className={styles.root}>
       <label htmlFor="unidad-cliente">Unidad: </label>
-      <Dropdown
-        name="unidad-cliente"
+      <Combobox
+        name="idUnidad"
         id="unidad-cliente"
         placeholder="Seleccione Unidad"
-        inlinePopup={true}>
-        {unidades.map((unidad:IUnidad) => (
+        inlinePopup={true}
+        clearable={true}
+        onOptionSelect={handleCambioValor}
+        >
+        {unidades.map((unidad: IUnidad) => (
           <Option
-            value={unidad.Nombre}
+            value={unidad.Id.toString()}
             key={unidad.Id}>
             {unidad.Nombre}
           </Option>
         ))}
-      </Dropdown>
+      </Combobox>
     </div>
   );
 };
 
-export default DropdownUnidad;
+export default ComboboxUnidad;

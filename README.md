@@ -2,9 +2,11 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+SPFx Web Part Form.
 
-[picture of the solution in action, if possible]
+Created for the marketing department to retrieve market information about the best products, sales levels and competition in a market segment.
+
+[!screenshot](https://github.com/pablolgamarra/market-monitor-form/blob/main/images/image.png)
 
 ## Used SharePoint Framework Version
 
@@ -17,15 +19,11 @@ Short summary on functionality and used technologies.
 
 > Get your own free development tenant by subscribing to [Microsoft 365 developer program](http://aka.ms/o365devprogram)
 
-## Prerequisites
-
-> Any special pre-requisites?
-
 ## Solution
 
 | Solution    | Author(s)                                               |
 | ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
+| monitoreo-mercado | Pablo Gamarra (@pablolgamarra) |
 
 ## Version history
 
@@ -48,21 +46,13 @@ Short summary on functionality and used technologies.
   - **npm install**
   - **gulp serve**
 
-> Include any additional steps as needed.
-
 ## Features
 
-Description of the extension that expands upon high-level summary above.
+Get customer and business branch information from a Sharepoint list.
 
-This extension illustrates the following concepts:
+Edit data measurement units for each product family.
 
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
+Save data to a SharePoint List 
 
 ## References
 

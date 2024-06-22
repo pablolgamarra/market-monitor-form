@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {
-  Dropdown,
+  Combobox,
   Option,
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
 
-import { IDropdownClienteProps } from './interfaces/IDropdownClienteProps';
+import { ComboboxClientesProps } from './interfaces/ComboboxClientesProps';
 import { ICliente } from './interfaces/ICliente';
 
 const useStyles = makeStyles({
@@ -20,29 +20,32 @@ const useStyles = makeStyles({
   },
 });
 
-const DropdownCliente: React.FC<IDropdownClienteProps> = (props) => {
-  const { clientes } = props;
+const ComboboxCliente: React.FC<ComboboxClientesProps> = (props) => {
+  const { clientes, handleCambioValor } = props;
 
   const styles = useStyles();
 
   return (
     <div className={styles.root}>
-      <label htmlFor="cliente">Cliente: </label>
-      <Dropdown
-        name="cliente"
+      <label htmlFor="idCliente">Cliente: </label>
+      <Combobox
+        name="idCliente"
         id="cliente"
         placeholder="Seleccione Cliente"
-        inlinePopup={true}>
-        {clientes.map((cliente:ICliente) => (
+        inlinePopup={true}
+        clearable={true}
+        onOptionSelect={handleCambioValor}
+        >
+        {clientes.map((cliente: ICliente) => (
           <Option
-            value={cliente.Nombre}
+            value={cliente.Id.toString()}
             key={cliente.Id}>
             {cliente.Nombre}
           </Option>
         ))}
-      </Dropdown>
+      </Combobox>
     </div>
   );
 };
 
-export default DropdownCliente;
+export default ComboboxCliente;

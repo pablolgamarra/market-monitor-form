@@ -1,5 +1,5 @@
 interface IFuncionBtn {
-    (e:Event): void;
+    (): void;
 }
 
 export interface IBotonesNavegacionPagina {
