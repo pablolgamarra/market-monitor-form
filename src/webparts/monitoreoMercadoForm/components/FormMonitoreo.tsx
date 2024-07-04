@@ -158,6 +158,10 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
         valores={valoresForm[index]}
         handleCambioValor={handleCambioValor}
       />
+<<<<<<< HEAD
+      <FormularioProductos Id={familiaActiva.Id} Nombre={familiaActiva.Nombre} UnidadMedida={familiaActiva.UnidadMedida} handleCambioValor={handleCambioValor}/>
+=======
+>>>>>>> 69ca604457d23766894531998e3892e037192545
       <BotonesNavegacionPagina
         index={index}
         max={largoLista}
