@@ -97,7 +97,7 @@ const getFamiliaProductos = (
   const head: ISPHttpClientOptions = {
     headers: { Accept: 'Application/json' },
   };
-  const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$select=Id,Title,UnidaddeMedida`;
+  const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida`;
 
   return context.spHttpClient
     .get(url, SPHttpClient.configurations.v1, head)

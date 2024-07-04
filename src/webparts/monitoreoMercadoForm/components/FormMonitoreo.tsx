@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 });
 
 const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
-  const { listaClientes, listaUnidades, listaFamiliaProductos, onSave} = props;
+  const { listaClientes, listaUnidades, listaFamiliaProductos, onSave, width} = props;
 
   const styles = useStyles();
 
@@ -164,6 +164,9 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
         avanzar={btnPasarClick}
         retroceder={btnRetrocederClick}
       />
+      <h2>
+        {width}
+      </h2>
     </article>
   );
 };

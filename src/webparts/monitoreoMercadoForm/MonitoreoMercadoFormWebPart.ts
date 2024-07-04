@@ -40,6 +40,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
         listaClientes: listaClientes,
         listaUnidades: listaUnidades,
         listaFamiliaProductos: listaFamiliasProductos,
+        width:this.width,
       }
     );
 

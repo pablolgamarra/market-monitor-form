@@ -20,6 +20,7 @@ export interface AppProps {
   listaClientes: ICliente[];
   listaUnidades: IUnidad[];
   listaFamiliaProductos: IFamiliaProducto[];
+  width:number;
 }
 
 const App: React.FC<AppProps> = (props) => {

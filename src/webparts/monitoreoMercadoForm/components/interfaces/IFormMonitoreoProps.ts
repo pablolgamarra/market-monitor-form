@@ -8,4 +8,5 @@ export interface IFormMonitoreoProps {
   listaUnidades: IUnidad[],
   listaFamiliaProductos: IFamiliaProducto[],
   onSave(data:DatosValores):void,
+  width:number,
 }
