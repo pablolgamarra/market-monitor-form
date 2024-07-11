@@ -8,13 +8,14 @@ import {
 } from '@fluentui/react-components';
 
 import type { IFormMonitoreoProps } from './interfaces/IFormMonitoreoProps';
-import CabeceraForm from './CabeceraForm';
+//import CabeceraForm from './CabeceraForm';
 import FormularioProductos from './FormularioProductos';
 
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import BotonesNavegacionPagina from './BotonesNavegacionPagina';
 import { FamiliasValores } from './interfaces/FamiliasValores';
 import { DatosValores } from './interfaces/DatosValores';
+import FormMonitoreoHeader from './FormMonitoreoHeader';
 
 const useStyles = makeStyles({
   root: {
@@ -147,12 +148,18 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
         width={'150px'}
       />
       <Title1 align="center">Monitoreo del Mercado</Title1>
-      <CabeceraForm
+      <FormMonitoreoHeader
         listaClientes={listaClientes}
         listaUnidades={listaUnidades}
         handleCambioCliente={handleCambioCliente}
         handleCambioUnidad={handleCambioUnidad}
       />
+      {/*<CabeceraForm
+        listaClientes={listaClientes}
+        listaUnidades={listaUnidades}
+        handleCambioCliente={handleCambioCliente}
+        handleCambioUnidad={handleCambioUnidad}
+      />*/}
       <FormularioProductos
         familia={familiaActiva}
         valores={valoresForm[index]}

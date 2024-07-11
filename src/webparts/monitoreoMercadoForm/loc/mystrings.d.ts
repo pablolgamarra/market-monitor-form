@@ -17,3 +17,17 @@ declare module 'MonitoreoMercadoFormWebPartStrings' {
   const strings: IMonitoreoMercadoFormWebPartStrings;
   export = strings;
 }
+
+declare interface IFormMonitoreoHeaderStrings{
+  PlaceholderUnidad:string,
+  PlaceholderCliente:string,
+  PlaceholderPeriodoCultivo:string,
+  Unidad:string,
+  Cliente:string,
+  PeriodoCultivo:string,
+}
+
+declare module 'FormMonitoreoHeaderStrings' {
+  const value: IFormMonitoreoHeaderStrings;
+  export = value;
+}
