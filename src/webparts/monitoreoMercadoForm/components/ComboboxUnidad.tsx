@@ -6,13 +6,8 @@ import {
   shorthands,
 } from '@fluentui/react-components';
 
-<<<<<<< HEAD:src/webparts/monitoreoMercadoForm/components/DropDownUnidad.tsx
-
-=======
 import { ComboboxUnidadesProps } from './interfaces/ComboboxUnidadesProps';
->>>>>>> 69ca604457d23766894531998e3892e037192545:src/webparts/monitoreoMercadoForm/components/ComboboxUnidad.tsx
 import { IUnidad } from './interfaces/IUnidad';
-import { IDropdownUnidadProps } from './interfaces/IDropDownUnidadProps';
 
 const useStyles = makeStyles({
   root: {

@@ -3,5 +3,5 @@ export interface ICliente{
     Nombre:string,
     NroFiscal:number,
     Unidad: number,
-    NombreCNG: string,
+    Coordinador: number,
 }

@@ -45,10 +45,11 @@ const CabeceraForm: React.FC<ICabeceraForm> = (props) => {
     [handleCambioUnidad, handleCambioCliente]
   )
 
+
   return (
     <section className={styles.root}>
-      <ComboboxUnidad unidades={listaUnidades} handleCambioValor={manejarCambioDpDown} />
       <ComboboxCliente clientes={listaClientes} handleCambioValor={manejarCambioDpDown} />
+      <ComboboxUnidad unidades={listaUnidades} handleCambioValor={manejarCambioDpDown} />
       <Field
         label="Año de Zafra"
         color={styles.root}>

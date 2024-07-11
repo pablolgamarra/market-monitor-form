@@ -11,8 +11,12 @@ import {
   FluentProvider,
   FluentProviderProps,
   Title1,
+  Title2,
   webLightTheme,
 } from '@fluentui/react-components';
+import { IProveedor } from './interfaces/IProveedor';
+import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
+import { ICoordinador } from './interfaces/ICoordinador';
 
 export interface AppProps {
   url: string;
@@ -20,6 +24,9 @@ export interface AppProps {
   listaClientes: ICliente[];
   listaUnidades: IUnidad[];
   listaFamiliaProductos: IFamiliaProducto[];
+  listaProveedores: IProveedor[];
+  listaPeriodosCultivo: IPeriodoCultivo[];
+  listaCoordinadores: ICoordinador[];
   width:number;
 }
 
@@ -40,7 +47,10 @@ const App: React.FC<AppProps> = (props) => {
       {isEmpty(props.listaClientes) ||
         isEmpty(props.listaUnidades) ||
         isEmpty(props.listaFamiliaProductos) ? (
-        <Title1>Error en la Aplicación</Title1>
+          <>
+            <Title1>Error en la Aplicación</Title1>
+            <Title2>Comuníquese con el Departamento de T.I.</Title2>
+          </>
       ) : (
         <FluentProvider theme={webLightTheme}>
           <FormMonitoreo {...{ ...props, onSave: onSave }} />

@@ -13,7 +13,10 @@ import * as strings from 'MonitoreoMercadoFormWebPartStrings';
 
 import {
   getClientes,
+  getCoordinadores,
   getFamiliaProductos,
+  getPeriodosCultivo,
+  getProveedores,
   getUnidades,
 } from './utils/QuerySP';
 
@@ -31,6 +34,9 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
     const listaUnidades = await getUnidades(url, context);
     const listaClientes = await getClientes(url, context);
     const listaFamiliasProductos = await getFamiliaProductos(url, context);
+    const listaPeriodosCultivo = await getPeriodosCultivo(url, context);
+    const listaProveedores = await getProveedores(url, context);
+    const listaCoordinadores = await getCoordinadores(url, context);
 
     const root: React.FunctionComponentElement<AppProps> = React.createElement(
       App,
@@ -40,6 +46,9 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
         listaClientes: listaClientes,
         listaUnidades: listaUnidades,
         listaFamiliaProductos: listaFamiliasProductos,
+        listaPeriodosCultivo: listaPeriodosCultivo,
+        listaProveedores: listaProveedores,
+        listaCoordinadores: listaCoordinadores,
         width:this.width,
       }
     );
