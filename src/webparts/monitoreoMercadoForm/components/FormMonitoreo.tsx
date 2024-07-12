@@ -8,7 +8,6 @@ import {
 } from '@fluentui/react-components';
 
 import type { IFormMonitoreoProps } from './interfaces/IFormMonitoreoProps';
-//import CabeceraForm from './CabeceraForm';
 import FormularioProductos from './FormularioProductos';
 
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
@@ -151,26 +150,25 @@ const FormMonitoreo: React.FC<IFormMonitoreoProps> = (props) => {
       <FormMonitoreoHeader
         listaClientes={listaClientes}
         listaUnidades={listaUnidades}
+        idUnidadSeleccionada={unidad}
+        idClienteSeleccionado={cliente}
         handleCambioCliente={handleCambioCliente}
         handleCambioUnidad={handleCambioUnidad}
       />
-      {/*<CabeceraForm
-        listaClientes={listaClientes}
-        listaUnidades={listaUnidades}
-        handleCambioCliente={handleCambioCliente}
-        handleCambioUnidad={handleCambioUnidad}
-      />*/}
+
       <FormularioProductos
         familia={familiaActiva}
         valores={valoresForm[index]}
         handleCambioValor={handleCambioValor}
       />
+
       <BotonesNavegacionPagina
         index={index}
         max={largoLista}
         avanzar={btnPasarClick}
         retroceder={btnRetrocederClick}
       />
+
       <h2>
         {width}
       </h2>

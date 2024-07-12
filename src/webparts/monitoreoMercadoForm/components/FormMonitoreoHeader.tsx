@@ -31,9 +31,17 @@ const useStyles = makeStyles({
 });
 
 const FormMonitoreoHeader: React.FC<IFormMonitoreoHeader> = (props) => {
-	const { listaUnidades, listaClientes, handleCambioCliente, handleCambioUnidad} = props;
+	const {
+		listaUnidades,
+		listaClientes,
+		idUnidadSeleccionada,
+		idClienteSeleccionado,
+		handleCambioCliente,
+		handleCambioUnidad,
+	} = props;
 
 	const styles = useStyles();
+
 	const manejarCambioDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
 			const event: HTMLElement = e.target as HTMLElement;
@@ -62,20 +70,31 @@ const FormMonitoreoHeader: React.FC<IFormMonitoreoHeader> = (props) => {
 		[handleCambioUnidad, handleCambioCliente],
 	);
 
-	const handleOnChange = (e:React.EventHandler<ActiveOptionChangeData>) => {
-		console.log(e.target);
-	}
+	const listaClientesFiltro:ICliente[] = idUnidadSeleccionada > -1 ? listaClientes.filter((cliente:ICliente) => (cliente.Unidad === idUnidadSeleccionada)) : listaClientes
+	
+
+	console.log(`Lista Clientes filtro: ${listaClientesFiltro}
+	Lista Clientes: ${listaClientes}
+	`)
+	console.log(listaClientes);
+	console.log(idUnidadSeleccionada);
+	console.log(listaClientesFiltro)
+	console.log(listaClientes.map((cliente:ICliente) => (cliente.Unidad === idUnidadSeleccionada)))
 
 	return (
 		<section className={styles.root}>
 			<label htmlFor='idUnidad'>{headerStrings.Unidad}</label>
 			<Combobox
 				name='idUnidad'
+				className={styles.cbx}
 				placeholder={headerStrings.PlaceholderUnidad}
 				clearable={true}
 				onOptionSelect={manejarCambioDpDown}
-				onChange={handleOnChange}
-				onActiveOptionChange={handleOnChange}
+				value={
+					idUnidadSeleccionada > -1
+						? listaUnidades.find((unidad:IUnidad) => unidad.Id === idUnidadSeleccionada)?.Nombre
+						: undefined
+				}
 			>
 				{listaUnidades.map((item: IUnidad) => (
 					<Option
@@ -89,13 +108,17 @@ const FormMonitoreoHeader: React.FC<IFormMonitoreoHeader> = (props) => {
 			<label htmlFor='idCliente'>{headerStrings.Cliente}</label>
 			<Combobox
 				name='idCliente'
+				className={styles.cbx}
 				placeholder={headerStrings.PlaceholderCliente}
 				clearable={true}
 				onOptionSelect={manejarCambioDpDown}
-				onChange={handleOnChange}
-
+				value={
+					idClienteSeleccionado > -1
+					? listaClientes.find((cliente:ICliente) => cliente.Id === idClienteSeleccionado)?.Nombre
+					: undefined
+				}
 			>
-				{listaClientes.map((item: ICliente) => (
+				{listaClientesFiltro.map((item: ICliente) => (
 					<Option
 						value={item.Id.toString()}
 						key={item.Id}
