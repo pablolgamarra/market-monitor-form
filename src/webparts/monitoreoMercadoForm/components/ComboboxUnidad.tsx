@@ -38,8 +38,10 @@ const ComboboxUnidad: React.FC<ComboboxUnidadesProps> = (props) => {
         >
         {unidades.map((unidad: IUnidad) => (
           <Option
-            value={unidad.Id.toString()}
-            key={unidad.Id}>
+            value={unidad?.Id?.toString()}
+            key={unidad.Id}
+            text='Unidad'
+            >
             {unidad.Nombre}
           </Option>
         ))}

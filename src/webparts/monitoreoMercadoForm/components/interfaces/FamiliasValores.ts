@@ -1,7 +1,7 @@
 export interface FamiliasValores {
-    idFamiliaProducto:number,
+    idProducto:string,
     volumenComprado: string;
-    precio: number;
+    precioPorMedida: string;
     condicionPago: string;
-    proveedorPrincipal: string;
+    idProveedorPrincipal: string;
   }

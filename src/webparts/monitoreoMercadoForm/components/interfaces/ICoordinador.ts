@@ -1,5 +1,5 @@
 export interface ICoordinador{
-    Id:number,
-    Nombre: string,
+    Id:number|undefined,
+    Nombre: string|undefined,
     
 }

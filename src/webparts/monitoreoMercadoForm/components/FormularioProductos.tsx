@@ -95,7 +95,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
             name={'precio'}
             type='number'
             placeholder={`Ingresar precio ${familia.UnidadMedida}`}
-            value={valores.precio.toString()}
+            value={valores.precioPorMedida.toString()}
             onChange={handleCambio}
           />
         </Field>
@@ -120,7 +120,7 @@ const FormularioProductos: React.FC<IFormularioProductosProps> = (props) => {
             id={`${familia.Id}-proveedor-principal`}
             placeholder="Ingresar proveedor principal"
             name={'proveedorPrincipal'}
-            value={valores.proveedorPrincipal}
+            value={valores.idProveedorPrincipal}
             onChange={handleCambio}
           />
         </Field>

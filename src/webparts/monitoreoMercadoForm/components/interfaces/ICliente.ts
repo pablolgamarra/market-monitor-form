@@ -1,7 +1,7 @@
 export interface ICliente{
-    Id:number,
-    Nombre:string,
-    NroFiscal:number,
-    Unidad: number,
-    Coordinador: number,
+    Id:number|undefined,
+    Nombre:string|undefined,
+    NroFiscal:number|undefined,
+    Unidad: number|undefined,
+    Coordinador: number|undefined,
 }

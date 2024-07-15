@@ -10,9 +10,10 @@ import {
 
 import { IUnidad } from './interfaces/IUnidad';
 import { ICliente } from './interfaces/ICliente';
-import { IFormMonitoreoHeader } from './interfaces/IFormMonitoreoHeader';
 
-import * as headerStrings from 'FormMonitoreoHeaderStrings';
+import * as headerStrings from 'MonitorFormHeaderStrings';
+import { IMonitorFormState } from './MonitorForm';
+import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 
 const useStyles = makeStyles({
 	root: {
@@ -30,19 +31,31 @@ const useStyles = makeStyles({
 	},
 });
 
-const FormMonitoreoHeader: React.FC<IFormMonitoreoHeader> = (props) => {
+export interface IMonitorFormHeaderProps {
+	listaUnidades: IUnidad[];
+	listaClientes: ICliente[];
+	listaPeriodosCultivo: IPeriodoCultivo[];
+	cliente: ICliente | undefined;
+	unidad: IUnidad | undefined;
+	periodoCultivo: IPeriodoCultivo | undefined;
+	handleSelectedChange(campo: keyof IMonitorFormState, valor: string | number): void;
+}
+
+const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	const {
 		listaUnidades,
 		listaClientes,
-		idUnidadSeleccionada,
-		idClienteSeleccionado,
-		handleCambioCliente,
-		handleCambioUnidad,
+		unidad,
+		cliente,
+		handleSelectedChange
 	} = props;
 
+	//Component Style
 	const styles = useStyles();
 
-	const manejarCambioDpDown = React.useCallback(
+	console.log(unidad?.Nombre)
+
+	const handleDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
 			const event: HTMLElement = e.target as HTMLElement;
 
@@ -61,67 +74,51 @@ const FormMonitoreoHeader: React.FC<IFormMonitoreoHeader> = (props) => {
 			const value =
 				data.optionValue !== undefined ? data.optionValue : '';
 
-			if (name === 'idCliente') {
-				handleCambioCliente(value);
-			} else {
-				handleCambioUnidad(value);
-			}
+			handleSelectedChange(name as keyof IMonitorFormState, value)
 		},
-		[handleCambioUnidad, handleCambioCliente],
+		[ handleSelectedChange ],
 	);
-
-	const listaClientesFiltro:ICliente[] = idUnidadSeleccionada > -1 ? listaClientes.filter((cliente:ICliente) => (cliente.Unidad === idUnidadSeleccionada)) : listaClientes
-	
-
-	console.log(`Lista Clientes filtro: ${listaClientesFiltro}
-	Lista Clientes: ${listaClientes}
-	`)
-	console.log(listaClientes);
-	console.log(idUnidadSeleccionada);
-	console.log(listaClientesFiltro)
-	console.log(listaClientes.map((cliente:ICliente) => (cliente.Unidad === idUnidadSeleccionada)))
 
 	return (
 		<section className={styles.root}>
-			<label htmlFor='idUnidad'>{headerStrings.Unidad}</label>
+			<label htmlFor='unidad'>{headerStrings.Unidad}</label>
 			<Combobox
-				name='idUnidad'
+				name='unidad'
 				className={styles.cbx}
 				placeholder={headerStrings.PlaceholderUnidad}
 				clearable={true}
-				onOptionSelect={manejarCambioDpDown}
+				onOptionSelect={handleDpDown}
 				value={
-					idUnidadSeleccionada > -1
-						? listaUnidades.find((unidad:IUnidad) => unidad.Id === idUnidadSeleccionada)?.Nombre
-						: undefined
+					unidad?.Id?.toString()
 				}
 			>
 				{listaUnidades.map((item: IUnidad) => (
 					<Option
-						value={item.Id.toString()}
+						value={item?.Id?.toString()}
 						key={item.Id}
+						text="Unidad"
 					>
 						{item.Nombre}
 					</Option>
 				))}
 			</Combobox>
+
 			<label htmlFor='idCliente'>{headerStrings.Cliente}</label>
 			<Combobox
-				name='idCliente'
+				name='cliente'
 				className={styles.cbx}
 				placeholder={headerStrings.PlaceholderCliente}
 				clearable={true}
-				onOptionSelect={manejarCambioDpDown}
+				onOptionSelect={handleDpDown}
 				value={
-					idClienteSeleccionado > -1
-					? listaClientes.find((cliente:ICliente) => cliente.Id === idClienteSeleccionado)?.Nombre
-					: undefined
+					cliente?.Id?.toString()
 				}
 			>
-				{listaClientesFiltro.map((item: ICliente) => (
+				{listaClientes.map((item: ICliente) => (
 					<Option
-						value={item.Id.toString()}
+						value={item?.Id?.toString()}
 						key={item.Id}
+						text="Cliente"
 					>
 						{item.Nombre}
 					</Option>
@@ -131,4 +128,4 @@ const FormMonitoreoHeader: React.FC<IFormMonitoreoHeader> = (props) => {
 	);
 };
 
-export default FormMonitoreoHeader;
+export default MonitorFormHeader;

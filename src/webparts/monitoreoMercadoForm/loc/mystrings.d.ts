@@ -18,7 +18,7 @@ declare module 'MonitoreoMercadoFormWebPartStrings' {
   export = strings;
 }
 
-declare interface IFormMonitoreoHeaderStrings{
+declare interface IMonitorFormHeaderStrings{
   PlaceholderUnidad:string,
   PlaceholderCliente:string,
   PlaceholderPeriodoCultivo:string,
@@ -27,7 +27,7 @@ declare interface IFormMonitoreoHeaderStrings{
   PeriodoCultivo:string,
 }
 
-declare module 'FormMonitoreoHeaderStrings' {
-  const value: IFormMonitoreoHeaderStrings;
+declare module 'MonitorFormHeaderStrings' {
+  const value: IMonitorFormHeaderStrings;
   export = value;
 }

@@ -14,6 +14,6 @@
   "externals": {},
   "localizedResources": {
     "MonitoreoMercadoFormWebPartStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
-    "FormMonitoreoHeaderStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js"
+    "MonitorFormHeaderStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js"
   }
 }

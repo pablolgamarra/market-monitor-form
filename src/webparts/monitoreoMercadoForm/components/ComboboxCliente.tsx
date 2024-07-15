@@ -38,8 +38,10 @@ const ComboboxCliente: React.FC<ComboboxClientesProps> = (props) => {
         >
         {clientes.map((cliente: ICliente) => (
           <Option
-            value={cliente.Id.toString()}
-            key={cliente.Id}>
+            value={cliente?.Id?.toString()}
+            key={cliente.Id}
+            text='Cliente'
+            >
             {cliente.Nombre}
           </Option>
         ))}

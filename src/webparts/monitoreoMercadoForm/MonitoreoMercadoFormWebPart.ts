@@ -45,7 +45,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
         context: context,
         listaClientes: listaClientes,
         listaUnidades: listaUnidades,
-        listaFamiliaProductos: listaFamiliasProductos,
+        listaFamiliasProducto: listaFamiliasProductos,
         listaPeriodosCultivo: listaPeriodosCultivo,
         listaProveedores: listaProveedores,
         listaCoordinadores: listaCoordinadores,

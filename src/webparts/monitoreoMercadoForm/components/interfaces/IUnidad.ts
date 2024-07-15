@@ -1,4 +1,4 @@
 export interface IUnidad{
-    Id:number,
-    Nombre:string,
+    Id:number|undefined,
+    Nombre:string|undefined,
 }

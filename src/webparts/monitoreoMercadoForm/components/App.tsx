@@ -1,5 +1,5 @@
 import * as React from 'react';
-import FormMonitoreo from './FormMonitoreo';
+
 import { ICliente } from './interfaces/ICliente';
 import { IUnidad } from './interfaces/IUnidad';
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
@@ -17,13 +17,14 @@ import {
 import { IProveedor } from './interfaces/IProveedor';
 import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 import { ICoordinador } from './interfaces/ICoordinador';
+import MonitorForm from './MonitorForm';
 
 export interface AppProps {
   url: string;
   context: WebPartContext;
   listaClientes: ICliente[];
   listaUnidades: IUnidad[];
-  listaFamiliaProductos: IFamiliaProducto[];
+  listaFamiliasProducto: IFamiliaProducto[];
   listaProveedores: IProveedor[];
   listaPeriodosCultivo: IPeriodoCultivo[];
   listaCoordinadores: ICoordinador[];
@@ -46,14 +47,15 @@ const App: React.FC<AppProps> = (props) => {
     <FluentProvider theme={webLightTheme}>
       {isEmpty(props.listaClientes) ||
         isEmpty(props.listaUnidades) ||
-        isEmpty(props.listaFamiliaProductos) ? (
+        isEmpty(props.listaFamiliasProducto) ||
+        isEmpty(props.listaPeriodosCultivo) ? (
           <>
             <Title1>Error en la Aplicación</Title1>
             <Title2>Comuníquese con el Departamento de T.I.</Title2>
           </>
       ) : (
         <FluentProvider theme={webLightTheme}>
-          <FormMonitoreo {...{ ...props, onSave: onSave }} />
+          <MonitorForm {...{ ...props, onSave: onSave }} />
         </FluentProvider>
       )}
     </FluentProvider>
