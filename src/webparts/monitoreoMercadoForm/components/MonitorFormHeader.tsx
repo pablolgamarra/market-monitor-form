@@ -53,7 +53,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	//Component Style
 	const styles = useStyles();
 
-	//const listaClientesFiltro:ICliente[] = Object.keys(listaClientes).map((item:any) => listaUnidades[item].Id).find((item:any) => item.Unidad === unidad?.Id)
+	const listaClientesFiltro:ICliente[] = listaClientes.filter((item:ICliente) => item.Unidad?.Id === unidad?.Id);
 
 	const handleDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
@@ -114,9 +114,9 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 					cliente?.Nombre
 				}
 			>
-				{listaClientes.map((item: ICliente) => (
+				{listaClientesFiltro.map((item: ICliente) => (
 					<Option
-						value={item?.Id?.toString()}
+						value={item?.Nombre}
 						key={item.Id}
 						text="Cliente"
 					>
