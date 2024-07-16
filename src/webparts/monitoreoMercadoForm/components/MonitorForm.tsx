@@ -47,7 +47,8 @@ export interface IMonitorFormState {
 
 const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
   const {
-    listaUnidades
+    listaUnidades,
+    listaClientes
   } = props;
 
   const styles = useStyles();
@@ -65,7 +66,11 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
         setFormData(objAux)
         break;
       case 'cliente':
-
+        objAux = {
+          ...formData,
+          cliente: listaClientes[ Object.keys(listaClientes).map((item: any) => listaClientes[ item ].Id).findIndex((x: any) => x === Number(valor)) ]
+        }
+        setFormData(objAux)
         break;
       case 'periodoCultivo':
 
