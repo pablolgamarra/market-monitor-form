@@ -53,7 +53,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	//Component Style
 	const styles = useStyles();
 
-	console.log(unidad?.Nombre)
+	//const listaClientesFiltro:ICliente[] = Object.keys(listaClientes).map((item:any) => listaUnidades[item].Id).find((item:any) => item.Unidad === unidad?.Id)
 
 	const handleDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
@@ -89,7 +89,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 				clearable={true}
 				onOptionSelect={handleDpDown}
 				value={
-					unidad?.Id?.toString()
+					unidad?.Nombre
 				}
 			>
 				{listaUnidades.map((item: IUnidad) => (
@@ -103,7 +103,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 				))}
 			</Combobox>
 
-			<label htmlFor='idCliente'>{headerStrings.Cliente}</label>
+			<label htmlFor='cliente'>{headerStrings.Cliente}</label>
 			<Combobox
 				name='cliente'
 				className={styles.cbx}
@@ -111,7 +111,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 				clearable={true}
 				onOptionSelect={handleDpDown}
 				value={
-					cliente?.Id?.toString()
+					cliente?.Nombre
 				}
 			>
 				{listaClientes.map((item: ICliente) => (

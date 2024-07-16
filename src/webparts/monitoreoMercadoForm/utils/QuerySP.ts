@@ -31,6 +31,8 @@ import {
 import { DatosMercadoValue } from './RequestTypes';
 import { ICoordinador } from '../components/interfaces/ICoordinador';
 
+//TODO:COLOCAR NOMBRE DE LA APLICACION Y DEMAS COMO VARIABLES DINAMICAS
+
 const getUnidades = async (
 	urlBase: string,
 	context: WebPartContext,
@@ -63,6 +65,35 @@ const getUnidades = async (
 		});
 };
 
+const getUnidad = async (
+	urlBase: string,
+	context: WebPartContext,
+	id: number,
+): Promise<IUnidad | undefined> => {
+	const head: ISPHttpClientOptions = {
+		headers: { Accept: 'Application/json' },
+	};
+
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=ID,Title&$filter=ID eq '${id}'`;
+
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, head)
+		.then((respuesta: SPHttpClientResponse) => {
+			if (respuesta.status === 200) {
+				return respuesta.json();
+			}
+			return;
+		})
+		.then((data: UnidadesResponse) => {
+			const unidad: IUnidad|undefined = data.value.map((item:UnidadesResponseValue) => ({
+				Id:item.ID,
+				Nombre:item.Title
+			})).find((item:IUnidad) => item.Id === id);
+
+			return unidad;
+		});
+};
+
 const getClientes = async (
 	urlBase: string,
 	context: WebPartContext,
@@ -80,16 +111,19 @@ const getClientes = async (
 			}
 			return [];
 		})
-		.then((data: ClientesResponse) => {
-			const clientes: ICliente[] = data.value.map(
-				(item: ClientesResponseValue) => ({
-					Id: item.Id,
-					Nombre: item.Title,
-					NroFiscal: item.RUC_x002f_CI,
-					Unidad: item.UnidadId,
-					Coordinador: item.CoordinadorId
-				}),
-			);
+		.then(async(data: ClientesResponse) => {
+			const clientes:ICliente[]|undefined = await Promise.all(data.value.map(async (item: ClientesResponseValue) => {
+				const unidad = await getUnidad(urlBase, context, item.UnidadId);
+
+				return {
+				Id:item.ID,
+				Nombre:item.Title,
+				NroFiscal:item.RUC_x002f_CI,
+				Unidad: unidad,
+				Coordinador: item.CoordinadorId
+				}
+			}));
+
 			return clientes;
 		})
 		.catch((e: Error) => {
@@ -98,7 +132,7 @@ const getClientes = async (
 		});
 };
 
-const getFamiliaProductos = (
+const getFamiliaProductos = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<IFamiliaProducto[]> => {
@@ -131,7 +165,7 @@ const getFamiliaProductos = (
 		});
 };
 
-const getProveedores = (
+const getProveedores = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<IProveedor[]> => {
@@ -197,35 +231,40 @@ const getPeriodosCultivo = (
 		});
 };
 
-const getCoordinadores = (urlBase:string, context:WebPartContext):Promise<ICoordinador[]> => {
-	const head:ISPHttpClientOptions = {
-		headers:{
-			'Accept':'Application/json'
-		}
-	}
+const getCoordinadores = (
+	urlBase: string,
+	context: WebPartContext,
+): Promise<ICoordinador[]> => {
+	const head: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'Application/json',
+		},
+	};
 
-	const url:string = `${urlBase}/Apps/monitoreo-mercado/lists/getByTitle('Coordinadores')/items/?$select=Id,Title`;
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/lists/getByTitle('Coordinadores')/items/?$select=Id,Title`;
 
-	return context.spHttpClient.get(url, SPHttpClient.configurations.v1, head)
-	.then((respuesta:SPHttpClientResponse)=>{
-		if(respuesta.status === 200){
-			return respuesta.json();
-		}
-		return [];
-	})
-	.then((data:CoordinadoresResponse) => {
-		const coordinadores:ICoordinador[]= data.value.map((item:CoordinadoresResponseValue) => ({
-			Id: item.Id,
-			Nombre: item.Title,
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, head)
+		.then((respuesta: SPHttpClientResponse) => {
+			if (respuesta.status === 200) {
+				return respuesta.json();
+			}
+			return [];
 		})
-	);
-		return coordinadores;	
-	})
-	.catch((e)=>{
-		console.log(`Error listando Coordinadores: ${e}`);
-		return [];
-	})
-}
+		.then((data: CoordinadoresResponse) => {
+			const coordinadores: ICoordinador[] = data.value.map(
+				(item: CoordinadoresResponseValue) => ({
+					Id: item.Id,
+					Nombre: item.Title,
+				}),
+			);
+			return coordinadores;
+		})
+		.catch((e) => {
+			console.log(`Error listando Coordinadores: ${e}`);
+			return [];
+		});
+};
 
 const registrarDatos = async (
 	data: DatosValores,
@@ -262,4 +301,12 @@ const registrarDatos = async (
 	return false;
 };
 
-export { getUnidades, getClientes, getFamiliaProductos, getPeriodosCultivo, getProveedores, getCoordinadores, registrarDatos };
+export {
+	getUnidades,
+	getClientes,
+	getFamiliaProductos,
+	getPeriodosCultivo,
+	getProveedores,
+	getCoordinadores,
+	registrarDatos,
+};

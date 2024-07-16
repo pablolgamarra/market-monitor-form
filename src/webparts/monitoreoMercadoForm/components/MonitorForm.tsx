@@ -38,43 +38,37 @@ export interface IMonitorFormProps {
   listaPeriodosCultivo: IPeriodoCultivo[];
 }
 
-export interface IMonitorFormState{
-    unidad:IUnidad|undefined,
-    cliente:ICliente|undefined,
-    periodoCultivo:IPeriodoCultivo|undefined,
-    onSave(data: DatosValores):void,
+export interface IMonitorFormState {
+  unidad: IUnidad | undefined,
+  cliente: ICliente | undefined,
+  periodoCultivo: IPeriodoCultivo | undefined,
+  onSave(data: DatosValores): void,
 }
 
-const MonitorForm:React.FC <IMonitorFormProps> = (props) => {
+const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
   const {
     listaUnidades
   } = props;
 
   const styles = useStyles();
 
-  const [formData, setFormData] = React.useState<IMonitorFormState>({} as IMonitorFormState);
+  const [ formData, setFormData ] = React.useState<IMonitorFormState>({} as IMonitorFormState);
 
-  const handleHeaderChanges = (campo: keyof IMonitorFormState, valor:string|number):void => {
-    let objAux:IMonitorFormState = {} as IMonitorFormState
+  const handleHeaderChanges = (campo: keyof IMonitorFormState, valor: string | number): void => {
+    let objAux: IMonitorFormState = {} as IMonitorFormState
     switch (campo) {
       case 'unidad':
-        objAux= {
+        objAux = {
           ...formData,
-          }
-          console.log(Number(valor))
-          console.log(Object.keys(listaUnidades).map((item:any) => listaUnidades[item].Id).find((x:any) => x === Number(valor)));
-          console.log(listaUnidades.map((item:IUnidad) => {
-            if(item.Id === valor){
-              return item
-            }
-          }))
-          setFormData(objAux)
+          unidad: listaUnidades[ Object.keys(listaUnidades).map((item: any) => listaUnidades[ item ].Id).findIndex((x: any) => x === Number(valor)) ]
+        }
+        setFormData(objAux)
         break;
-        case 'cliente':
-        
+      case 'cliente':
+
         break;
-        case 'periodoCultivo':
-        
+      case 'periodoCultivo':
+
         break;
       default:
         break;
@@ -92,30 +86,30 @@ const MonitorForm:React.FC <IMonitorFormProps> = (props) => {
       <Title1 align="center">Monitoreo del Mercado</Title1> {/*TODO: COLOCAR EN i18n*/}
 
       <MonitorFormHeader
+        {
+        ...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
+        }
+      />
       {
-        ...{...props, cliente:formData.cliente, unidad:formData.unidad, periodoCultivo:formData.periodoCultivo, handleSelectedChange:handleHeaderChanges}
+        /*
+        <FormularioProductos
+            familia={familiaActiva}
+            valores={valoresForm[index]}
+            handleCambioValor={handleCambioValor}
+          />
+    
+          <BotonesNavegacionPagina
+            index={index}
+            max={largoLista}
+            avanzar={btnPasarClick}
+            retroceder={btnRetrocederClick}
+          />
+    
+          <h2>
+            {width}
+          </h2>*/
       }
-      />
-  {
-    /*
-    <FormularioProductos
-        familia={familiaActiva}
-        valores={valoresForm[index]}
-        handleCambioValor={handleCambioValor}
-      />
 
-      <BotonesNavegacionPagina
-        index={index}
-        max={largoLista}
-        avanzar={btnPasarClick}
-        retroceder={btnRetrocederClick}
-      />
-
-      <h2>
-        {width}
-      </h2>*/
-  }
-      
     </article>
   );
 };
