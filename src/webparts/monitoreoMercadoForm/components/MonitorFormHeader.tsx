@@ -118,7 +118,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 					placeholder={headerStrings.PlaceholderUnidad}
 					onOptionSelect={handleDpDown}
 					value={
-						unidad?.Nombre
+						unidad?.Nombre || ''
 					}
 				>
 					{listaUnidades.map((item: IUnidad) => (
@@ -141,7 +141,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 					placeholder={headerStrings.PlaceholderCliente}
 					onOptionSelect={handleDpDown}
 					value={
-						cliente?.Nombre
+						cliente?.Nombre || ''
 					}
 				>
 					{listaClientesFiltro.map((item: ICliente) => (
