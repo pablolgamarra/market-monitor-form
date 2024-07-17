@@ -18,6 +18,7 @@ define([], function() {
         "Unidad":"Company Branch",
         "Cliente": "Customer",
         "Periodo de Cultivo": "Cultivation period",
+        "PeriodoCultivoTitle":"Select Cultivation Period",
   }
 });
 

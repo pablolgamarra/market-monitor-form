@@ -25,6 +25,7 @@ declare interface IMonitorFormHeaderStrings{
   Unidad:string,
   Cliente:string,
   PeriodoCultivo:string,
+  PeriodoCultivoTitle:string,
 }
 
 declare module 'MonitorFormHeaderStrings' {

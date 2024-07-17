@@ -6,5 +6,6 @@ define([], function(){
         "Unidad": "Unidad",
         "Cliente": "Cliente",
         "PeriodoCultivo": "Periodo de Cultivo",
+        "PeriodoCultivoTitle":"Seleccione Periodo de Cultivo",
     }
 });
