@@ -13,6 +13,7 @@ import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 import MonitorFormHeader from './MonitorFormHeader';
 import { DatosValores } from './interfaces/DatosValores';
+import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
 
 const useStyles = makeStyles({
   root: {
@@ -48,7 +49,8 @@ export interface IMonitorFormState {
 const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
   const {
     listaUnidades,
-    listaClientes
+    listaClientes,
+    listaPeriodosCultivo,
   } = props;
 
   const styles = useStyles();
@@ -74,7 +76,11 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
         setFormData(objAux)
         break;
       case 'periodoCultivo':
-
+        objAux={
+          ...formData,
+          periodoCultivo: listaPeriodosCultivo[ Object.keys(listaPeriodosCultivo).map((item:any) => listaPeriodosCultivo[item].Nombre).findIndex((x:any) => x === valor)]
+        }
+        setFormData(objAux);
         break;
       default:
         break;
@@ -95,7 +101,9 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
         {
         ...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
         }
-      />
+        >
+          <MonitorFormPeriodSelector listaPeriodosCultivo={listaPeriodosCultivo} handleSelectedChange={handleHeaderChanges} />
+        </MonitorFormHeader>
       {
         /*
         <FormularioProductos

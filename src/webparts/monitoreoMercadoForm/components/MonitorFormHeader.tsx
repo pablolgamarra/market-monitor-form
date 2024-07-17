@@ -1,12 +1,17 @@
 import * as React from 'react';
 import {
+	Button,
 	Combobox,
 	Label,
 	makeStyles,
 	Option,
 	OptionOnSelectData,
+	Popover,
+	PopoverSurface,
+	PopoverTrigger,
 	SelectionEvents,
 	shorthands,
+	Subtitle1,
 } from '@fluentui/react-components';
 
 import { IUnidad } from './interfaces/IUnidad';
@@ -17,6 +22,7 @@ import { IMonitorFormState } from './MonitorForm';
 import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 
 const useStyles = makeStyles({
+	//TODO: TRABAJAR EL RESPONSIVE DESIGN
 	root: {
 		display: 'flex',
 		flexDirection: 'column',
@@ -31,8 +37,11 @@ const useStyles = makeStyles({
 		flexWrap: 'wrap',
 		'>Label': {
 			fontSize: '1.3rem',
-			marginTop: '15px',
-			marginBottom: '10px',
+			marginBottom: '5px',
+		},
+		'>button':{
+			fontSize:'1.3rem',
+			marginTop:'5px',
 		}
 	},
 	cbx: {
@@ -42,9 +51,14 @@ const useStyles = makeStyles({
 		justifyItems: 'start',
 		...shorthands.gap('2px'),
 		maxWidth: '650px',
-		marginBottom: '15px',
+		marginBottom: '10px',
 		fontSize: '1rem',
 	},
+	popoverSurface:{
+		display:'flex',
+		flexDirection:'column',
+
+	}
 });
 
 export interface IMonitorFormHeaderProps {
@@ -63,6 +77,8 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 		listaClientes,
 		unidad,
 		cliente,
+		periodoCultivo,
+		children,
 		handleSelectedChange
 	} = props;
 
@@ -77,21 +93,19 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 
 			let elementName;
 
-			if(event.tagName === 'svg' || event.tagName === 'path'){
+			if (event.tagName === 'svg' || event.tagName === 'path') {
 				elementName = event.parentElement?.parentElement?.firstElementChild?.getAttribute('name');
-				if(event.parentElement?.tagName === 'svg'){
+				if (event.parentElement?.tagName === 'svg') {
 					elementName = event.parentElement?.parentElement?.parentElement?.firstElementChild?.getAttribute('name')
 				}
-				console.log('SVG CLICKEADO')
-				console.log(data)
-			}else{
+			} else {
 				elementName = document
-				.querySelector(
-					`[aria-controls=${event.parentElement?.getAttribute(
-						'id',
-					)}]`,
-				)
-				?.getAttribute('name');
+					.querySelector(
+						`[aria-controls=${event.parentElement?.getAttribute(
+							'id',
+						)}]`,
+					)
+					?.getAttribute('name');
 			}
 
 
@@ -109,52 +123,73 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 
 	return (
 		<section className={styles.root}>
-			<article className={styles.formHeaderCbxContainer}>
-				<Label htmlFor='unidad' size='large' required>{headerStrings.Unidad}</Label>
-				<Combobox
-					id='cbxUnidad'
-					name='unidad'
-					className={styles.cbx}
-					placeholder={headerStrings.PlaceholderUnidad}
-					onOptionSelect={handleDpDown}
-					value={
-						unidad?.Nombre || ''
-					}
-				>
-					{listaUnidades.map((item: IUnidad) => (
-						<Option
-							value={item?.Id?.toString()}
-							key={item.Id}
-							text="Unidad"
+			{!periodoCultivo ?
+				<>
+					{children}
+				</>
+				:
+				<>
+					<article className={styles.formHeaderCbxContainer}>
+						<Label htmlFor='unidad' size='large' required>{headerStrings.Unidad}</Label>
+						<Combobox
+							name='unidad'
+							className={styles.cbx}
+							placeholder={headerStrings.PlaceholderUnidad}
+							onOptionSelect={handleDpDown}
+							value={
+								unidad?.Nombre || ''
+							}
 						>
-							{item.Nombre}
-						</Option>
-					))}
-				</Combobox>
-			</article>
-			<article className={styles.formHeaderCbxContainer}>
-				<Label htmlFor='cliente' size='large' required>{headerStrings.Cliente}</Label>
-				<Combobox
-					id='cbxClient'
-					name='cliente'
-					className={styles.cbx}
-					placeholder={headerStrings.PlaceholderCliente}
-					onOptionSelect={handleDpDown}
-					value={
-						cliente?.Nombre || ''
-					}
-				>
-					{listaClientesFiltro.map((item: ICliente) => (
-						<Option
-							value={item?.Id?.toString()}
-							key={item.Id}
-							text="Cliente"
+							{listaUnidades.map((item: IUnidad) => (
+								<Option
+									value={item?.Id?.toString()}
+									key={item.Id}
+									text="Unidad"
+								>
+									{item.Nombre}
+								</Option>
+							))}
+						</Combobox>
+
+						<Label htmlFor='cliente' size='large' required>{headerStrings.Cliente}</Label>
+						<Combobox
+							name='cliente'
+							className={styles.cbx}
+							placeholder={headerStrings.PlaceholderCliente}
+							onOptionSelect={handleDpDown}
+							value={
+								cliente?.Nombre || ''
+							}
 						>
-							{item.Nombre}
-						</Option>
-					))}
-				</Combobox>
-			</article>
+							{listaClientesFiltro.map((item: ICliente) => (
+								<Option
+									value={item?.Id?.toString()}
+									key={item.Id}
+									text="Cliente"
+								>
+									{item.Nombre}
+								</Option>
+							))}
+						</Combobox>
+						<Popover inline closeOnScroll>
+							<PopoverTrigger disableButtonEnhancement>
+								<Button>
+									Periodo de Cultivo
+								</Button>
+							</PopoverTrigger>
+
+							<PopoverSurface tabIndex={-1} className={styles.popoverSurface}>
+								<Subtitle1>
+									Periodo de Cultivo Seleccionado
+								</Subtitle1>
+								<Label>
+									{periodoCultivo.Nombre}
+								</Label>
+							</PopoverSurface>
+					</Popover>
+					</article>
+				</>
+			}
 		</section>
 	);
 };
