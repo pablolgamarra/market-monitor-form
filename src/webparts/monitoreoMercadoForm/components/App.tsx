@@ -51,6 +51,7 @@ const App: React.FC<AppProps> = (props) => {
         isEmpty(props.listaPeriodosCultivo) ? (
           <>
             <Title1>Error en la Aplicación</Title1>
+            <hr/>
             <Title2>Comuníquese con el Departamento de T.I.</Title2>
           </>
       ) : (
