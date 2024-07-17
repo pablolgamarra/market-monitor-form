@@ -61,7 +61,8 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
       case 'unidad':
         objAux = {
           ...formData,
-          unidad: listaUnidades[ Object.keys(listaUnidades).map((item: any) => listaUnidades[ item ].Id).findIndex((x: any) => x === Number(valor)) ]
+          unidad: listaUnidades[ Object.keys(listaUnidades).map((item: any) => listaUnidades[ item ].Id).findIndex((x: any) => x === Number(valor)) ],
+          cliente: undefined,
         }
         setFormData(objAux)
         break;
