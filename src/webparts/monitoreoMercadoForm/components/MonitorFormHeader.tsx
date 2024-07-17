@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 		flexWrap: 'wrap',
 		'>Label': {
 			fontSize: '1.3rem',
-			marginTop: '20px',
+			marginTop: '15px',
 			marginBottom: '10px',
 		}
 	},

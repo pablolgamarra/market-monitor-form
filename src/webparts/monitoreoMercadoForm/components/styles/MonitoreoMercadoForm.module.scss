@@ -9,6 +9,7 @@ $fonts: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSyste
 
 *{
   font-family: $fonts;
+  color:$textColor;
 }
 
 .formTitle{
