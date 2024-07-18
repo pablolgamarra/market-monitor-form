@@ -43,6 +43,8 @@ export interface FamiliaProductosResponseValue {
 	Id: number;
 	Title: string;
 	UnidaddeMedida: string;
+	PeriododeCultivoId: number|undefined;
+	Activo: boolean;
 	ID: number;
 }
 

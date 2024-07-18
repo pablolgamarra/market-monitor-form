@@ -4,6 +4,6 @@ export interface IFamiliaProducto{
     Id:number,
     Nombre:string,
     UnidadMedida:string,
-    PeriodoCultivo:IPeriodoCultivo,
+    PeriodoCultivo:IPeriodoCultivo|undefined,
     Estado:boolean
 }
