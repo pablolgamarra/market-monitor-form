@@ -48,7 +48,8 @@ const App: React.FC<AppProps> = (props) => {
       {isEmpty(props.listaClientes) ||
         isEmpty(props.listaUnidades) ||
         isEmpty(props.listaFamiliasProducto) ||
-        isEmpty(props.listaPeriodosCultivo) ? (
+        isEmpty(props.listaPeriodosCultivo)||
+        isEmpty(props.listaProveedores) ? (
           <>
             <Title1>Error en la Aplicación</Title1>
             <hr/>
