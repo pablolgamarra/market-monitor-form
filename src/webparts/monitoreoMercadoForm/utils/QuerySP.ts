@@ -31,6 +31,7 @@ import {
 import { DatosMercadoValue } from './RequestTypes';
 import { ICoordinador } from '../components/interfaces/ICoordinador';
 
+
 //TODO:COLOCAR NOMBRE DE LA APLICACION Y DEMAS COMO VARIABLES DINAMICAS
 
 const getUnidades = async (
@@ -132,39 +133,6 @@ const getClientes = async (
 		});
 };
 
-const getFamiliaProductos = async (
-	urlBase: string,
-	context: WebPartContext,
-): Promise<IFamiliaProducto[]> => {
-	const head: ISPHttpClientOptions = {
-		headers: { Accept: 'Application/json' },
-	};
-	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida`;
-
-	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
-		.then((respuesta: SPHttpClientResponse) => {
-			if (respuesta.status === 200) {
-				return respuesta.json();
-			}
-			return [];
-		})
-		.then((data: FamiliaProductosResponse) => {
-			const familiasProductos: IFamiliaProducto[] = data.value.map(
-				(item: FamiliaProductosResponseValue) => ({
-					Id: item.Id,
-					Nombre: item.Title,
-					UnidadMedida: item.UnidaddeMedida,
-				}),
-			);
-			return familiasProductos;
-		})
-		.catch((e: Error) => {
-			console.log(`Error listando familia de productos: ${e}`);
-			return [];
-		});
-};
-
 const getProveedores = async (
 	urlBase: string,
 	context: WebPartContext,
@@ -198,7 +166,7 @@ const getProveedores = async (
 		});
 };
 
-const getPeriodosCultivo = (
+const getPeriodosCultivo = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<IPeriodoCultivo[]> => {
@@ -231,7 +199,76 @@ const getPeriodosCultivo = (
 		});
 };
 
-const getCoordinadores = (
+const getPeriodoCultivo = async (
+	urlBase:string,
+	context:WebPartContext,
+	id:number
+):Promise<IPeriodoCultivo|undefined> =>{
+	const head:ISPHttpClientOptions = {
+		headers: {Accept:"Application/json"},
+	}
+
+	const url:string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Periodos Cultivo')/items/?$filter=ID eq ${id}&$select=ID, Title`;
+
+	return context.spHttpClient.get(url, SPHttpClient.configurations.v1, head).then((respuesta:SPHttpClientResponse) => {
+		if(respuesta.status == 200){
+			return respuesta.json()
+		}
+		return undefined
+	})
+	.then((data:PeriodosCultivoResponse) => {
+		const periodoCultivo:IPeriodoCultivo|undefined = data.value.map((item:PeriodosCultivoResponseValue) => ({
+			Id:item.ID,
+			Nombre: item.Title,
+		})).find((item:IPeriodoCultivo) => item.Id === id);
+
+		return periodoCultivo
+	}).catch((err) => {
+		console.log(`Error al listar Periodos de Cultivo: ${err}`)
+		return undefined
+	})
+}
+
+const getFamiliasProductos = async (
+	urlBase: string,
+	context: WebPartContext,
+): Promise<IFamiliaProducto[]> => {
+	const head: ISPHttpClientOptions = {
+		headers: { Accept: 'Application/json' },
+	};
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida`;
+
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, head)
+		.then((respuesta: SPHttpClientResponse) => {
+			if (respuesta.status === 200) {
+				return respuesta.json();
+			}
+			return [];
+		})
+		.then(async(data: FamiliaProductosResponse) => {
+			const familiasProductos: IFamiliaProducto[] | undefined = await Promise.all(data.value.map(
+				async(item: FamiliaProductosResponseValue) => {
+					const periodoCultivo:IPeriodoCultivo|undefined = await getPeriodoCultivo(url, context, item.Id)
+					
+					return{
+						Id: item.Id,
+						Nombre: item.Title,
+						UnidadMedida: item.UnidaddeMedida,
+						PeriodoCultivo: periodoCultivo,
+						Estado: item.Activo,
+					}
+				}
+			))
+			return familiasProductos;
+		})
+		.catch((e: Error) => {
+			console.log(`Error listando familia de productos: ${e}`);
+			return [];
+		});
+};
+
+const getCoordinadores = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<ICoordinador[]> => {
@@ -241,7 +278,7 @@ const getCoordinadores = (
 		},
 	};
 
-	const url: string = `${urlBase}/Apps/monitoreo-mercado/lists/getByTitle('Coordinadores')/items/?$select=Id,Title`;
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Coordinadores')/items/?$select=Id, Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, head)
@@ -304,7 +341,7 @@ const registrarDatos = async (
 export {
 	getUnidades,
 	getClientes,
-	getFamiliaProductos,
+	getFamiliasProductos,
 	getPeriodosCultivo,
 	getProveedores,
 	getCoordinadores,
