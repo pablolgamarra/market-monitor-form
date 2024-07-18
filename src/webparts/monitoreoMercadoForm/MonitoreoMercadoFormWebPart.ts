@@ -14,7 +14,7 @@ import * as strings from 'MonitoreoMercadoFormWebPartStrings';
 import {
   getClientes,
   getCoordinadores,
-  getFamiliaProductos,
+  getFamiliasProductos,
   getPeriodosCultivo,
   getProveedores,
   getUnidades,
@@ -33,7 +33,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 
     const listaUnidades = await getUnidades(url, context);
     const listaClientes = await getClientes(url, context);
-    const listaFamiliasProductos = await getFamiliaProductos(url, context);
+    const listaFamiliasProductos = await getFamiliasProductos(url, context);
     const listaPeriodosCultivo = await getPeriodosCultivo(url, context);
     const listaProveedores = await getProveedores(url, context);
     const listaCoordinadores = await getCoordinadores(url, context);

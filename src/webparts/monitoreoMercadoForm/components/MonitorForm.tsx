@@ -14,6 +14,8 @@ import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 import MonitorFormHeader from './MonitorFormHeader';
 import { DatosValores } from './interfaces/DatosValores';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
+import MonitorFormProducts from './MonitorFormProducts';
+import { IProveedor } from './interfaces/IProveedor';
 
 const useStyles = makeStyles({
   root: {
@@ -37,6 +39,7 @@ export interface IMonitorFormProps {
   listaUnidades: IUnidad[];
   listaFamiliasProducto: IFamiliaProducto[];
   listaPeriodosCultivo: IPeriodoCultivo[];
+  listaProveedores: IProveedor[];
 }
 
 export interface IMonitorFormState {
@@ -51,6 +54,8 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
     listaUnidades,
     listaClientes,
     listaPeriodosCultivo,
+    listaFamiliasProducto,
+    listaProveedores,
   } = props;
 
   const styles = useStyles();
@@ -76,10 +81,11 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
         setFormData(objAux)
         break;
       case 'periodoCultivo':
-        objAux={
+        objAux = {
           ...formData,
-          periodoCultivo: listaPeriodosCultivo[ Object.keys(listaPeriodosCultivo).map((item:any) => listaPeriodosCultivo[item].Nombre).findIndex((x:any) => x === valor)]
+          periodoCultivo: listaPeriodosCultivo[ Object.keys(listaPeriodosCultivo).map((item: any) => listaPeriodosCultivo[ item ].Nombre).findIndex((x: any) => x === valor) ]
         }
+        console.log(objAux);
         setFormData(objAux);
         break;
       default:
@@ -96,14 +102,19 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
         width={'150px'}
       />
       <Title1 align="center">Monitoreo del Mercado</Title1> {/*TODO: COLOCAR EN i18n*/}
-
-      <MonitorFormHeader
-        {
-        ...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
-        }
-        >
-          <MonitorFormPeriodSelector listaPeriodosCultivo={listaPeriodosCultivo} handleSelectedChange={handleHeaderChanges} />
-        </MonitorFormHeader>
+      <>
+      {!formData.periodoCultivo ? 
+        <MonitorFormPeriodSelector listaPeriodosCultivo={listaPeriodosCultivo} handleSelectedChange={handleHeaderChanges} />
+:
+<>
+<MonitorFormHeader
+{
+...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
+}
+/>
+        <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores}/>
+</>      }
+      </>
       {
         /*
         <FormularioProductos
