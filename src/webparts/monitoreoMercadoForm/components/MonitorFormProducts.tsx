@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Input, Combobox, Option, Title2, Button, Text, Body2, makeStyles } from "@fluentui/react-components";
+import { Input, Combobox, Option, Title2, Button, Text, Body2, makeStyles, Field } from "@fluentui/react-components";
 import {
 	ArrowLeftFilled,
 	ArrowRightFilled,
@@ -18,17 +18,17 @@ export interface IMonitorFormProductsProps{
   periodoCultivo:IPeriodoCultivo|undefined,
 }
 
-// interface IProductValueState{
-//   familiaProducto:IFamiliaProducto|undefined,
-//   volumenComprado:string|undefined,
-//   precioPorMedida:number|undefined,
-//   condicionPago:string|undefined,
-//   proveedorPrincipal:IProveedor|undefined,
-// }
+interface IProductValueState{
+  familiaProducto:IFamiliaProducto|undefined,
+  volumenComprado:string|undefined,
+  precioPorMedida:number|undefined,
+  condicionPago:string|undefined,
+  proveedorPrincipal:IProveedor|undefined,
+}
 
-// interface IMonitorFormProductsState{
-//   valoresFormProducts:IProductValueState[],
-// }
+interface IMonitorFormProductsState{
+  valoresFormProducts:(IProductValueState|undefined)[],
+}
 
 const useStyles = makeStyles({
 	NavegacionContainer: {
@@ -53,8 +53,7 @@ const useStyles = makeStyles({
 
 const MonitorFormProducts:React.FC<IMonitorFormProductsProps> = (props) =>{
   const {listaFamiliasProducto, listaProveedores, periodoCultivo} = props
-  const volumen:number[] = Array.from({length:11}, (item:any) => item+10)
-
+  const volumen:number[] = [...Array(11).keys()].map((value:number) => value * 10)
 // [
 //   estadoUnProducto:IProductValueState,
 //   estadoUnProducto:IProductValueState
@@ -67,7 +66,7 @@ const MonitorFormProducts:React.FC<IMonitorFormProductsProps> = (props) =>{
   //Component Style
   const styles = useStyles()
 
-  //const [productValues, setProductValues] = React.useState<IMonitorFormProductsState>({} as IMonitorFormProductsState)
+  const [productValues, setProductValues] = React.useState<IMonitorFormProductsState>({} as IMonitorFormProductsState)
   const [index, setIndex] = React.useState<number>(0);
   const listaProductosFiltro:IFamiliaProducto[] = listaFamiliasProducto.filter((item:IFamiliaProducto) => item.PeriodoCultivo?.Id === periodoCultivo?.Id)
 
@@ -94,14 +93,14 @@ const MonitorFormProducts:React.FC<IMonitorFormProductsProps> = (props) =>{
     const indexNuevo = index+1 < largoLista ? index+1 : index
     setIndex(indexNuevo)
     
-    // let objAux:IProductValueState = {} as IProductValueState
+      let objAux:IProductValueState|undefined = {} as IProductValueState
 
-    // objAux = productValues.valoresFormProducts[indexNuevo]
+      objAux = productValues.valoresFormProducts[indexNuevo]
 
-    // setProductValues({
-    //   ...productValues, 
-    //   valoresFormProducts: [...productValues.valoresFormProducts]
-    // })
+      setProductValues({
+        ...productValues, 
+        valoresFormProducts: [objAux]
+      })
   },
     [setIndex]
   )
@@ -137,35 +136,69 @@ const MonitorFormProducts:React.FC<IMonitorFormProductsProps> = (props) =>{
   //   }
   // };
 
+
+  console.log(productValues.valoresFormProducts[index] || '')
+
   return(
     <section>
       <Title2>
         {listaProductosFiltro[index].Nombre}
       </Title2>
-      <form>
-        <Input/>
-        <Combobox>
-      {
-        volumen.map((item:number) => (
-          <Option key={item}>
-            {`${item}%`}
-          </Option>
-        ))
-      }
-    </Combobox>
-        <Input/>
-        <Combobox>
-          <Option>Crédito</Option>
-          <Option>Contado</Option>
-        </Combobox>
-        <Combobox>
-          {listaProveedores.map((item:IProveedor) => (
-            <Option key={item.Id} text='Opcion' value={item.Id?.toString()}>
-              {item.Nombre}
-            </Option>
-          ))}
-        </Combobox>
-      </form>
+        <form>
+          <Field
+            label={'Volumen Ya Comprado'}
+            required
+          >
+            <Combobox
+              placeholder={`Seleccione volumen ya comprado`}
+              value={productValues?.valoresFormProducts[index]?.volumenComprado || ''}
+            >
+              {
+                volumen.map((item:number) => (
+                  <Option value={`${item}%`} key={item}>
+                    {`${item}%`}
+                  </Option>
+                ))
+              }
+            </Combobox>
+          </Field>
+          <Field
+            label={`Precio por ${listaProductosFiltro[index].UnidadMedida}`}
+            required
+          >
+              <Input 
+                placeholder={`Seleccionar precio por ${listaProductosFiltro[index].UnidadMedida}`}
+                value={productValues?.valoresFormProducts[index]?.precioPorMedida?.toString() || ''}
+              />
+          </Field>
+          <Field
+            label={`Condición de Pago`}
+            required
+          >
+            <Combobox
+            placeholder={'Seleccione condicion de pago'}
+            value={productValues?.valoresFormProducts[index]?.condicionPago || ''}
+            >
+              <Option>Crédito</Option>
+              <Option>Contado</Option>
+            </Combobox>
+          </Field>
+          <Field
+            label={`Proveedor Principal`}
+            required
+          >
+            <Combobox
+              placeholder="Seleccione Proveedor Principal"
+              value={productValues?.valoresFormProducts[index]?.proveedorPrincipal?.Nombre || ''}
+            >
+              {listaProveedores.map((item:IProveedor) => (
+                <Option key={item.Id} text='Opcion' value={item.Id?.toString()}>
+                  {item.Nombre}
+                </Option>
+              ))}
+            </Combobox>
+          </Field>
+        </form>
       <div className={`${styles.BotonesContainer}`}>
 				{index > 0 && (
 					<Button
