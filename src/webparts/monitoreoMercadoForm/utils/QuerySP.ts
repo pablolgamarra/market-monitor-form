@@ -202,7 +202,7 @@ const getPeriodosCultivo = async (
 const getPeriodoCultivo = async (
 	urlBase:string,
 	context:WebPartContext,
-	id:number
+	id:number|undefined
 ):Promise<IPeriodoCultivo|undefined> =>{
 	const head:ISPHttpClientOptions = {
 		headers: {Accept:"Application/json"},
@@ -236,7 +236,7 @@ const getFamiliasProductos = async (
 	const head: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
-	const url:string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida`;
+	const url:string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida,PeriododeCultivoId`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, head)
@@ -249,7 +249,7 @@ const getFamiliasProductos = async (
 		.then(async(data: FamiliaProductosResponse) => {
 			const familiasProductos: IFamiliaProducto[] | undefined = await Promise.all(data.value.map(
 				async(item: FamiliaProductosResponseValue) => {
-					const periodoCultivo:IPeriodoCultivo|undefined = await getPeriodoCultivo(urlBase, context, item.Id)
+					const periodoCultivo:IPeriodoCultivo|undefined = await getPeriodoCultivo(urlBase, context, item.PeriododeCultivoId)
 					
 					return{
 						Id: item.Id,
@@ -309,9 +309,11 @@ const registrarDatos = async (
 	context: WebPartContext,
 ): Promise<boolean> => {
 	const url = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Datos Mercado')/items`;
+
 	const head: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
+
 	const datos: DatosMercadoValue = {
 		ClienteId: data.idCliente,
 		VolumenYaComprado: data.volumenComprado,
