@@ -199,6 +199,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 		[handleSelectedChanges],
 	);
 
+	//TODO: Configurar estilo de los botones para que el texto que indica la pagina se muestre correctamente
 	return (
 		<section>
 			<Title2>{listaProductosFiltro[index].Nombre}</Title2>
