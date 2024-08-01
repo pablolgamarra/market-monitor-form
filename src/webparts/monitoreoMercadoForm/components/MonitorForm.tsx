@@ -103,17 +103,17 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
       />
       <Title1 align="center">Monitoreo del Mercado</Title1> {/*TODO: COLOCAR EN i18n*/}
       <>
-      {!formData.periodoCultivo ? 
-        <MonitorFormPeriodSelector listaPeriodosCultivo={listaPeriodosCultivo} handleSelectedChange={handleHeaderChanges} />
-:
-<>
-<MonitorFormHeader
-{
-...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
-}
-/>
-        <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores}/>
-</>      }
+        {!formData.periodoCultivo ?
+          <MonitorFormPeriodSelector listaPeriodosCultivo={listaPeriodosCultivo} handleSelectedChange={handleHeaderChanges} />
+          :
+          <>
+            <MonitorFormHeader
+              {
+              ...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
+              }
+            />
+            <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} />
+          </>}
       </>
       {
         /*
