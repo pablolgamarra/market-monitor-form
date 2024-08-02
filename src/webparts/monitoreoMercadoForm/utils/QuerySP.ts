@@ -9,7 +9,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { IUnidad } from '../components/interfaces/IUnidad';
 import { ICliente } from '../components/interfaces/ICliente';
 import { IFamiliaProducto } from '../components/interfaces/IFamiliaProducto';
-import { DatosValores } from '../components/interfaces/DatosValores';
+import { DatosValores } from '../components/interfaces/InformacionMercado';
 import { IProveedor } from '../components/interfaces/IProveedor';
 import { IPeriodoCultivo } from '../components/interfaces/IPeriodoCultivo';
 
@@ -308,7 +308,7 @@ const registrarDatos = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<boolean> => {
-	const url = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Datos Mercado')/items`;
+	const url = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Informacion Mercado')/items`;
 
 	const head: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },

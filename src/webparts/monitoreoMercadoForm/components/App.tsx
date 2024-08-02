@@ -5,7 +5,7 @@ import { IUnidad } from './interfaces/IUnidad';
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import { registrarDatos } from '../utils/QuerySP';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { DatosValores } from './interfaces/DatosValores';
+import { InformacionMercado } from './interfaces/InformacionMercado';
 import { isEmpty } from '@microsoft/sp-lodash-subset';
 import {
   FluentProvider,
@@ -31,8 +31,10 @@ export interface AppProps {
   width:number;
 }
 
+//TODO: Estilar min-width para la app a full 320 px.
+
 const App: React.FC<AppProps> = (props) => {
-  const onSave = (data: DatosValores): void => {
+  const onSave = (data: InformacionMercado): void => {
     registrarDatos(data, props.url, props.context)
       .then(() => {
         alert('Datos Guardados Correctamente');

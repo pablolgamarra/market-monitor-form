@@ -12,7 +12,7 @@ import { IUnidad } from './interfaces/IUnidad';
 import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
 import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 import MonitorFormHeader from './MonitorFormHeader';
-import { DatosValores } from './interfaces/DatosValores';
+import { InformacionMercado } from './interfaces/InformacionMercado';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
 import MonitorFormProducts from './MonitorFormProducts';
 import { IProveedor } from './interfaces/IProveedor';
@@ -46,7 +46,7 @@ export interface IMonitorFormState {
   unidad: IUnidad | undefined,
   cliente: ICliente | undefined,
   periodoCultivo: IPeriodoCultivo | undefined,
-  onSave(data: DatosValores): void,
+  onSave(data: InformacionMercado): void,
 }
 
 const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
@@ -115,26 +115,6 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
             <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} />
           </>}
       </>
-      {
-        /*
-        <FormularioProductos
-            familia={familiaActiva}
-            valores={valoresForm[index]}
-            handleCambioValor={handleCambioValor}
-          />
-    
-          <BotonesNavegacionPagina
-            index={index}
-            max={largoLista}
-            avanzar={btnPasarClick}
-            retroceder={btnRetrocederClick}
-          />
-    
-          <h2>
-            {width}
-          </h2>*/
-      }
-
     </article>
   );
 };

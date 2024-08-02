@@ -36,6 +36,7 @@ const useStyles = makeStyles({
 		paddingRight: '60px',
 		flexWrap: 'wrap',
 		'>Label': {
+			color: 'currentcolor',
 			fontSize: '1.3rem',
 			marginBottom: '5px',
 		},
@@ -57,8 +58,10 @@ const useStyles = makeStyles({
 	popoverSurface:{
 		display:'flex',
 		flexDirection:'column',
-
-	}
+	},
+	button:{
+		color:'currentcolor'
+	},
 });
 
 export interface IMonitorFormHeaderProps {
@@ -133,7 +136,6 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 						<Label htmlFor='unidad' size='large' required>{headerStrings.Unidad}</Label>
 						<Combobox
 							name='unidad'
-							className={styles.cbx}
 							placeholder={headerStrings.PlaceholderUnidad}
 							onOptionSelect={handleDpDown}
 							value={
@@ -154,7 +156,6 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 						<Label htmlFor='cliente' size='large' required>{headerStrings.Cliente}</Label>
 						<Combobox
 							name='cliente'
-							className={styles.cbx}
 							placeholder={headerStrings.PlaceholderCliente}
 							onOptionSelect={handleDpDown}
 							value={
@@ -173,8 +174,8 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 						</Combobox>
 						<Popover inline closeOnScroll>
 							<PopoverTrigger disableButtonEnhancement>
-								<Button>
-									Periodo de Cultivo
+								<Button className={`${styles.button}`}>
+									Periodo de Cultivo Seleccionado
 								</Button>
 							</PopoverTrigger>
 

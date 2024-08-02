@@ -1,7 +1,7 @@
 import { ICliente } from "./ICliente";
 import { IFamiliaProducto } from "./IFamiliaProducto";
 import { IUnidad } from "./IUnidad";
-import {DatosValores} from './DatosValores';
+import {DatosValores} from './InformacionMercado';
 
 export interface IFormMonitoreoProps {
   listaClientes: ICliente[],
