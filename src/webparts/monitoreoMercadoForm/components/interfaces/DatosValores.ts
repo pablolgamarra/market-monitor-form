@@ -1,9 +1,10 @@
-export interface DatosValores{
+export interface InformacionMercado{
     idCliente: number,
     idUnidad: number,
     idFamilia: number,
     volumenComprado: string,
-    precio: number,
+    precioPorMedida: number,
     condicionPago: string,
-    proveedorPrincipal: string,
+    idProveedorPrincipal: number,
+    idPeriodoCultivo:number
 }
