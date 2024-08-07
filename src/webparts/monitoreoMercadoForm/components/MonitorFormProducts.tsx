@@ -28,7 +28,7 @@ export interface IMonitorFormProductsProps {
 	listaFamiliasProducto: IFamiliaProducto[];
 	listaProveedores: IProveedor[];
 	periodoCultivo: IPeriodoCultivo | undefined;
-	saveData?(data:IProductValueState[]):void;
+	saveData(data:IProductValueState[]):void;
 }
 
 export interface IProductValueState {
@@ -73,7 +73,7 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo} = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo, saveData} = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
@@ -166,6 +166,9 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 		}
 	};
 
+	const validateFields = (values:IProductValueState):boolean=>{
+		return Object.keys(values).length !== 5
+	}
 
 	const handleBtnRetrocesoClick = React.useCallback(() => {
 		const indexNuevo = index - 1 > -1 ? index - 1 : index;
@@ -175,11 +178,10 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 	const handleBtnAvanzarClick = React.useCallback(() => {
 		const indexNuevo = index + 1 < largoLista ? index + 1 : index;
 		setIndex(indexNuevo);
-		console.log(listaProductosFiltro[indexNuevo].Nombre)
 		handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
 
 		if(indexNuevo + 1 === largoLista){
-			console.log(productValues)
+			saveData(productValues)
 		}
 	}, [ setIndex ]);
 
@@ -337,6 +339,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 						onClick={handleBtnAvanzarClick}
 						appearance='primary'
 						shape='rounded'
+						disabled={validateFields(productValues[index])}
 						icon={
 							index + 1 === largoLista ? (
 								<SaveRegular />
