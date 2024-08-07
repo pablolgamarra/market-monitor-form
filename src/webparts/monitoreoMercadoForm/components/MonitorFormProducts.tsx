@@ -28,10 +28,11 @@ export interface IMonitorFormProductsProps {
 	listaFamiliasProducto: IFamiliaProducto[];
 	listaProveedores: IProveedor[];
 	periodoCultivo: IPeriodoCultivo | undefined;
+	saveData?(data:IProductValueState[]):void;
 }
 
-interface IProductValueState {
-	familiaProducto: IFamiliaProducto | undefined;
+export interface IProductValueState {
+	familiaProducto: IFamiliaProducto|undefined;
 	volumenComprado: string | undefined;
 	precioPorMedida: number | undefined;
 	condicionPago: string | undefined;
@@ -72,7 +73,7 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo } = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo} = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
@@ -89,25 +90,14 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 
 	const [ productValues, setProductValues ] = React.useState<
 		IProductValueState[]
-	>(Array.from({ length: largoLista }, () => ({} as IProductValueState)));
+	>(Array.from({ length: largoLista }, () => ({familiaProducto:listaProductosFiltro[0]} as IProductValueState)));
 	const [ index, setIndex ] = React.useState<number>(0);
-
-	const handleBtnRetrocesoClick = React.useCallback(() => {
-		const indexNuevo = index - 1 > -1 ? index - 1 : index;
-		setIndex(indexNuevo);
-	}, [ setIndex ]);
-
-	const handleBtnAvanzarClick = React.useCallback(() => {
-		const indexNuevo = index + 1 < largoLista ? index + 1 : index;
-		setIndex(indexNuevo);
-	}, [ setIndex ]);
 
 	const handleSelectedChanges = (
 		campo: keyof IProductValueState,
 		valor: string | undefined,
 	): void => {
 		let objAux: IProductValueState[];
-		console.log(productValues);
 		switch (campo) {
 			case 'condicionPago':
 				objAux = [ ...productValues ];
@@ -117,9 +107,6 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 						objAux[ i ].condicionPago = valor;
 					}
 				});
-
-				setProductValues(objAux);
-				break;
 
 				setProductValues(objAux);
 				break;
@@ -159,11 +146,42 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 
 				setProductValues(objAux);
 				break;
+			case 'familiaProducto':
+				objAux = [ ...productValues ];
+
+				objAux.map((productValue: IProductValueState, i: number) => {
+					if (i === index+1) {
+						objAux[ i ].familiaProducto = listaProductosFiltro.find(
+							(familia: IFamiliaProducto) =>
+								familia.Nombre === valor,
+						);
+					}
+				});
+
+				setProductValues(objAux);
+				break;
 			default:
 				console.log('Campo no switcheable');
 				break;
 		}
 	};
+
+
+	const handleBtnRetrocesoClick = React.useCallback(() => {
+		const indexNuevo = index - 1 > -1 ? index - 1 : index;
+		setIndex(indexNuevo);
+	}, [ setIndex ]);
+
+	const handleBtnAvanzarClick = React.useCallback(() => {
+		const indexNuevo = index + 1 < largoLista ? index + 1 : index;
+		setIndex(indexNuevo);
+		console.log(listaProductosFiltro[indexNuevo].Nombre)
+		handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
+
+		if(indexNuevo + 1 === largoLista){
+			console.log(productValues)
+		}
+	}, [ setIndex ]);
 
 	const handleCbxChanges = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
@@ -211,7 +229,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 
 	return (
 		<section className={`${styles.FormContainer}`}>
-			<Title2>{listaProductosFiltro[ index ].Nombre}</Title2>
+			<Title2>{productValues[index].familiaProducto?.Nombre}</Title2>
 			<form>
 				<Field
 					className={`${styles.Input}`}
