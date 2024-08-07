@@ -14,7 +14,7 @@ import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 import MonitorFormHeader from './MonitorFormHeader';
 import { InformacionMercado } from './interfaces/InformacionMercado';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
-import MonitorFormProducts from './MonitorFormProducts';
+import MonitorFormProducts, { IProductValueState } from './MonitorFormProducts';
 import { IProveedor } from './interfaces/IProveedor';
 
 const useStyles = makeStyles({
@@ -43,9 +43,9 @@ export interface IMonitorFormProps {
 }
 
 export interface IMonitorFormState {
-  unidad: IUnidad | undefined,
-  cliente: ICliente | undefined,
-  periodoCultivo: IPeriodoCultivo | undefined,
+  unidad: IUnidad|undefined,
+  cliente: ICliente|undefined,
+  periodoCultivo: IPeriodoCultivo,
   onSave(data: InformacionMercado): void,
 }
 
@@ -93,6 +93,21 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
     }
   }
 
+  const handleSaveData = (data:IProductValueState[])=>{
+    /* const data2Save:InformacionMercado[] = data.map((productValue:IProductValueState) => (
+      {
+        idCliente:formData.cliente.Id,
+        idUnidad:formData.unidad.Id,
+        idPeriodoCultivo:formData.periodoCultivo.Id,
+        idFamilia:productValue.familiaProducto?.Id,
+        idProveedorPrincipal:productValue.proveedorPrincipal?.Id,
+        condicionPago:productValue.condicionPago,
+        precioPorMedida:productValue.precioPorMedida,
+        volumenComprado:productValue.volumenComprado,
+      }
+    )) */
+  }
+
   return (
     <article className={styles.root}>
       <Image
@@ -112,8 +127,14 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
               ...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
               }
             />
-            <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} />
-          </>}
+            {
+              formData.unidad && formData.cliente ?
+              <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} saveData={handleSaveData}/>
+              :
+              <></>
+            }
+          </>
+        }
       </>
     </article>
   );
