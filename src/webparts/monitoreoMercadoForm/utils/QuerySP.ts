@@ -9,7 +9,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { IUnidad } from '../components/interfaces/IUnidad';
 import { ICliente } from '../components/interfaces/ICliente';
 import { IFamiliaProducto } from '../components/interfaces/IFamiliaProducto';
-import { DatosValores } from '../components/interfaces/InformacionMercado';
+import { InformacionMercado } from '../components/interfaces/InformacionMercado';
 import { IProveedor } from '../components/interfaces/IProveedor';
 import { IPeriodoCultivo } from '../components/interfaces/IPeriodoCultivo';
 
@@ -28,8 +28,9 @@ import {
 	CoordinadoresResponseValue,
 } from './ResponseTypes';
 
-import { DatosMercadoValue } from './RequestTypes';
+import { InformacionMercadoValue } from './RequestTypes';
 import { ICoordinador } from '../components/interfaces/ICoordinador';
+import generateBatchString from './GenerateBatchString';
 
 
 //TODO:COLOCAR NOMBRE DE LA APLICACION Y DEMAS COMO VARIABLES DINAMICAS
@@ -303,8 +304,8 @@ const getCoordinadores = async (
 		});
 };
 
-const registrarDatos = async (
-	data: DatosValores,
+const registrarDato = async (
+	data: InformacionMercado,
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<boolean> => {
@@ -314,14 +315,15 @@ const registrarDatos = async (
 		headers: { Accept: 'Application/json' },
 	};
 
-	const datos: DatosMercadoValue = {
-		ClienteId: data.idCliente,
+	const datos: InformacionMercadoValue = {
+		/* ClienteId: data.idCliente,
 		VolumenYaComprado: data.volumenComprado,
 		Familia_x0020_de_x0020_ProductoId: data.idFamilia,
-		ProveedorPrincipal: data.proveedorPrincipal,
-		Precio: data.precio,
+		Proveedor_x0020_PrincipalId: data.idProveedorPrincipal,
+		Precio: data.precioPorMedida,
 		Condici_x00f3_nPago: data.condicionPago,
-	};
+		Periodo_x0020_de_x0020_CultivoId: data.idPeriodoCultivo */
+	} as InformacionMercadoValue;
 
 	const request: ISPHttpClientOptions = {};
 	request.headers = head.headers;
@@ -340,6 +342,33 @@ const registrarDatos = async (
 	return false;
 };
 
+const registrarDatos = async (
+	data:InformacionMercado[],
+	urlBase:string,
+	context:WebPartContext
+):Promise<boolean> => {
+	//SEND JUST ONE REQUEST TO SP MAKING THE DATA REGISTER PROCESS MORE EFICCIENT
+	const url = `${urlBase}/Apps/monitoreo-mercado/_api/$batch`
+	
+	const {batchBody, batchID} = generateBatchString(url, data)
+
+	const request:ISPHttpClientOptions = {
+		headers:{
+			"Content-Type":`multipart/mixed;boundary${batchID}`
+		},
+		body:batchBody
+	}
+	
+	const response = await context.spHttpClient.post(url, SPHttpClient.configurations.v1, request)
+
+	if(response.status === 200){
+		return true
+	}else{
+		return false;
+	}
+}
+
+
 export {
 	getUnidades,
 	getClientes,
@@ -347,5 +376,6 @@ export {
 	getPeriodosCultivo,
 	getProveedores,
 	getCoordinadores,
+	registrarDato,
 	registrarDatos,
 };

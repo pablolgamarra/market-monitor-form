@@ -28,7 +28,7 @@ export interface IMonitorFormProductsProps {
 	listaFamiliasProducto: IFamiliaProducto[];
 	listaProveedores: IProveedor[];
 	periodoCultivo: IPeriodoCultivo | undefined;
-	saveData(data:IProductValueState[]):void;
+	handleSave(data:IProductValueState[]):void;
 }
 
 export interface IProductValueState {
@@ -73,7 +73,7 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo, saveData} = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo, handleSave} = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
@@ -177,11 +177,25 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 
 	const handleBtnAvanzarClick = React.useCallback(() => {
 		const indexNuevo = index + 1 < largoLista ? index + 1 : index;
-		setIndex(indexNuevo);
-		handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
 
-		if(indexNuevo + 1 === largoLista){
-			saveData(productValues)
+		if(indexNuevo < largoLista){
+			setIndex(indexNuevo);
+			handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
+		}
+
+		console.log(indexNuevo)
+		console.log(largoLista)
+		if(indexNuevo === largoLista -1){
+			console.log("Sending data to save")
+			const validatedValues:IProductValueState[] = productValues.map((item:IProductValueState) => (
+				{
+					familiaProducto: item.familiaProducto!,
+					volumenComprado: item.volumenComprado!,
+					precioPorMedida: item.precioPorMedida!,
+					condicionPago: item.condicionPago!,
+					proveedorPrincipal: item.proveedorPrincipal!,
+				}))
+			handleSave(validatedValues)
 		}
 	}, [ setIndex ]);
 

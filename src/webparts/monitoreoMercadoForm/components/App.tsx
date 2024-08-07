@@ -34,7 +34,7 @@ export interface AppProps {
 //TODO: Estilar min-width para la app a full 320 px.
 
 const App: React.FC<AppProps> = (props) => {
-  const onSave = (data: InformacionMercado): void => {
+  const saveData = (data: InformacionMercado[]): void => {
     registrarDatos(data, props.url, props.context)
       .then(() => {
         alert('Datos Guardados Correctamente');
@@ -59,7 +59,7 @@ const App: React.FC<AppProps> = (props) => {
           </>
       ) : (
         <FluentProvider theme={webLightTheme}>
-          <MonitorForm {...{ ...props, onSave: onSave }} />
+          <MonitorForm {...{ ...props, saveData: saveData }} />
         </FluentProvider>
       )}
     </FluentProvider>

@@ -1,4 +1,4 @@
 export interface IPeriodoCultivo{
-	Id:number|undefined,
+	Id:number
 	Nombre:string|undefined,
 }

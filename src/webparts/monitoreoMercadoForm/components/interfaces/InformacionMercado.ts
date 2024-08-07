@@ -2,9 +2,9 @@ export interface InformacionMercado{
     idCliente: number,
     idUnidad: number,
     idPeriodoCultivo:number
-    idFamilia: number,
-    volumenComprado: string,
-    precioPorMedida: number,
-    condicionPago: string,
-    idProveedorPrincipal: number,
+    idFamilia: number|undefined,
+    volumenComprado: string|undefined,
+    precioPorMedida: number|undefined,
+    condicionPago: string|undefined,
+    idProveedorPrincipal: number|undefined,
 }
