@@ -30,7 +30,7 @@ import {
 
 import { InformacionMercadoValue } from './RequestTypes';
 import generateBatchString from './GenerateBatchString';
-import ICNG from '../components/interfaces/ICNG';
+import {ICNG} from '../components/interfaces/ICNG';
 
 //TODO:COLOCAR NOMBRE DE LA APLICACION Y DEMAS COMO VARIABLES DINAMICAS
 
