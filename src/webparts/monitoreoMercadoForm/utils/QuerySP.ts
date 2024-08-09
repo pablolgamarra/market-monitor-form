@@ -24,14 +24,13 @@ import {
 	ProveedoresResponse,
 	PeriodosCultivoResponse,
 	PeriodosCultivoResponseValue,
-	CoordinadoresResponse,
-	CoordinadoresResponseValue,
+	CNGResponse,
+	CNGResponseValue,
 } from './ResponseTypes';
 
 import { InformacionMercadoValue } from './RequestTypes';
-import { ICoordinador } from '../components/interfaces/ICoordinador';
 import generateBatchString from './GenerateBatchString';
-
+import ICNG from '../components/interfaces/ICNG';
 
 //TODO:COLOCAR NOMBRE DE LA APLICACION Y DEMAS COMO VARIABLES DINAMICAS
 
@@ -87,10 +86,12 @@ const getUnidad = async (
 			return;
 		})
 		.then((data: UnidadesResponse) => {
-			const unidad: IUnidad|undefined = data.value.map((item:UnidadesResponseValue) => ({
-				Id:item.ID,
-				Nombre:item.Title
-			})).find((item:IUnidad) => item.Id === id);
+			const unidad: IUnidad | undefined = data.value
+				.map((item: UnidadesResponseValue) => ({
+					Id: item.ID,
+					Nombre: item.Title,
+				}))
+				.find((item: IUnidad) => item.Id === id);
 
 			return unidad;
 		});
@@ -113,18 +114,24 @@ const getClientes = async (
 			}
 			return [];
 		})
-		.then(async(data: ClientesResponse) => {
-			const clientes:ICliente[]|undefined = await Promise.all(data.value.map(async (item: ClientesResponseValue) => {
-				const unidad = await getUnidad(urlBase, context, item.UnidadId);
+		.then(async (data: ClientesResponse) => {
+			const clientes: ICliente[] | undefined = await Promise.all(
+				data.value.map(async (item: ClientesResponseValue) => {
+					const unidad = await getUnidad(
+						urlBase,
+						context,
+						item.UnidadId,
+					);
 
-				return {
-				Id:item.ID,
-				Nombre:item.Title,
-				NroFiscal:item.RUC_x002f_CI,
-				Unidad: unidad,
-				Coordinador: item.CoordinadorId
-				}
-			}));
+					return {
+						Id: item.ID,
+						Nombre: item.Title,
+						NroFiscal: item.RUC_x002f_CI,
+						Unidad: unidad,
+						Coordinador: item.CoordinadorId,
+					};
+				}),
+			);
 
 			return clientes;
 		})
@@ -201,34 +208,39 @@ const getPeriodosCultivo = async (
 };
 
 const getPeriodoCultivo = async (
-	urlBase:string,
-	context:WebPartContext,
-	id:number|undefined
-):Promise<IPeriodoCultivo|undefined> =>{
-	const head:ISPHttpClientOptions = {
-		headers: {Accept:"Application/json"},
-	}
+	urlBase: string,
+	context: WebPartContext,
+	id: number | undefined,
+): Promise<IPeriodoCultivo | undefined> => {
+	const head: ISPHttpClientOptions = {
+		headers: { Accept: 'Application/json' },
+	};
 
-	const url:string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Periodos Cultivo')/items/?$select=ID,Title&$filter=ID eq ${id}`;
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Periodos Cultivo')/items/?$select=ID,Title&$filter=ID eq ${id}`;
 
-	return context.spHttpClient.get(url, SPHttpClient.configurations.v1, head).then((respuesta:SPHttpClientResponse) => {
-		if(respuesta.status === 200){
-			return respuesta.json()
-		}
-		return undefined
-	})
-	.then((data:PeriodosCultivoResponse) => {
-		const periodoCultivo:IPeriodoCultivo|undefined = data.value.map((item:PeriodosCultivoResponseValue) => ({
-			Id:item.ID,
-			Nombre: item.Title,
-		})).find((item:IPeriodoCultivo) => item.Id === id);
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, head)
+		.then((respuesta: SPHttpClientResponse) => {
+			if (respuesta.status === 200) {
+				return respuesta.json();
+			}
+			return undefined;
+		})
+		.then((data: PeriodosCultivoResponse) => {
+			const periodoCultivo: IPeriodoCultivo | undefined = data.value
+				.map((item: PeriodosCultivoResponseValue) => ({
+					Id: item.ID,
+					Nombre: item.Title,
+				}))
+				.find((item: IPeriodoCultivo) => item.Id === id);
 
-		return periodoCultivo
-	}).catch((err) => {
-		console.log(`Error al listar Periodos de Cultivo: ${err}`)
-		return undefined
-	})
-}
+			return periodoCultivo;
+		})
+		.catch((err) => {
+			console.log(`Error al listar Periodos de Cultivo: ${err}`);
+			return undefined;
+		});
+};
 
 const getFamiliasProductos = async (
 	urlBase: string,
@@ -237,7 +249,7 @@ const getFamiliasProductos = async (
 	const head: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
-	const url:string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida,PeriododeCultivoId`;
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida,PeriododeCultivoId`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, head)
@@ -247,20 +259,28 @@ const getFamiliasProductos = async (
 			}
 			return [];
 		})
-		.then(async(data: FamiliaProductosResponse) => {
-			const familiasProductos: IFamiliaProducto[] | undefined = await Promise.all(data.value.map(
-				async(item: FamiliaProductosResponseValue) => {
-					const periodoCultivo:IPeriodoCultivo|undefined = await getPeriodoCultivo(urlBase, context, item.PeriododeCultivoId)
-					
-					return{
-						Id: item.Id,
-						Nombre: item.Title,
-						UnidadMedida: item.UnidaddeMedida,
-						PeriodoCultivo: periodoCultivo,
-						Estado: item.Activo,
-					}
-				}
-			))
+		.then(async (data: FamiliaProductosResponse) => {
+			const familiasProductos: IFamiliaProducto[] | undefined =
+				await Promise.all(
+					data.value.map(
+						async (item: FamiliaProductosResponseValue) => {
+							const periodoCultivo: IPeriodoCultivo | undefined =
+								await getPeriodoCultivo(
+									urlBase,
+									context,
+									item.PeriododeCultivoId,
+								);
+
+							return {
+								Id: item.Id,
+								Nombre: item.Title,
+								UnidadMedida: item.UnidaddeMedida,
+								PeriodoCultivo: periodoCultivo,
+								Estado: item.Activo,
+							};
+						},
+					),
+				);
 			return familiasProductos;
 		})
 		.catch((e: Error) => {
@@ -269,17 +289,17 @@ const getFamiliasProductos = async (
 		});
 };
 
-const getCoordinadores = async (
+const getCNGS = async (
 	urlBase: string,
 	context: WebPartContext,
-): Promise<ICoordinador[]> => {
+): Promise<ICNG[]> => {
 	const head: ISPHttpClientOptions = {
 		headers: {
 			Accept: 'Application/json',
 		},
 	};
 
-	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Coordinadores')/items/?$select=Id, Title`;
+	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('CNG')/items/?$select=Id, Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, head)
@@ -289,17 +309,16 @@ const getCoordinadores = async (
 			}
 			return [];
 		})
-		.then((data: CoordinadoresResponse) => {
-			const coordinadores: ICoordinador[] = data.value.map(
-				(item: CoordinadoresResponseValue) => ({
-					Id: item.Id,
-					Nombre: item.Title,
-				}),
-			);
-			return coordinadores;
+		.then((data: CNGResponse) => {
+			const cngs: ICNG[] = data.value.map((item: CNGResponseValue) => ({
+				Id: item.Id,
+				CodigoSAP: item.Title,
+				Correo: item.Correo,
+			}));
+			return cngs;
 		})
 		.catch((e) => {
-			console.log(`Error listando Coordinadores: ${e}`);
+			console.log(`Error listando CNGs: ${e}`);
 			return [];
 		});
 };
@@ -316,13 +335,13 @@ const registrarDato = async (
 	};
 
 	const datos: InformacionMercadoValue = {
-		/* ClienteId: data.idCliente,
+		ClienteId: data.idCliente,
 		VolumenYaComprado: data.volumenComprado,
 		Familia_x0020_de_x0020_ProductoId: data.idFamilia,
 		Proveedor_x0020_PrincipalId: data.idProveedorPrincipal,
 		Precio: data.precioPorMedida,
 		Condici_x00f3_nPago: data.condicionPago,
-		Periodo_x0020_de_x0020_CultivoId: data.idPeriodoCultivo */
+		Periodo_x0020_de_x0020_CultivoId: data.idPeriodoCultivo
 	} as InformacionMercadoValue;
 
 	const request: ISPHttpClientOptions = {};
@@ -343,31 +362,34 @@ const registrarDato = async (
 };
 
 const registrarDatos = async (
-	data:InformacionMercado[],
-	urlBase:string,
-	context:WebPartContext
-):Promise<boolean> => {
+	data: InformacionMercado[],
+	urlBase: string,
+	context: WebPartContext,
+): Promise<boolean> => {
 	//SEND JUST ONE REQUEST TO SP MAKING THE DATA REGISTER PROCESS MORE EFICCIENT
-	const url = `${urlBase}/Apps/monitoreo-mercado/_api/$batch`
-	
-	const {batchBody, batchID} = generateBatchString(url, data)
+	const url = `${urlBase}/Apps/monitoreo-mercado/_api/$batch`;
 
-	const request:ISPHttpClientOptions = {
-		headers:{
-			"Content-Type":`multipart/mixed;boundary${batchID}`
+	const { batchBody, batchID } = generateBatchString(url, data);
+
+	const request: ISPHttpClientOptions = {
+		headers: {
+			'Content-Type': `multipart/mixed;boundary${batchID}`,
 		},
-		body:batchBody
-	}
-	
-	const response = await context.spHttpClient.post(url, SPHttpClient.configurations.v1, request)
+		body: batchBody,
+	};
 
-	if(response.status === 200){
-		return true
-	}else{
+	const response = await context.spHttpClient.post(
+		url,
+		SPHttpClient.configurations.v1,
+		request,
+	);
+
+	if (response.status === 200) {
+		return true;
+	} else {
 		return false;
 	}
-}
-
+};
 
 export {
 	getUnidades,
@@ -375,7 +397,7 @@ export {
 	getFamiliasProductos,
 	getPeriodosCultivo,
 	getProveedores,
-	getCoordinadores,
+	getCNGS,
 	registrarDato,
 	registrarDatos,
 };

@@ -74,18 +74,27 @@ export interface PeriodosCultivoResponseValue {
 	ID: number;
 }
 
-export interface CoordinadoresResponse {
-    "odata.metadata": string;
-    value:            CoordinadoresResponseValue[];
+export interface CNGResponse {
+    value: CNGResponseValue[];
 }
 
-export interface CoordinadoresResponseValue {
-    "odata.type":     string;
-    "odata.id":       string;
-    "odata.etag":     string;
-    "odata.editLink": string;
-    Id:               number;
-    Title:            string;
-    ID:               number;
+export interface CNGResponseValue {
+    FileSystemObjectType:     number;
+    Id:                       number;
+    ServerRedirectedEmbedUri: undefined;
+    ServerRedirectedEmbedUrl: string;
+    ContentTypeId:            string;
+    Title:                    string;
+    OData__ColorTag:          undefined;
+    ComplianceAssetId:        undefined;
+    Correo:                   string;
+    ID:                       number;
+    Modified:                 Date;
+    Created:                  Date;
+    AuthorId:                 number;
+    EditorId:                 number;
+    OData__UIVersionString:   string;
+    Attachments:              boolean;
+    GUID:                     string;
 }
 

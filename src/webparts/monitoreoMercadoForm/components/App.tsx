@@ -18,6 +18,7 @@ import { IProveedor } from './interfaces/IProveedor';
 import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
 import { ICoordinador } from './interfaces/ICoordinador';
 import MonitorForm from './MonitorForm';
+import ICNG from './interfaces/ICNG';
 
 export interface AppProps {
   url: string;
@@ -27,7 +28,7 @@ export interface AppProps {
   listaFamiliasProducto: IFamiliaProducto[];
   listaProveedores: IProveedor[];
   listaPeriodosCultivo: IPeriodoCultivo[];
-  listaCoordinadores: ICoordinador[];
+  listaCNG: ICNG[];
   width:number;
 }
 

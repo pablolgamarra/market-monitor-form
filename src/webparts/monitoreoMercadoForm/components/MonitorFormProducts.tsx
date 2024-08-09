@@ -176,16 +176,12 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 	}, [ setIndex ]);
 
 	const handleBtnAvanzarClick = React.useCallback(() => {
-		const indexNuevo = index + 1 < largoLista ? index + 1 : index;
-
-		if(indexNuevo < largoLista){
+		if(index < largoLista-1){
+			const indexNuevo = index+1
+		
 			setIndex(indexNuevo);
 			handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
-		}
-
-		console.log(indexNuevo)
-		console.log(largoLista)
-		if(indexNuevo === largoLista -1){
+		}else{
 			console.log("Sending data to save")
 			const validatedValues:IProductValueState[] = productValues.map((item:IProductValueState) => (
 				{
@@ -197,7 +193,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 				}))
 			handleSave(validatedValues)
 		}
-	}, [ setIndex ]);
+	}, [ setIndex, index, largoLista ]);
 
 	const handleCbxChanges = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {

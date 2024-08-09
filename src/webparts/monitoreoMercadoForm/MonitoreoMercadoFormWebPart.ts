@@ -13,7 +13,6 @@ import * as strings from 'MonitoreoMercadoFormWebPartStrings';
 
 import {
   getClientes,
-  getCoordinadores,
   getFamiliasProductos,
   getPeriodosCultivo,
   getProveedores,
@@ -36,7 +35,6 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
     const listaFamiliasProductos = await getFamiliasProductos(url, context);
     const listaPeriodosCultivo = await getPeriodosCultivo(url, context);
     const listaProveedores = await getProveedores(url, context);
-    const listaCoordinadores = await getCoordinadores(url, context);
 
     const root: React.FunctionComponentElement<AppProps> = React.createElement(
       App,
@@ -48,7 +46,6 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
         listaFamiliasProducto: listaFamiliasProductos,
         listaPeriodosCultivo: listaPeriodosCultivo,
         listaProveedores: listaProveedores,
-        listaCoordinadores: listaCoordinadores,
         width:this.width,
       }
     );
@@ -139,10 +136,39 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
           },
           groups: [
             {
+              //TODO: AGREGAR ESTO A LAS QUERIES DE SP
               groupName: strings.BasicGroupName,
               groupFields: [
                 PropertyPaneTextField('description', {
                   label: strings.DescriptionFieldLabel,
+                }),
+                PropertyPaneTextField('URL de Lista de SP donde guardar datos', {
+                  label:'Ingresar url relativa de Informacion de Mercado',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`
+                }),
+                PropertyPaneTextField('URL del listado de clientes', {
+                  label:'Ingresar url relativa de la lista de clientes',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`,
+                }),
+                PropertyPaneTextField('Lista de unidades', {
+                  label:'Ingresar url relativa de la lista de Unidades/Sucursales',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`,
+                }),
+                PropertyPaneTextField('Lista de proveedores', {
+                  label:'Ingresar url relativa de lista de proveedores',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`,
+                }),
+                PropertyPaneTextField('Lista de periodos de cultivo', {
+                  label:'Ingresar url relativa de lista de periodos cultivo',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`,
+                }),
+                PropertyPaneTextField("Lista de CNG's/vendedores", {
+                  label:'Ingresar url relativa de lista vendedores',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`,
+                }),
+                PropertyPaneTextField('Lista de familias de producto', {
+                  label:'Ingresar url relativa de lista de familias de producto',
+                  placeholder:`${this.context.pageContext.web.absoluteUrl}/<lista>`,
                 }),
               ],
             },
