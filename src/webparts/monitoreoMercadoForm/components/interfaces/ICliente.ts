@@ -1,3 +1,4 @@
+import {ICNG} from "./ICNG";
 import { IUnidad } from "./IUnidad";
 
 export interface ICliente{
@@ -5,5 +6,5 @@ export interface ICliente{
     Nombre:string|undefined,
     NroFiscal:number|undefined,
     Unidad: IUnidad|undefined,
-    Coordinador: number|undefined,
+    CNG: ICNG|undefined,
 }
