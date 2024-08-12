@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import { ICliente } from './interfaces/ICliente';
-import { IUnidad } from './interfaces/IUnidad';
-import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
+import { ICliente } from '../interfaces/ICliente';
+import { IUnidad } from '../interfaces/IUnidad';
+import { IFamiliaProducto } from '../interfaces/IFamiliaProducto';
 import { registrarDatos } from '../utils/QuerySP';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { InformacionMercado } from './interfaces/InformacionMercado';
+import { InformacionMercado } from '../interfaces/InformacionMercado';
 import { isEmpty } from '@microsoft/sp-lodash-subset';
 import {
   FluentProvider,
@@ -14,11 +14,11 @@ import {
   Title2,
   webLightTheme,
 } from '@fluentui/react-components';
-import { IProveedor } from './interfaces/IProveedor';
-import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
-import { ICoordinador } from './interfaces/ICoordinador';
+import { IProveedor } from '../interfaces/IProveedor';
+import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
+import { ICoordinador } from '../interfaces/ICoordinador';
 import MonitorForm from './MonitorForm';
-import ICNG from './interfaces/ICNG';
+import ICNG from '../interfaces/ICNG';
 
 export interface AppProps {
   url: string;

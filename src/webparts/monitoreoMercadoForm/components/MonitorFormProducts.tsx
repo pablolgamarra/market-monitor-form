@@ -20,9 +20,9 @@ import {
 	SaveRegular,
 } from '@fluentui/react-icons';
 
-import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
-import { IProveedor } from './interfaces/IProveedor';
-import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
+import { IFamiliaProducto } from '../interfaces/IFamiliaProducto';
+import { IProveedor } from '../interfaces/IProveedor';
+import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
 
 export interface IMonitorFormProductsProps {
 	listaFamiliasProducto: IFamiliaProducto[];

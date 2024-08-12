@@ -2,12 +2,18 @@ import * as React from 'react';
 import {
   Combobox,
   Option,
+  OptionOnSelectData,
+  SelectionEvents,
   makeStyles,
   shorthands,
 } from '@fluentui/react-components';
 
-import { ComboboxUnidadesProps } from './interfaces/ComboboxUnidadesProps';
-import { IUnidad } from './interfaces/IUnidad';
+import { IUnidad } from '../interfaces/IUnidad';
+
+export interface ComboboxUnidadesProps{
+  unidades:IUnidad[],
+  handleCambioValor(e:SelectionEvents, data: OptionOnSelectData):void,
+}
 
 const useStyles = makeStyles({
   root: {

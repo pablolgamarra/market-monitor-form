@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Field, Input, makeStyles, OptionOnSelectData, SelectionEvents } from '@fluentui/react-components';
 
-import { IUnidad } from './interfaces/IUnidad';
-import { ICliente } from './interfaces/ICliente';
+import { IUnidad } from '../interfaces/IUnidad';
+import { ICliente } from '../interfaces/ICliente';
 import ComboboxCliente from './ComboboxCliente';
 import ComboboxUnidad from './ComboboxUnidad';
 

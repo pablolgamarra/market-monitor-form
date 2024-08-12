@@ -7,15 +7,15 @@ import {
   shorthands,
 } from '@fluentui/react-components';
 
-import { ICliente } from './interfaces/ICliente';
-import { IUnidad } from './interfaces/IUnidad';
-import { IFamiliaProducto } from './interfaces/IFamiliaProducto';
-import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
+import { ICliente } from '../interfaces/ICliente';
+import { IUnidad } from '../interfaces/IUnidad';
+import { IFamiliaProducto } from '../interfaces/IFamiliaProducto';
+import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
 import MonitorFormHeader from './MonitorFormHeader';
-import { InformacionMercado } from './interfaces/InformacionMercado';
+import { InformacionMercado } from '../interfaces/InformacionMercado';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
 import MonitorFormProducts, { IProductValueState } from './MonitorFormProducts';
-import { IProveedor } from './interfaces/IProveedor';
+import { IProveedor } from '../interfaces/IProveedor';
 
 const useStyles = makeStyles({
   root: {

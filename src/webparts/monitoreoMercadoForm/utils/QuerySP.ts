@@ -6,12 +6,7 @@ import {
 
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 
-import { IUnidad } from '../components/interfaces/IUnidad';
-import { ICliente } from '../components/interfaces/ICliente';
-import { IFamiliaProducto } from '../components/interfaces/IFamiliaProducto';
-import { InformacionMercado } from '../components/interfaces/InformacionMercado';
-import { IProveedor } from '../components/interfaces/IProveedor';
-import { IPeriodoCultivo } from '../components/interfaces/IPeriodoCultivo';
+import { IUnidad, ICliente, IFamiliaProducto, InformacionMercado, IProveedor, IPeriodoCultivo } from '../types';
 
 import {
 	UnidadesResponse,
@@ -30,21 +25,19 @@ import {
 
 import { InformacionMercadoValue } from './RequestTypes';
 import generateBatchString from './GenerateBatchString';
-import {ICNG} from '../components/interfaces/ICNG';
 
 //TODO:COLOCAR NOMBRE DE LA APLICACION Y DEMAS COMO VARIABLES DINAMICAS
 
 const getUnidades = async (
-	urlBase: string,
 	context: WebPartContext,
 ): Promise<IUnidad[]> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
-	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=Title,Id`;
+	const url: string = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items?$select=Id,Title`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -71,14 +64,14 @@ const getUnidad = async (
 	context: WebPartContext,
 	id: number,
 ): Promise<IUnidad | undefined> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 
 	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items/?$select=ID,Title&$filter=ID eq '${id}'`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -101,13 +94,13 @@ const getClientes = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<ICliente[]> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items/?$select=Id,Title,RUC_x002f_CI,UnidadId,CoordinadorId`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -122,13 +115,13 @@ const getClientes = async (
 						context,
 						item.UnidadId,
 					);
-
+					
 					return {
 						Id: item.ID,
 						Nombre: item.Title,
-						NroFiscal: item.RUC_x002f_CI,
+						CodigoSAP: item.Codigo_x0020_SAP,
 						Unidad: unidad,
-						Coordinador: item.CoordinadorId,
+						CNG: item.Codigo_x0020_SAP_x0020_CNGId,
 					};
 				}),
 			);
@@ -145,14 +138,14 @@ const getProveedores = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<IProveedor[]> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 
 	const url = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items/?$select=Id,Title`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -178,14 +171,14 @@ const getPeriodosCultivo = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<IPeriodoCultivo[]> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 
 	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Periodos Cultivo')/items/?$select=Id, Title`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -212,14 +205,14 @@ const getPeriodoCultivo = async (
 	context: WebPartContext,
 	id: number | undefined,
 ): Promise<IPeriodoCultivo | undefined> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 
 	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Periodos Cultivo')/items/?$select=ID,Title&$filter=ID eq ${id}`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -246,13 +239,13 @@ const getFamiliasProductos = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<IFamiliaProducto[]> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items/?$filter=Activo eq 'Activo'&$select=Id,Title,UnidaddeMedida,PeriododeCultivoId`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -293,7 +286,7 @@ const getCNGS = async (
 	urlBase: string,
 	context: WebPartContext,
 ): Promise<ICNG[]> => {
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: {
 			Accept: 'Application/json',
 		},
@@ -302,7 +295,7 @@ const getCNGS = async (
 	const url: string = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('CNG')/items/?$select=Id, Title`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, head)
+		.get(url, SPHttpClient.configurations.v1, options)
 		.then((respuesta: SPHttpClientResponse) => {
 			if (respuesta.status === 200) {
 				return respuesta.json();
@@ -330,7 +323,7 @@ const registrarDato = async (
 ): Promise<boolean> => {
 	const url = `${urlBase}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Informacion Mercado')/items`;
 
-	const head: ISPHttpClientOptions = {
+	const options: ISPHttpClientOptions = {
 		headers: { Accept: 'Application/json' },
 	};
 
@@ -345,7 +338,7 @@ const registrarDato = async (
 	} as InformacionMercadoValue;
 
 	const request: ISPHttpClientOptions = {};
-	request.headers = head.headers;
+	request.headers = options.headers;
 	request.body = JSON.stringify(datos);
 
 	const response = await context.spHttpClient.post(

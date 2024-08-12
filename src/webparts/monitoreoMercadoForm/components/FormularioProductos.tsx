@@ -11,8 +11,8 @@ import {
   shorthands,
 } from '@fluentui/react-components';
 
-import { IFormularioProductosProps } from './interfaces/IFormularioProductosProps';
-import { FamiliasValores } from './interfaces/FamiliasValores';
+import { IFormularioProductosProps } from '../interfaces/IFormularioProductosProps';
+import { FamiliasValores } from '../interfaces/FamiliasValores';
 
 const useStyles = makeStyles({
   root: {

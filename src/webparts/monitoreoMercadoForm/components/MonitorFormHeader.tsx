@@ -14,12 +14,12 @@ import {
 	Subtitle1,
 } from '@fluentui/react-components';
 
-import { IUnidad } from './interfaces/IUnidad';
-import { ICliente } from './interfaces/ICliente';
+import { IUnidad } from '../interfaces/IUnidad';
+import { ICliente } from '../interfaces/ICliente';
 
 import * as headerStrings from 'MonitorFormHeaderStrings';
 import { IMonitorFormState } from './MonitorForm';
-import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
+import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
 
 const useStyles = makeStyles({
 	//TODO: TRABAJAR EL RESPONSIVE DESIGN

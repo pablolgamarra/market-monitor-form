@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IPeriodoCultivo } from './interfaces/IPeriodoCultivo';
+import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
 import { IMonitorFormState } from './MonitorForm';
 
 import {

@@ -4,10 +4,16 @@ import {
   Option,
   makeStyles,
   shorthands,
+  OptionOnSelectData, 
+  SelectionEvents
 } from '@fluentui/react-components';
 
-import { ComboboxClientesProps } from './interfaces/ComboboxClientesProps';
-import { ICliente } from './interfaces/ICliente';
+import { ICliente } from '../interfaces/ICliente';
+
+export interface ComboboxClientesProps{
+	clientes:ICliente[],
+	handleCambioValor(e:SelectionEvents, data:OptionOnSelectData):void
+}
 
 const useStyles = makeStyles({
   root: {

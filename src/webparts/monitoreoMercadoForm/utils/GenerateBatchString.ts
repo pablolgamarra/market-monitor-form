@@ -1,4 +1,4 @@
-import { InformacionMercado } from "../components/interfaces/InformacionMercado";
+import { InformacionMercado } from "../interfaces/InformacionMercado";
 import generateUUID from "./GenerateUUID";
 
 export default function generateBatchString(

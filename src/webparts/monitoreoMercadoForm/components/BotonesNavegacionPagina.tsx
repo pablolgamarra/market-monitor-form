@@ -7,7 +7,7 @@ import {
 	SaveRegular,
 } from '@fluentui/react-icons';
 
-import { IBotonesNavegacionPagina } from './interfaces/IBotonesNavegacionPagina';
+import { IBotonesNavegacionPagina } from '../interfaces/IBotonesNavegacionPagina';
 
 const useStyles = makeStyles({
 	NavegacionContainer: {
