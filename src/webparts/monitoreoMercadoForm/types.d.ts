@@ -1,59 +1,144 @@
-export interface ICliente{
-    Id:number,
-    Nombre:string|undefined,
-    CodigoSAP:number|undefined,
-    Unidad: IUnidad|undefined,
-    CNG: ICNG|undefined,
+export interface Cliente {
+	Id: number;
+	Nombre: string | undefined;
+	CodigoSAP: number | undefined;
+	Unidad: Unidad | undefined;
+	CNG: CNG | undefined;
 }
 
-export interface ICNG{
-    Id:number;
-    Nombre:string;
-    CodigoSAP:string;
-    Correo:string;
+export interface CNG {
+	Id: number;
+	Nombre: string;
+	CodigoSAP: string;
+	Correo: string;
 }
 
-export interface IFamiliaProducto{
-    Id:number,
-    Nombre:string,
-    UnidadMedida:string,
-    PeriodoCultivo:IPeriodoCultivo|undefined,
-    Estado:boolean
+export interface FamiliaProducto {
+	Id: number;
+	Nombre: string;
+	UnidadMedida: string;
+	PeriodoCultivo: PeriodoCultivo | undefined;
+	Estado: Activo;
 }
 
-export interface IPeriodoCultivo{
-	Id:number
-	Nombre:string|undefined,
+export interface PeriodoCultivo {
+	Id: number;
+	Nombre: string | undefined;
 }
 
-export interface IUnidad{
-    Id:number,
-    Nombre:string|undefined,
+export interface Unidad {
+	Id: number;
+	Nombre: string | undefined;
 }
 
-export interface IProveedor{
-    Id:number|undefined,
-    Nombre:string|undefined,
-    FamiliadeProducto: IFamiliaProducto|undefined
+export interface Proveedor {
+	Id: number | undefined;
+	Nombre: string | undefined;
+	FamiliadeProducto: FamiliaProducto | undefined;
 }
 
-export interface InformacionMercado{
-    idCliente: number,
-    idUnidad: number,
-    idPeriodoCultivo:number
-    idFamilia: number|undefined,
-    volumenComprado: string|undefined,
-    precioPorMedida: number|undefined,
-    condicionPago: string|undefined,
-    idProveedorPrincipal: number|undefined,
+export interface InformacionMercado {
+	idCliente: number;
+	idUnidad: number;
+	idPeriodoCultivo: number;
+	idFamilia: number | undefined;
+	volumenComprado: string | undefined;
+	precioPorMedida: number | undefined;
+	condicionPago: string | undefined;
+	idProveedorPrincipal: number | undefined;
 }
 
-export enum Activo{
-    Activo = "Activo",
-    Inactivo = "Inactivo"
+export enum Activo {
+	Activo = 'Activo',
+	Inactivo = 'Inactivo',
 }
 
-export enum CondicionesPago{
-    Contado = "Contado",
-    Crédito = "Crédito"
+export enum CondicionesPago {
+	Contado = 'Contado',
+	Crédito = 'Crédito',
+}
+
+export interface UnidadesResponse {
+	value: UnidadesResponseValue[];
+}
+
+export interface UnidadesResponseValue {
+	Id: number;
+	Title: string;
+	ID: number;
+}
+
+export interface ClientesResponse {
+	value: ClientesResponseValue[];
+}
+
+export interface ClientesResponseValue {
+	Id: number;
+	Title: string;
+	Codigo_x0020_SAP: number;
+	UnidadId: number;
+	Codigo_x0020_SAP_x0020_CNGId: number;
+	ID: number;
+}
+
+export interface FamiliaProductosResponse {
+	value: FamiliaProductosResponseValue[];
+}
+
+export interface FamiliaProductosResponseValue {
+	Id: number;
+	Title: string;
+	UnidaddeMedida: string;
+	Activo: Activo;
+	PeriododeCultivoId: number;
+	ID: number;
+}
+
+export interface PeriodosCultivoResponse {
+	value: PeriodosCultivoResponseValue[];
+}
+
+export interface PeriodosCultivoResponseValue {
+	Id: number;
+	Title: string;
+	ID: number;
+}
+
+export interface CNGResponse {
+	value: CNGResponseValue[];
+}
+
+export interface CNGResponseValue {
+	Id: number;
+	Title: string;
+	Correo: string;
+	NombreCNG: string;
+	ID: number;
+}
+
+export interface ProveedoresResponse {
+	value: ProveedoresResponseValue[];
+}
+
+export interface ProveedoresResponseValue {
+	Id: number;
+	Title: string;
+	Familia_x0020_de_x0020_ProductoId: number;
+	ID: number;
+}
+
+export interface InformacionMercadoRequest {
+	value?: InformacionMercadoValue;
+}
+export interface InformacionMercadoValue {
+	Id: number;
+	ClienteId: number;
+	Familia_x0020_de_x0020_ProductoId: number;
+	VolumenYaComprado: string;
+	Precio: number;
+	Condici_x00f3_nPago: CondicionesPago;
+	Proveedor_x0020_PrincipalId: number;
+	Periodo_x0020_de_x0020_CultivoId: number;
+	CNGId: undefined;
+	ID: number;
 }
