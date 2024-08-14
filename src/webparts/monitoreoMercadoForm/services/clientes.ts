@@ -15,7 +15,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllClientes = async (
 	context: WebPartContext,
 ): Promise<Cliente[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/GetByTitle('Clientes')/items?$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId`;
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items?$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId,A_x00f1_o`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -38,6 +38,7 @@ export const getAllClientes = async (
 						CodigoSAP: item.Codigo_x0020_SAP,
 						Unidad: unidad,
 						CNG: cng,
+						Anho: item.A_x00f1_o
 					};
 				}),
 			);
@@ -53,7 +54,7 @@ export const getClienteById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<Cliente | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/GetByTitle('Clientes')/items?$filter = Id eq '${Id}'&$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId`;
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items?$filter = Id eq '${Id}'&$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId, A_x00f1_o`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -76,6 +77,7 @@ export const getClienteById = async (
 						CodigoSAP: item.Codigo_x0020_SAP,
 						Unidad: unidad,
 						CNG: cng,
+						Anho: item.A_x00f1_o
 					};
 				}),
 			).then((value) => {
