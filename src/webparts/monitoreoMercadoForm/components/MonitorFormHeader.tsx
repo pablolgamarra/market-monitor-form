@@ -14,12 +14,10 @@ import {
 	Subtitle1,
 } from '@fluentui/react-components';
 
-import { IUnidad } from '../interfaces/IUnidad';
-import { ICliente } from '../interfaces/ICliente';
+import { Unidad, Cliente, PeriodoCultivo } from '../types';
 
 import * as headerStrings from 'MonitorFormHeaderStrings';
 import { IMonitorFormState } from './MonitorForm';
-import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
 
 const useStyles = makeStyles({
 	//TODO: TRABAJAR EL RESPONSIVE DESIGN
@@ -65,12 +63,12 @@ const useStyles = makeStyles({
 });
 
 export interface IMonitorFormHeaderProps {
-	listaUnidades: IUnidad[];
-	listaClientes: ICliente[];
-	listaPeriodosCultivo: IPeriodoCultivo[];
-	cliente: ICliente | undefined;
-	unidad: IUnidad | undefined;
-	periodoCultivo: IPeriodoCultivo | undefined;
+	listaUnidades: Unidad[];
+	listaClientes: Cliente[];
+	listaPeriodosCultivo: PeriodoCultivo[];
+	cliente: Cliente | undefined;
+	unidad: Unidad | undefined;
+	periodoCultivo: PeriodoCultivo | undefined;
 	handleSelectedChange(campo: keyof IMonitorFormState, valor: string | number | undefined): void;
 }
 
@@ -88,7 +86,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	//Component Style
 	const styles = useStyles();
 
-	const listaClientesFiltro: ICliente[] = listaClientes.filter((item: ICliente) => item.Unidad?.Id === unidad?.Id);
+	const listaClientesFiltro: Cliente[] = listaClientes.filter((item: Cliente) => item.Unidad?.Id === unidad?.Id);
 
 	const handleDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
@@ -142,7 +140,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 								unidad?.Nombre || ''
 							}
 						>
-							{listaUnidades.map((item: IUnidad) => (
+							{listaUnidades.map((item: Unidad) => (
 								<Option
 									value={item?.Id?.toString()}
 									key={item.Id}
@@ -162,7 +160,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 								cliente?.Nombre || ''
 							}
 						>
-							{listaClientesFiltro.map((item: ICliente) => (
+							{listaClientesFiltro.map((item: Cliente) => (
 								<Option
 									value={item?.Id?.toString()}
 									key={item.Id}

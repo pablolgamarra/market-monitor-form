@@ -7,15 +7,10 @@ import {
   shorthands,
 } from '@fluentui/react-components';
 
-import { ICliente } from '../interfaces/ICliente';
-import { IUnidad } from '../interfaces/IUnidad';
-import { IFamiliaProducto } from '../interfaces/IFamiliaProducto';
-import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
+import { Cliente, Unidad, FamiliaProducto, PeriodoCultivo, Proveedor, InformacionMercado } from '../types';
 import MonitorFormHeader from './MonitorFormHeader';
-import { InformacionMercado } from '../interfaces/InformacionMercado';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
-import MonitorFormProducts, { IProductValueState } from './MonitorFormProducts';
-import { IProveedor } from '../interfaces/IProveedor';
+import MonitorFormProducts, { ProductValueState } from './MonitorFormProducts';
 
 const useStyles = makeStyles({
   root: {
@@ -35,18 +30,18 @@ const useStyles = makeStyles({
 
 
 export interface IMonitorFormProps {
-  listaClientes: ICliente[];
-  listaUnidades: IUnidad[];
-  listaFamiliasProducto: IFamiliaProducto[];
-  listaPeriodosCultivo: IPeriodoCultivo[];
-  listaProveedores: IProveedor[];
+  listaClientes: Cliente[];
+  listaUnidades: Unidad[];
+  listaFamiliasProducto: FamiliaProducto[];
+  listaPeriodosCultivo: PeriodoCultivo[];
+  listaProveedores: Proveedor[];
   saveData(props:InformacionMercado[]):void;
 }
 
 export interface IMonitorFormState {
-  unidad: IUnidad|undefined,
-  cliente: ICliente|undefined,
-  periodoCultivo: IPeriodoCultivo,
+  unidad: Unidad|undefined,
+  cliente: Cliente|undefined,
+  periodoCultivo: PeriodoCultivo,
   onSave(data: InformacionMercado): void,
 }
 
@@ -95,8 +90,8 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
     }
   }
 
-  const handleSaveData = (data:IProductValueState[]):void=>{
-        const data2Save:InformacionMercado[] = data.map((productValue:IProductValueState) => (
+  const handleSaveData = (data:ProductValueState[]):void=>{
+        const data2Save:InformacionMercado[] = data.map((productValue:ProductValueState) => (
           {
               idCliente:formData.cliente ? formData.cliente.Id : 0,
               idUnidad:formData.unidad ? formData.unidad.Id : 0,

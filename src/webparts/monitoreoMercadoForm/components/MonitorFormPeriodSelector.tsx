@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
+import { PeriodoCultivo } from '../types';
 import { IMonitorFormState } from './MonitorForm';
 
 import {
@@ -41,7 +41,7 @@ const useStyles = makeStyles(
 )
 
 export interface IMonitorFormPeriodSelector {
-    listaPeriodosCultivo: IPeriodoCultivo[],
+    listaPeriodosCultivo: PeriodoCultivo[],
     handleSelectedChange(campo: keyof IMonitorFormState, valor: string | number | undefined): void,
 }
 
@@ -66,7 +66,7 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (props) 
             <section className={styles.periodSelectorContainer}>
                 <Title2>{headerStrings.PeriodoCultivoTitle}</Title2>
                 <section className={styles.buttonsContainer}>
-                    {listaPeriodosCultivo.map((item: IPeriodoCultivo) => (
+                    {listaPeriodosCultivo.map((item: PeriodoCultivo) => (
                         <Button
                             key={item.Id}
                             shape='rounded'

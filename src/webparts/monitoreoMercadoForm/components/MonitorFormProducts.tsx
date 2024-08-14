@@ -20,23 +20,21 @@ import {
 	SaveRegular,
 } from '@fluentui/react-icons';
 
-import { IFamiliaProducto } from '../interfaces/IFamiliaProducto';
-import { IProveedor } from '../interfaces/IProveedor';
-import { IPeriodoCultivo } from '../interfaces/IPeriodoCultivo';
+import { FamiliaProducto, Proveedor, PeriodoCultivo } from '../types';
 
-export interface IMonitorFormProductsProps {
-	listaFamiliasProducto: IFamiliaProducto[];
-	listaProveedores: IProveedor[];
-	periodoCultivo: IPeriodoCultivo | undefined;
-	handleSave(data:IProductValueState[]):void;
+export interface MonitorFormProductsProps {
+	listaFamiliasProducto: FamiliaProducto[];
+	listaProveedores: Proveedor[];
+	periodoCultivo: PeriodoCultivo | undefined;
+	handleSave(data:ProductValueState[]):void;
 }
 
-export interface IProductValueState {
-	familiaProducto: IFamiliaProducto|undefined;
+export interface ProductValueState {
+	familiaProducto: FamiliaProducto|undefined;
 	volumenComprado: string | undefined;
 	precioPorMedida: number | undefined;
 	condicionPago: string | undefined;
-	proveedorPrincipal: IProveedor | undefined;
+	proveedorPrincipal: Proveedor | undefined;
 }
 
 const useStyles = makeStyles({
@@ -72,7 +70,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
+const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	const { listaFamiliasProducto, listaProveedores, periodoCultivo, handleSave} = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
@@ -81,28 +79,28 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 	//Component Style
 	const styles = useStyles();
 
-	const listaProductosFiltro: IFamiliaProducto[] =
+	const listaProductosFiltro: FamiliaProducto[] =
 		listaFamiliasProducto.filter(
-			(item: IFamiliaProducto) =>
+			(item: FamiliaProducto) =>
 				item.PeriodoCultivo?.Id === periodoCultivo?.Id,
 		);
 	const largoLista = listaProductosFiltro.length;
 
 	const [ productValues, setProductValues ] = React.useState<
-		IProductValueState[]
-	>(Array.from({ length: largoLista }, () => ({familiaProducto:listaProductosFiltro[0]} as IProductValueState)));
+		ProductValueState[]
+	>(Array.from({ length: largoLista }, () => ({familiaProducto:listaProductosFiltro[0]} as ProductValueState)));
 	const [ index, setIndex ] = React.useState<number>(0);
 
 	const handleSelectedChanges = (
-		campo: keyof IProductValueState,
+		campo: keyof ProductValueState,
 		valor: string | undefined,
 	): void => {
-		let objAux: IProductValueState[];
+		let objAux: ProductValueState[];
 		switch (campo) {
 			case 'condicionPago':
 				objAux = [ ...productValues ];
 
-				objAux.map((productValue: IProductValueState, i: number) => {
+				objAux.map((productValue: ProductValueState, i: number) => {
 					if (i === index) {
 						objAux[ i ].condicionPago = valor;
 					}
@@ -113,7 +111,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 			case 'precioPorMedida':
 				objAux = [ ...productValues ];
 
-				objAux.map((productValue: IProductValueState, i: number) => {
+				objAux.map((productValue: ProductValueState, i: number) => {
 					if (i === index) {
 						objAux[ i ].precioPorMedida = valor ? +valor : undefined;
 					}
@@ -124,10 +122,10 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 			case 'proveedorPrincipal':
 				objAux = [ ...productValues ];
 
-				objAux.map((productValue: IProductValueState, i: number) => {
+				objAux.map((productValue: ProductValueState, i: number) => {
 					if (i === index) {
 						objAux[ i ].proveedorPrincipal = listaProveedores.find(
-							(proveedor: IProveedor) =>
+							(proveedor: Proveedor) =>
 								proveedor.Id === (valor ? +valor : undefined),
 						);
 					}
@@ -138,7 +136,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 			case 'volumenComprado':
 				objAux = [ ...productValues ];
 
-				objAux.map((productValue: IProductValueState, i: number) => {
+				objAux.map((productValue: ProductValueState, i: number) => {
 					if (i === index) {
 						objAux[ i ].volumenComprado = valor;
 					}
@@ -149,10 +147,10 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 			case 'familiaProducto':
 				objAux = [ ...productValues ];
 
-				objAux.map((productValue: IProductValueState, i: number) => {
+				objAux.map((productValue: ProductValueState, i: number) => {
 					if (i === index+1) {
 						objAux[ i ].familiaProducto = listaProductosFiltro.find(
-							(familia: IFamiliaProducto) =>
+							(familia: FamiliaProducto) =>
 								familia.Nombre === valor,
 						);
 					}
@@ -161,12 +159,12 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 				setProductValues(objAux);
 				break;
 			default:
-				console.log('Campo no switcheable');
+				console.error('Campo no switcheable');
 				break;
 		}
 	};
 
-	const validateFields = (values:IProductValueState):boolean=>{
+	const validateFields = (values:ProductValueState):boolean=>{
 		return Object.keys(values).length !== 5
 	}
 
@@ -183,7 +181,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 			handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
 		}else{
 			console.log("Sending data to save")
-			const validatedValues:IProductValueState[] = productValues.map((item:IProductValueState) => (
+			const validatedValues:ProductValueState[] = productValues.map((item:ProductValueState) => (
 				{
 					familiaProducto: item.familiaProducto!,
 					volumenComprado: item.volumenComprado!,
@@ -215,7 +213,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 
 			console.log(`Cambio en Dpdown ${name}, valor: ${value}`);
 
-			handleSelectedChanges(name as keyof IProductValueState, value);
+			handleSelectedChanges(name as keyof ProductValueState, value);
 		},
 		[ handleSelectedChanges ],
 	);
@@ -234,7 +232,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 
 			console.log(`Cambio en Input ${name}, valor: ${value}`);
 
-			handleSelectedChanges(name as keyof IProductValueState, value);
+			handleSelectedChanges(name as keyof ProductValueState, value);
 		},
 		[ handleSelectedChanges ],
 	);
@@ -308,7 +306,7 @@ const MonitorFormProducts: React.FC<IMonitorFormProductsProps> = (props) => {
 						}
 						onOptionSelect={handleCbxChanges}
 					>
-						{listaProveedores.map((item: IProveedor) => (
+						{listaProveedores.map((item: Proveedor) => (
 							<Option
 								key={item.Id}
 								text='Opcion'
