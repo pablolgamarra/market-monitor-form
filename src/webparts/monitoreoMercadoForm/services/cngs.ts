@@ -100,3 +100,35 @@ export const getCNGByCodSAP = async (
 			return undefined;
 		});
 };
+
+export const getCNGById = async (
+	context: WebPartContext,
+	Id: number,
+): Promise<CNG | undefined> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('CNG')/items?$filter=Id eq '${Id}'&$select=Id, Title, Correo, NombreCNG`;
+
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, OPTIONS)
+		.then((data: SPHttpClientResponse) => {
+			if (data.status !== 200) {
+				return;
+			}
+			return data.json();
+		})
+		.then((data: CNGResponse) => {
+			const CNG: CNG | undefined = data.value
+				.map((item: CNGResponseValue) => ({
+					Id: item.Id,
+					Nombre: item.NombreCNG,
+					CodigoSAP: item.Title,
+					Correo: item.Correo,
+				}))
+				.find((item: CNG) => item.Id === Id);
+
+			return CNG;
+		})
+		.catch((e) => {
+			console.error(`Error fetching CNG por Codigo SAP ${e}`);
+			return undefined;
+		});
+};
