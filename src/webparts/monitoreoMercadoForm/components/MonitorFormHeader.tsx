@@ -18,6 +18,7 @@ import { Unidad, Cliente, PeriodoCultivo } from '../types';
 
 import * as headerStrings from 'MonitorFormHeaderStrings';
 import { IMonitorFormState } from './MonitorForm';
+import { useUserContext } from '@/hooks/useUser';
 
 const useStyles = makeStyles({
 	//TODO: TRABAJAR EL RESPONSIVE DESIGN
@@ -38,9 +39,9 @@ const useStyles = makeStyles({
 			fontSize: '1.3rem',
 			marginBottom: '5px',
 		},
-		'>button':{
-			fontSize:'1.3rem',
-			marginTop:'5px',
+		'>button': {
+			fontSize: '1.3rem',
+			marginTop: '5px',
 		}
 	},
 	cbx: {
@@ -53,12 +54,12 @@ const useStyles = makeStyles({
 		marginBottom: '10px',
 		fontSize: '1rem',
 	},
-	popoverSurface:{
-		display:'flex',
-		flexDirection:'column',
+	popoverSurface: {
+		display: 'flex',
+		flexDirection: 'column',
 	},
-	button:{
-		color:'currentcolor'
+	button: {
+		color: 'currentcolor'
 	},
 });
 
@@ -86,7 +87,9 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	//Component Style
 	const styles = useStyles();
 
-	const listaClientesFiltro: Cliente[] = listaClientes.filter((item: Cliente) => item.Unidad?.Id === unidad?.Id);
+	const user = useUserContext();
+	
+	const listaClientesFiltro: Cliente[] = listaClientes.filter((item: Cliente) => item.Unidad?.Id === unidad?.Id && +item.Anho === new Date().getFullYear() - 1 && item.CNG?.Correo === user.email);
 
 	const handleDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
@@ -185,7 +188,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 									{periodoCultivo.Nombre}
 								</Label>
 							</PopoverSurface>
-					</Popover>
+						</Popover>
 					</article>
 				</>
 			}
