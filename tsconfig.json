@@ -27,7 +27,10 @@
       "dom",
       "es2015.collection",
       "es2015.promise"
-    ]
+    ],
+    "paths": {
+      "@/*":["./src/webparts/monitoreoMercadoForm/*"]
+    }
   },
   "include": [
     "src/**/*.ts",
