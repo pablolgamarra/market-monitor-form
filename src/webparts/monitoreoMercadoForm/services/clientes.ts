@@ -6,7 +6,7 @@ import {
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { Cliente, ClientesResponse, ClientesResponseValue } from '../types';
 import { getUnidadById } from './unidades';
-import { getCNGByCodSAP } from './cngs';
+import { getCNGById } from './cngs';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },
@@ -27,9 +27,9 @@ export const getAllClientes = async (
 			const clientes: Cliente[] = await Promise.all(
 				data.value.map(async (item: ClientesResponseValue) => {
 					const unidad = await getUnidadById(context, item.UnidadId);
-					const cng = await getCNGByCodSAP(
+					const cng = await getCNGById(
 						context,
-						item.Codigo_x0020_SAP_x0020_CNGId.toString(),
+						item.Codigo_x0020_SAP_x0020_CNGId,
 					);
 
 					return {
@@ -66,9 +66,9 @@ export const getClienteById = async (
 			const cliente: Cliente | undefined = await Promise.all(
 				data.value.map(async (item: ClientesResponseValue) => {
 					const unidad = await getUnidadById(context, item.UnidadId);
-					const cng = await getCNGByCodSAP(
+					const cng = await getCNGById(
 						context,
-						item.Codigo_x0020_SAP_x0020_CNGId.toString(),
+						item.Codigo_x0020_SAP_x0020_CNGId,
 					);
 
 					return {
