@@ -2,12 +2,12 @@ import {
 	SPHttpClient,
 	ISPHttpClientOptions,
 	SPHttpClientResponse,
-} from 'sp-http';
+} from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { Unidad, UnidadesResponse, UnidadesResponseValue } from '../types';
 
 const OPTIONS: ISPHttpClientOptions = {
-	headers: { Accept: 'application/json; odata=nometadata' },
+	headers: { Accept: 'application/json'},
 };
 
 export const getAllUnidades = async (
@@ -18,10 +18,10 @@ export const getAllUnidades = async (
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
 		.then((data: SPHttpClientResponse) => {
-			if (data.status !== 200) {
-				return [];
+			if (data.status === 200) {
+				return data.json();
 			}
-			return data.json();
+			return [];
 		})
 		.then((data: UnidadesResponse) => {
 			const unidades: Unidad[] = data.value.map(

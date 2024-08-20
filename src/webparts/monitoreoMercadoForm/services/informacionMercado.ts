@@ -17,7 +17,7 @@ export const saveInformacionesMercado = async (
 	const request: ISPHttpClientOptions = {
 		headers: {
 			'Content-Type': `Multipart/mixed;boundary="${batchID}"`,
-			Accept: 'application/json;odata=nometadata',
+			Accept: 'application/json',
 		},
 		body: batchBody,
 	};

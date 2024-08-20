@@ -2,7 +2,7 @@ import {
 	SPHttpClient,
 	ISPHttpClientOptions,
 	SPHttpClientResponse,
-} from 'sp-http';
+} from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import {
 	PeriodoCultivo,
@@ -11,7 +11,7 @@ import {
 } from '../types';
 
 const OPTIONS: ISPHttpClientOptions = {
-	headers: { Accept: 'application/json; odata=nometadata' },
+	headers: { Accept: 'application/json' },
 };
 
 export const getAllPeriodosCultivo = async (
@@ -47,7 +47,7 @@ export const getPeriodoCultivoById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<PeriodoCultivo | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Id eq ${Id}$select=Id, Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Id eq '${Id}'&$select=Id, Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)

@@ -2,12 +2,12 @@ import {
 	SPHttpClient,
 	ISPHttpClientOptions,
 	SPHttpClientResponse,
-} from 'sp-http';
+} from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { CNG, CNGResponse, CNGResponseValue } from '../types';
 
 const OPTIONS: ISPHttpClientOptions = {
-	headers: { Accept: 'application/json; odata=nometadata' },
+	headers: { Accept: 'application/json' },
 };
 
 export const getAllCNG = async (context: WebPartContext): Promise<CNG[]> => {

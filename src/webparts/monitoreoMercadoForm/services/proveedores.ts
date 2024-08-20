@@ -2,7 +2,7 @@ import {
 	SPHttpClient,
 	ISPHttpClientOptions,
 	SPHttpClientResponse,
-} from 'sp-http';
+} from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import {
 	Proveedor,
@@ -12,13 +12,13 @@ import {
 import { getFamiliasProductoById } from './familiasProducto';
 
 const OPTIONS: ISPHttpClientOptions = {
-	headers: { Accept: 'application/json; odata=nometadata' },
+	headers: { Accept: 'application/json' },
 };
 
 export const getAllProveedores = async (
 	context: WebPartContext,
 ): Promise<Proveedor[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items?$select=Id, Title, Periodo_x0020_de_x0020_CultivoId`;
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items?$select=Id, Title, Familia_x0020_de_x0020_ProductoId`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -33,7 +33,7 @@ export const getAllProveedores = async (
 				data.value.map(async (item: ProveedoresResponseValue) => {
 					const familiaProducto = await getFamiliasProductoById(
 						context,
-						item.Id,
+						item.Familia_x0020_de_x0020_ProductoId,
 					);
 					return {
 						Id: item.Id,
@@ -51,11 +51,11 @@ export const getAllProveedores = async (
 		});
 };
 
-export const getUnidadById = async (
+export const getProveedorById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<Proveedor | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items?$filter=Id eq '${Id}'&$select=Id,Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items?$filter=Id eq '${Id}'&$select=Id,Title, Familia_x0020_de_x0020_ProductoId`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)

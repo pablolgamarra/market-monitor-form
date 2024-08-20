@@ -2,14 +2,14 @@ import {
 	SPHttpClient,
 	ISPHttpClientOptions,
 	SPHttpClientResponse,
-} from 'sp-http';
+} from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { Cliente, ClientesResponse, ClientesResponseValue } from '../types';
 import { getUnidadById } from './unidades';
 import { getCNGByCodSAP } from './cngs';
 
 const OPTIONS: ISPHttpClientOptions = {
-	headers: { Accept: 'application/json; odata=nometadata' },
+	headers: { Accept: 'application/json' },
 };
 
 export const getAllClientes = async (
