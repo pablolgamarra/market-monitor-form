@@ -7,7 +7,8 @@ import {
   FluentProvider, FluentProviderProps, Title1, Title2, webLightTheme
 } from '@fluentui/react-components';
 import MonitorForm from './MonitorForm';
-import { saveInformacionesMercado } from '../services/informacionMercado';
+import { saveInformacionesMercado } from '@/services/informacionMercado';
+import { UserProvider } from '@/context/user';
 
 export interface AppProps {
   url: string;
@@ -48,9 +49,11 @@ const App: React.FC<AppProps> = (props) => {
           <Title2>Comuníquese con el Departamento de T.I.</Title2>
         </>
       ) : (
-        <FluentProvider theme={webLightTheme}>
-          <MonitorForm {...{ ...props, saveData: saveData }} />
-        </FluentProvider>
+        <UserProvider user={props.context.pageContext.user}>
+          <FluentProvider theme={webLightTheme}>
+            <MonitorForm {...{ ...props, saveData: saveData }} />
+          </FluentProvider>
+        </UserProvider>
       )}
     </FluentProvider>
   );
