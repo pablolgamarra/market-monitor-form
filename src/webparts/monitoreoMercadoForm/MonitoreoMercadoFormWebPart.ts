@@ -11,12 +11,13 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'MonitoreoMercadoFormWebPartStrings';
 
-import App, { AppProps } from './components/App';
-import { getAllUnidades } from './services/unidades';
-import { getAllProveedores } from './services/proveedores';
-import { getAllPeriodosCultivo } from './services/periodosCultivo';
-import { getAllFamiliasProducto } from './services/familiasProducto';
-import { getAllClientes } from './services/clientes';
+import App, { AppProps } from '@/components/App';
+import { getAllUnidades } from '@/services/unidades';
+import { getAllProveedores } from '@/services/proveedores';
+import { getAllPeriodosCultivo } from '@/services/periodosCultivo';
+import { getAllFamiliasProducto } from '@/services/familiasProducto';
+import { getAllClientes } from '@/services/clientes';
+import { getAllCNG } from '@/services/cngs';
 
 export interface IMonitoreoMercadoFormWebPartProps {
 	description: string;
@@ -32,6 +33,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 		const listaFamiliasProductos = await getAllFamiliasProducto(context);
 		const listaPeriodosCultivo = await getAllPeriodosCultivo(context);
 		const listaProveedores = await getAllProveedores(context);
+		const listaCNG = await getAllCNG(context)
 
 		const root: React.FunctionComponentElement<AppProps> =
 			React.createElement(App, {
@@ -42,6 +44,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 				listaFamiliasProducto: listaFamiliasProductos,
 				listaPeriodosCultivo: listaPeriodosCultivo,
 				listaProveedores: listaProveedores,
+				listaCNG: listaCNG,
 				width: this.width,
 			});
 
