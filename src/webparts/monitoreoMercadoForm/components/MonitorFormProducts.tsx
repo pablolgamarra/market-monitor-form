@@ -26,11 +26,11 @@ export interface MonitorFormProductsProps {
 	listaFamiliasProducto: FamiliaProducto[];
 	listaProveedores: Proveedor[];
 	periodoCultivo: PeriodoCultivo | undefined;
-	handleSave(data:ProductValueState[]):void;
+	handleSave(data: ProductValueState[]): void;
 }
 
 export interface ProductValueState {
-	familiaProducto: FamiliaProducto|undefined;
+	familiaProducto: FamiliaProducto | undefined;
 	volumenComprado: string | undefined;
 	precioPorMedida: number | undefined;
 	condicionPago: string | undefined;
@@ -62,16 +62,16 @@ const useStyles = makeStyles({
 		marginTop: '25px',
 	},
 	Input: {
-		marginBottom:'15px',
+		marginBottom: '15px',
 		'>label': {
 			color: 'currentcolor',
-			fontSize:'1rem',
+			fontSize: '1rem',
 		}
 	},
 });
 
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo, handleSave} = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo, handleSave } = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
@@ -88,8 +88,10 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 
 	const [ productValues, setProductValues ] = React.useState<
 		ProductValueState[]
-	>(Array.from({ length: largoLista }, () => ({familiaProducto:listaProductosFiltro[0]} as ProductValueState)));
+	>(Array.from({ length: largoLista }, () => ({ familiaProducto: listaProductosFiltro[ 0 ] } as ProductValueState)));
 	const [ index, setIndex ] = React.useState<number>(0);
+
+	//let listaProveedoresFiltro = listaProveedores.filter((item) => item.FamiliadeProducto?.Id === productValues[ 0 ].familiaProducto?.Id)
 
 	const handleSelectedChanges = (
 		campo: keyof ProductValueState,
@@ -148,11 +150,13 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				objAux = [ ...productValues ];
 
 				objAux.map((productValue: ProductValueState, i: number) => {
-					if (i === index+1) {
+					if (i === index + 1) {
 						objAux[ i ].familiaProducto = listaProductosFiltro.find(
 							(familia: FamiliaProducto) =>
 								familia.Nombre === valor,
 						);
+
+						//listaProveedoresFiltro = listaProveedores.filter((item) => item.FamiliadeProducto?.Id === objAux[ i ].familiaProducto?.Id)
 					}
 				});
 
@@ -164,24 +168,26 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 		}
 	};
 
-	const validateFields = (values:ProductValueState):boolean=>{
+	const validateFields = (values: ProductValueState): boolean => {
 		return Object.keys(values).length !== 5
 	}
 
 	const handleBtnRetrocesoClick = React.useCallback(() => {
 		const indexNuevo = index - 1 > -1 ? index - 1 : index;
+
+		handleSelectedChanges('familiaProducto', listaProductosFiltro[ indexNuevo ].Nombre)
 		setIndex(indexNuevo);
 	}, [ setIndex ]);
 
 	const handleBtnAvanzarClick = React.useCallback(() => {
-		if(index < largoLista-1){
-			const indexNuevo = index+1
-		
+		if (index < largoLista - 1) {
+			const indexNuevo = index + 1
+
+			handleSelectedChanges('familiaProducto', listaProductosFiltro[ indexNuevo ].Nombre)
 			setIndex(indexNuevo);
-			handleSelectedChanges('familiaProducto', listaProductosFiltro[indexNuevo].Nombre)
-		}else{
+		} else {
 			console.log("Sending data to save")
-			const validatedValues:ProductValueState[] = productValues.map((item:ProductValueState) => (
+			const validatedValues: ProductValueState[] = productValues.map((item: ProductValueState) => (
 				{
 					familiaProducto: item.familiaProducto!,
 					volumenComprado: item.volumenComprado!,
@@ -239,7 +245,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 
 	return (
 		<section className={`${styles.FormContainer}`}>
-			<Title2>{productValues[index].familiaProducto?.Nombre}</Title2>
+			<Title2>{productValues[ index ].familiaProducto?.Nombre}</Title2>
 			<form>
 				<Field
 					className={`${styles.Input}`}
@@ -306,6 +312,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						}
 						onOptionSelect={handleCbxChanges}
 					>
+						{console.log(listaProveedores)}
 						{listaProveedores.map((item: Proveedor) => (
 							<Option
 								key={item.Id}
@@ -347,7 +354,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						onClick={handleBtnAvanzarClick}
 						appearance='primary'
 						shape='rounded'
-						disabled={validateFields(productValues[index])}
+						disabled={validateFields(productValues[ index ])}
 						icon={
 							index + 1 === largoLista ? (
 								<SaveRegular />
