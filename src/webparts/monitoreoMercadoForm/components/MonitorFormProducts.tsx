@@ -91,8 +91,9 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	>(Array.from({ length: largoLista }, () => ({ familiaProducto: listaProductosFiltro[ 0 ] } as ProductValueState)));
 	const [ index, setIndex ] = React.useState<number>(0);
 
-	//let listaProveedoresFiltro = listaProveedores.filter((item) => item.FamiliadeProducto?.Id === productValues[ 0 ].familiaProducto?.Id)
-
+	const listaProveedoresFiltro = listaProveedores.filter(
+		(item) => item.FamiliadeProducto?.Id === productValues[ index ]?.familiaProducto?.Id
+	);
 	const handleSelectedChanges = (
 		campo: keyof ProductValueState,
 		valor: string | undefined,
@@ -155,8 +156,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							(familia: FamiliaProducto) =>
 								familia.Nombre === valor,
 						);
-
-						//listaProveedoresFiltro = listaProveedores.filter((item) => item.FamiliadeProducto?.Id === objAux[ i ].familiaProducto?.Id)
 					}
 				});
 
@@ -312,8 +311,8 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						}
 						onOptionSelect={handleCbxChanges}
 					>
-						{console.log(listaProveedores)}
-						{listaProveedores.map((item: Proveedor) => (
+						{console.log(listaProveedoresFiltro)}
+						{listaProveedoresFiltro.map((item: Proveedor) => (
 							<Option
 								key={item.Id}
 								text='Opcion'
