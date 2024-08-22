@@ -6,7 +6,7 @@ import generateBatchString from './generateBatchString';
 export const saveInformacionesMercado = async (
 	context: WebPartContext,
 	data: InformacionMercado[],
-) => {
+):Promise<boolean> => {
 	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
 
 	const { batchBody, batchID } = generateBatchString(
@@ -28,5 +28,7 @@ export const saveInformacionesMercado = async (
     })
     .catch((e)=>{
         console.error(`Error al insertar informacion de mercado ${e}`)
-    })
+		return false;
+	})
+	return true;
 };
