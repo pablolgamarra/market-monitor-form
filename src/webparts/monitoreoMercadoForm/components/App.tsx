@@ -1,17 +1,16 @@
 import * as React from 'react';
 
-import { Cliente, FamiliaProducto, Unidad, PeriodoCultivo, CNG, Proveedor, InformacionMercado } from '../types';
+import { Cliente, FamiliaProducto, Unidad, PeriodoCultivo, CNG, Proveedor } from '../types';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { isEmpty } from '@microsoft/sp-lodash-subset';
 import {
   FluentProvider, FluentProviderProps, Title1, Title2, webLightTheme
 } from '@fluentui/react-components';
 import MonitorForm from './MonitorForm';
-import { saveInformacionesMercado } from '@/services/informacionMercado';
 import { UserProvider } from '@/context/user';
+import { WpProvider } from '@/context/webPart';
 
 export interface AppProps {
-  url: string;
   context: WebPartContext;
   listaClientes: Cliente[];
   listaUnidades: Unidad[];
@@ -25,17 +24,6 @@ export interface AppProps {
 //TODO: Estilar min-width para la app a full 320 px.
 
 const App: React.FC<AppProps> = (props) => {
-  const saveData = (data: InformacionMercado[]): void => {
-    saveInformacionesMercado(props.context, data)
-      .then(() => {
-        alert('Datos Guardados Correctamente');
-      })
-      .catch((e: Error) => {
-        console.log(`Error al guardar datos: ${e}`);
-        alert('Error al guardar los datos');
-      });
-  };
-
   const element: React.ReactElement<FluentProviderProps> = (
     <FluentProvider theme={webLightTheme}>
       {isEmpty(props.listaClientes) ||
@@ -49,11 +37,13 @@ const App: React.FC<AppProps> = (props) => {
           <Title2>Comuníquese con el Departamento de T.I.</Title2>
         </>
       ) : (
-        <UserProvider user={props.context.pageContext.user}>
-          <FluentProvider theme={webLightTheme}>
-            <MonitorForm {...{ ...props, saveData: saveData }} />
-          </FluentProvider>
-        </UserProvider>
+        <WpProvider context={props.context}>
+          <UserProvider user={props.context.pageContext.user}>
+            <FluentProvider theme={webLightTheme}>
+              <MonitorForm {...props} />
+            </FluentProvider>
+          </UserProvider>
+        </WpProvider>
       )}
     </FluentProvider>
   );
