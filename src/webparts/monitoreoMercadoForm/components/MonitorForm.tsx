@@ -11,6 +11,7 @@ import { Cliente, Unidad, FamiliaProducto, PeriodoCultivo, Proveedor, Informacio
 import MonitorFormHeader from './MonitorFormHeader';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
 import MonitorFormProducts, { ProductValueState } from './MonitorFormProducts';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 const useStyles = makeStyles({
   root: {
@@ -35,14 +36,12 @@ export interface IMonitorFormProps {
   listaFamiliasProducto: FamiliaProducto[];
   listaPeriodosCultivo: PeriodoCultivo[];
   listaProveedores: Proveedor[];
-  saveData(props:InformacionMercado[]):void;
 }
 
 export interface IMonitorFormState {
   unidad: Unidad|undefined,
   cliente: Cliente|undefined,
   periodoCultivo: PeriodoCultivo,
-  onSave(data: InformacionMercado): void,
 }
 
 const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
@@ -52,12 +51,13 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
     listaPeriodosCultivo,
     listaFamiliasProducto,
     listaProveedores,
-    saveData
   } = props;
 
   const styles = useStyles();
 
   const [ formData, setFormData ] = React.useState<IMonitorFormState>({} as IMonitorFormState);
+
+  const [saveData, status] = useSubmitForm()
 
   const handleHeaderChanges = (campo: keyof IMonitorFormState, valor: string | number): void => {
     let objAux: IMonitorFormState = {} as IMonitorFormState
@@ -128,7 +128,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
             />
             {
               formData.unidad && formData.cliente ?
-              <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} handleSave={handleSaveData}/>
+              <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} status={status} saveData={handleSaveData}/>
               :
               <></>
             }
