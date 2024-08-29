@@ -25,9 +25,8 @@ export interface IMonitoreoMercadoFormWebPartProps {
 
 export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<IMonitoreoMercadoFormWebPartProps> {
 	public async render(): Promise<void> {
-		const url = this.context.pageContext.web.absoluteUrl;
+		//TODO: Reemplazar esto por custom hooks
 		const context = this.context;
-
 		const listaUnidades = await getAllUnidades(context);
 		const listaClientes = await getAllClientes(context);
 		const listaFamiliasProductos = await getAllFamiliasProducto(context);
@@ -37,7 +36,6 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 
 		const root: React.FunctionComponentElement<AppProps> =
 			React.createElement(App, {
-				url: url,
 				context: context,
 				listaClientes: listaClientes,
 				listaUnidades: listaUnidades,
