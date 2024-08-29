@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import {
 	Input,
 	Combobox,
@@ -13,20 +12,22 @@ import {
 	SelectionEvents,
 	OptionOnSelectData,
 	InputOnChangeData,
+	Spinner,
 } from '@fluentui/react-components';
 import {
 	ArrowLeftFilled,
 	ArrowRightFilled,
+	CheckmarkFilled,
+	DismissFilled,
 	SaveRegular,
 } from '@fluentui/react-icons';
-
-import { FamiliaProducto, Proveedor, PeriodoCultivo } from '../types';
-
+import { FamiliaProducto, Proveedor, PeriodoCultivo} from '../types';
 export interface MonitorFormProductsProps {
 	listaFamiliasProducto: FamiliaProducto[];
 	listaProveedores: Proveedor[];
-	periodoCultivo: PeriodoCultivo | undefined;
-	handleSave(data: ProductValueState[]): void;
+	periodoCultivo: PeriodoCultivo;
+	status: string;
+	saveData(values:ProductValueState[]):void
 }
 
 export interface ProductValueState {
@@ -71,7 +72,7 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo, handleSave } = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo, status, saveData} = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
@@ -94,6 +95,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	const listaProveedoresFiltro = listaProveedores.filter(
 		(item) => item.FamiliadeProducto?.Id === productValues[ index ]?.familiaProducto?.Id
 	);
+
 	const handleSelectedChanges = (
 		campo: keyof ProductValueState,
 		valor: string | undefined,
@@ -188,13 +190,13 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 			console.log("Sending data to save")
 			const validatedValues: ProductValueState[] = productValues.map((item: ProductValueState) => (
 				{
-					familiaProducto: item.familiaProducto!,
+					familiaProducto: item.familiaProducto,
 					volumenComprado: item.volumenComprado!,
 					precioPorMedida: item.precioPorMedida!,
 					condicionPago: item.condicionPago!,
-					proveedorPrincipal: item.proveedorPrincipal!,
+					proveedorPrincipal: item.proveedorPrincipal,
 				}))
-			handleSave(validatedValues)
+			saveData(validatedValues)
 		}
 	}, [ setIndex, index, largoLista ]);
 
@@ -323,8 +325,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						))}
 					</Combobox>
 				</Field>
-			</form>
-			<section className={`${styles.NavegacionContainer}`}>
+				<section className={`${styles.NavegacionContainer}`}>
 				<div className={`${styles.BotonesContainer}`}>
 					{index > 0 && (
 						<Button
@@ -355,13 +356,22 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						shape='rounded'
 						disabled={validateFields(productValues[ index ])}
 						icon={
-							index + 1 === largoLista ? (
-								<SaveRegular />
-							) : (
-								<ArrowRightFilled />
-							)
+							status === 'idle' ?
+								index + 1 === largoLista ? (
+									<SaveRegular />
+								) : (
+									<ArrowRightFilled />
+								)
+								: status === 'saving' ?
+									<Spinner size='tiny' />
+									: status === 'saved' ?
+										<CheckmarkFilled />
+									: status === 'error' ?
+										<DismissFilled/>
+										: <></>
 						}
 						iconPosition='after'
+						type={validateFields(productValues[ index ]) && (index + 1 === largoLista)  ? 'button' : 'button'}
 					>
 						<Text
 							size={400}
@@ -374,6 +384,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					</Button>
 				</div>
 			</section>
+			</form>
 		</section >
 	);
 };
