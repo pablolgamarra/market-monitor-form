@@ -5,38 +5,42 @@ export default function generateBatchString(
 	postUrl: string,
 	data: InformacionMercado[],
 ): { batchBody: string; batchID: string } {
-	const batchID = generateUUID();
-	const changeID = generateUUID();
+	const batchID: string = generateUUID();
+	const batchBodyParts: string[] = [];
+	const changeSetID: string = generateUUID();
 
-	const batchBody: string = `
-    --batch_${batchID}
-    Content-Type: multipart/mixed; boundary=changeset_${changeID}
+	batchBodyParts.push(`--batch_${batchID}`);
+	batchBodyParts.push(
+		`Content-type: multipart/mixed; boundary=changeset_${changeSetID}`,
+	);
+	batchBodyParts.push(``);
 
-    ${data.map(
-		(item: InformacionMercado) =>
-			`--changeset_${changeID}
-			Content-Type: application/http
-			Content-Transfer-Encoding: binary
+	data.map((value: InformacionMercado) => {
+		batchBodyParts.push(`--changeset_${changeSetID}`);
+		batchBodyParts.push(`Content-type: application/http`);
+		batchBodyParts.push(`Content-Transfer-Encoding: binary`);
+		batchBodyParts.push(``);
+		batchBodyParts.push(`POST ${postUrl} HTTP/1.1`);
+		batchBodyParts.push(`Content-type: application/json`);
+		batchBodyParts.push(``);
+		batchBodyParts.push(
+			`${JSON.stringify({
+				ClienteId: value.idCliente,
+				VolumenYaComprado: value.volumenComprado,
+				Familia_x0020_de_x0020_ProductoId: value.idFamilia,
+				Proveedor_x0020_PrincipalId: value.idProveedorPrincipal,
+				Precio: value.precioPorMedida,
+				Condici_x00f3_nPago: value.condicionPago,
+				Periodo_x0020_de_x0020_CultivoId: value.idPeriodoCultivo,
+			})}`,
+		);
+		batchBodyParts.push(``);
+	});
 
-			POST ${postUrl} HTTP/1.1
-			Content-Type: application/json
+	batchBodyParts.push(`--changeset_${changeSetID}--`);
+	batchBodyParts.push(`--batch_${batchID}--`);
 
-					${JSON.stringify({
-						ClienteId: item.idCliente,
-						VolumenYaComprado: item.volumenComprado,
-						Familia_x0020_de_x0020_ProductoId: item.idFamilia,
-						Proveedor_x0020_PrincipalId: item.idProveedorPrincipal,
-						Precio: item.precioPorMedida,
-						Condici_x00f3_nPago: item.condicionPago,
-						Periodo_x0020_de_x0020_CultivoId: item.idPeriodoCultivo,
-					})}
-			
-			--changeset_${changeID}--`
-	).join("")}
-    
-    --batch_${batchID}--
-    `;
-	console.log(batchBody)
+	const batchBody = batchBodyParts.join('\r\n');
 
 	return { batchBody: batchBody, batchID: batchID };
 }
