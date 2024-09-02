@@ -9,14 +9,11 @@ export const useSubmitForm = (): [Function, string] => {
 
 	const saveData = async (data: InformacionMercado[]): Promise<void> => {
 		setStatus('saving');
-		try {
-			console.log(data);
-			await saveInformacionesMercado(context, data)
-			setStatus('saved')
-		} catch (e) {
-			console.error(`Error ${e}`);
-			setStatus('error');
-		}
+		saveInformacionesMercado(context, data)
+			.then((response) => {
+				setStatus('saved');
+			})
+			.catch((e) => setStatus('error'));
 	};
 
 	return [saveData, status];

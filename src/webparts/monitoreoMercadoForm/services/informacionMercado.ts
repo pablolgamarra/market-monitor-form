@@ -1,12 +1,12 @@
 import { ISPHttpClientOptions, SPHttpClient } from '@microsoft/sp-http-base';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { InformacionMercado } from '../types';
-import generateBatchString from './generateBatchString';
+import { InformacionMercado } from '@/types';
+import generateBatchString from '@/services/generateBatchString';
 
 export const saveInformacionesMercado = async (
 	context: WebPartContext,
 	data: InformacionMercado[],
-):Promise<boolean> => {
+): Promise<boolean> => {
 	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
 
 	const { batchBody, batchID } = generateBatchString(
@@ -16,19 +16,28 @@ export const saveInformacionesMercado = async (
 
 	const request: ISPHttpClientOptions = {
 		headers: {
-			'Content-Type': `Multipart/mixed;boundary="${batchID}"`,
-			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary="batch_${batchID}"`,
 		},
 		body: batchBody,
 	};
 
-	context.spHttpClient.post(url, SPHttpClient.configurations.v1, request)
-    .then((data)=>{
-        return data.ok
-    })
-    .catch((e)=>{
-        console.error(`Error al insertar informacion de mercado ${e}`)
+	console.debug(request);
+
+	try {
+		const data = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			request,
+		);
+		if (data.status === 200) {
+			console.log(data.ok);
+			return true;
+		} else {
+			console.log(data);
+			throw Error(`${data.statusText}`);
+		}
+	} catch (e) {
+		console.error(`Error al insertar informacion de mercado ${e}`);
 		return false;
-	})
-	return true;
+	}
 };

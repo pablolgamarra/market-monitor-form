@@ -9,6 +9,8 @@ export default function generateBatchString(
 	const batchBodyParts: string[] = [];
 	const changeSetID: string = generateUUID();
 
+	let i = 0;
+
 	batchBodyParts.push(`--batch_${batchID}`);
 	batchBodyParts.push(
 		`Content-type: multipart/mixed; boundary=changeset_${changeSetID}`,
@@ -19,6 +21,7 @@ export default function generateBatchString(
 		batchBodyParts.push(`--changeset_${changeSetID}`);
 		batchBodyParts.push(`Content-type: application/http`);
 		batchBodyParts.push(`Content-Transfer-Encoding: binary`);
+		batchBodyParts.push(`Content-ID:${(i += 1)}`);
 		batchBodyParts.push(``);
 		batchBodyParts.push(`POST ${postUrl} HTTP/1.1`);
 		batchBodyParts.push(`Content-type: application/json`);
