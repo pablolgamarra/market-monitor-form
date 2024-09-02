@@ -17,23 +17,23 @@ const useStyles = makeStyles(
         root: {
             width: '100%',
         },
-        periodSelectorContainer:{
-            display:'flex',
-            flexDirection:'column',
-            alignItems:'center',
-            marginTop:'50px',
-            ...shorthands.border('.1rem', 'solid','#003c79'),
+        periodSelectorContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            marginTop: '50px',
+            ...shorthands.border('.1rem', 'solid', '#003c79'),
             ...shorthands.borderRadius('1rem'),
         },
-        buttonsContainer:{
-            display:'flex',
-            width:'100%',
-            flexDirection:'row',
-            justifyContent:'center',
-            '>Button':{
-                width:'250px',
-                height:'250px',
-                fontSize:'1.6rem',
+        buttonsContainer: {
+            display: 'flex',
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            '>Button': {
+                width: '250px',
+                height: '250px',
+                fontSize: '1.6rem',
                 ...shorthands.margin('50px', '100px'),
             }
         }
@@ -58,8 +58,6 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (props) 
         const value = e.currentTarget.textContent === null ? '' : e.currentTarget.textContent;
         handleSelectedChange('periodoCultivo', value);
     }, [ handleSelectedChange ])
-
-    console.log(listaPeriodosCultivo)
 
     return (
         <article className={styles.root}>

@@ -39,8 +39,8 @@ export interface IMonitorFormProps {
 }
 
 export interface IMonitorFormState {
-  unidad: Unidad|undefined,
-  cliente: Cliente|undefined,
+  unidad: Unidad | undefined,
+  cliente: Cliente | undefined,
   periodoCultivo: PeriodoCultivo,
 }
 
@@ -57,7 +57,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 
   const [ formData, setFormData ] = React.useState<IMonitorFormState>({} as IMonitorFormState);
 
-  const [saveData, status] = useSubmitForm()
+  const [ saveData, status ] = useSubmitForm()
 
   const handleHeaderChanges = (campo: keyof IMonitorFormState, valor: string | number): void => {
     let objAux: IMonitorFormState = {} as IMonitorFormState
@@ -82,7 +82,6 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
           ...formData,
           periodoCultivo: listaPeriodosCultivo[ Object.keys(listaPeriodosCultivo).map((item: any) => listaPeriodosCultivo[ item ].Nombre).findIndex((x: any) => x === valor) ]
         }
-        console.log(objAux);
         setFormData(objAux);
         break;
       default:
@@ -90,21 +89,21 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
     }
   }
 
-  const handleSaveData = (data:ProductValueState[]):void=>{
-        const data2Save:InformacionMercado[] = data.map((productValue:ProductValueState) => (
-          {
-              idCliente:formData.cliente ? formData.cliente.Id : 0,
-              idUnidad:formData.unidad ? formData.unidad.Id : 0,
-              idPeriodoCultivo:formData.periodoCultivo.Id,
-              idFamilia:productValue.familiaProducto?.Id,
-              idProveedorPrincipal:productValue.proveedorPrincipal?.Id,
-              condicionPago:productValue.condicionPago,
-              precioPorMedida:productValue.precioPorMedida,
-              volumenComprado:productValue.volumenComprado,
-          }
-      ))
+  const handleSaveData = (data: ProductValueState[]): void => {
+    const data2Save: InformacionMercado[] = data.map((productValue: ProductValueState) => (
+      {
+        idCliente: formData.cliente ? formData.cliente.Id : 0,
+        idUnidad: formData.unidad ? formData.unidad.Id : 0,
+        idPeriodoCultivo: formData.periodoCultivo.Id,
+        idFamilia: productValue.familiaProducto?.Id,
+        idProveedorPrincipal: productValue.proveedorPrincipal?.Id,
+        condicionPago: productValue.condicionPago,
+        precioPorMedida: productValue.precioPorMedida,
+        volumenComprado: productValue.volumenComprado,
+      }
+    ))
 
-      saveData(data2Save)
+    saveData(data2Save)
   }
 
   return (
@@ -128,9 +127,9 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
             />
             {
               formData.unidad && formData.cliente ?
-              <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} status={status} saveData={handleSaveData}/>
-              :
-              <></>
+                <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} status={status} saveData={handleSaveData} />
+                :
+                <></>
             }
           </>
         }

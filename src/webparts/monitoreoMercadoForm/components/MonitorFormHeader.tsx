@@ -88,7 +88,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	const styles = useStyles();
 
 	const user = useUserContext();
-	
+
 	const listaClientesFiltro: Cliente[] = listaClientes.filter((item: Cliente) => item.Unidad?.Id === unidad?.Id && +item.Anho === new Date().getFullYear() - 1 && item.CNG?.Correo === user.email);
 
 	const handleDpDown = React.useCallback(
@@ -119,7 +119,6 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 					: elementName;
 			const value = data.optionValue
 
-			console.log(`Cambio en Dpdown ${name}, valor: ${value}`)
 			handleSelectedChange(name as keyof IMonitorFormState, value)
 		},
 		[ handleSelectedChange ],

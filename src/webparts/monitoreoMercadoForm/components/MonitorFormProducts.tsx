@@ -21,13 +21,13 @@ import {
 	DismissFilled,
 	SaveRegular,
 } from '@fluentui/react-icons';
-import { FamiliaProducto, Proveedor, PeriodoCultivo} from '../types';
+import { FamiliaProducto, Proveedor, PeriodoCultivo } from '../types';
 export interface MonitorFormProductsProps {
 	listaFamiliasProducto: FamiliaProducto[];
 	listaProveedores: Proveedor[];
 	periodoCultivo: PeriodoCultivo;
 	status: string;
-	saveData(values:ProductValueState[]):void
+	saveData(values: ProductValueState[]): void
 }
 
 export interface ProductValueState {
@@ -72,7 +72,7 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo, status, saveData} = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo, status, saveData } = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
@@ -187,7 +187,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 			handleSelectedChanges('familiaProducto', listaProductosFiltro[ indexNuevo ].Nombre)
 			setIndex(indexNuevo);
 		} else {
-			console.log("Sending data to save")
 			const validatedValues: ProductValueState[] = productValues.map((item: ProductValueState) => (
 				{
 					familiaProducto: item.familiaProducto,
@@ -218,8 +217,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					: elementName;
 			const value = data.optionValue;
 
-			console.log(`Cambio en Dpdown ${name}, valor: ${value}`);
-
 			handleSelectedChanges(name as keyof ProductValueState, value);
 		},
 		[ handleSelectedChanges ],
@@ -236,8 +233,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					? ''
 					: elementName;
 			const value = data.value;
-
-			console.log(`Cambio en Input ${name}, valor: ${value}`);
 
 			handleSelectedChanges(name as keyof ProductValueState, value);
 		},
@@ -313,7 +308,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						}
 						onOptionSelect={handleCbxChanges}
 					>
-						{console.log(listaProveedoresFiltro)}
 						{listaProveedoresFiltro.map((item: Proveedor) => (
 							<Option
 								key={item.Id}
@@ -326,64 +320,64 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					</Combobox>
 				</Field>
 				<section className={`${styles.NavegacionContainer}`}>
-				<div className={`${styles.BotonesContainer}`}>
-					{index > 0 && (
+					<div className={`${styles.BotonesContainer}`}>
+						{index > 0 && (
+							<Button
+								className={styles.BotonRetroceso + '' + styles.Boton}
+								onClick={handleBtnRetrocesoClick}
+								appearance='secondary'
+								shape='rounded'
+								icon={<ArrowLeftFilled />}
+								iconPosition='before'
+							>
+								<Text
+									size={400}
+									weight={'semibold'}
+								>
+									Página Anterior
+								</Text>
+							</Button>
+						)}
+						<Body2>
+							{index + 1} de {largoLista}
+						</Body2>
+					</div>
+					<div className={`${styles.BotonesContainer}`}>
 						<Button
-							className={styles.BotonRetroceso + '' + styles.Boton}
-							onClick={handleBtnRetrocesoClick}
-							appearance='secondary'
+							className={`${styles.Boton}`}
+							onClick={handleBtnAvanzarClick}
+							appearance='primary'
 							shape='rounded'
-							icon={<ArrowLeftFilled />}
-							iconPosition='before'
+							disabled={validateFields(productValues[ index ])}
+							icon={
+								status === 'idle' ?
+									index + 1 === largoLista ? (
+										<SaveRegular />
+									) : (
+										<ArrowRightFilled />
+									)
+									: status === 'saving' ?
+										<Spinner size='tiny' />
+										: status === 'saved' ?
+											<CheckmarkFilled />
+											: status === 'error' ?
+												<DismissFilled />
+												: <></>
+							}
+							iconPosition='after'
+							type={validateFields(productValues[ index ]) && (index + 1 === largoLista) ? 'button' : 'button'}
 						>
 							<Text
 								size={400}
 								weight={'semibold'}
 							>
-								Página Anterior
+								{index + 1 === largoLista
+									? 'Guardar'
+									: 'Siguiente Página'}
 							</Text>
 						</Button>
-					)}
-					<Body2>
-						{index + 1} de {largoLista}
-					</Body2>
-				</div>
-				<div className={`${styles.BotonesContainer}`}>
-					<Button
-						className={`${styles.Boton}`}
-						onClick={handleBtnAvanzarClick}
-						appearance='primary'
-						shape='rounded'
-						disabled={validateFields(productValues[ index ])}
-						icon={
-							status === 'idle' ?
-								index + 1 === largoLista ? (
-									<SaveRegular />
-								) : (
-									<ArrowRightFilled />
-								)
-								: status === 'saving' ?
-									<Spinner size='tiny' />
-									: status === 'saved' ?
-										<CheckmarkFilled />
-									: status === 'error' ?
-										<DismissFilled/>
-										: <></>
-						}
-						iconPosition='after'
-						type={validateFields(productValues[ index ]) && (index + 1 === largoLista)  ? 'button' : 'button'}
-					>
-						<Text
-							size={400}
-							weight={'semibold'}
-						>
-							{index + 1 === largoLista
-								? 'Guardar'
-								: 'Siguiente Página'}
-						</Text>
-					</Button>
-				</div>
-			</section>
+					</div>
+				</section>
 			</form>
 		</section >
 	);
