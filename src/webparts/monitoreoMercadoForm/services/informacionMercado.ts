@@ -38,6 +38,6 @@ export const saveInformacionesMercado = async (
 		}
 	} catch (e) {
 		console.error(`Error al insertar informacion de mercado ${e}`);
-		return false;
+		throw Error(`Error al insertar informacion de mercado`);
 	}
 };

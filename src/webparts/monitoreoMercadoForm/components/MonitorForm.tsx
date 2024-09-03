@@ -57,7 +57,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 
   const [ formData, setFormData ] = React.useState<IMonitorFormState>({} as IMonitorFormState);
 
-  const [ saveData, status ] = useSubmitForm()
+  const [ saveData, submitStatus ] = useSubmitForm()
 
   const handleHeaderChanges = (campo: keyof IMonitorFormState, valor: string | number): void => {
     let objAux: IMonitorFormState = {} as IMonitorFormState
@@ -127,7 +127,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
             />
             {
               formData.unidad && formData.cliente ?
-                <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} status={status} saveData={handleSaveData} />
+                <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} submitStatus={submitStatus} saveData={handleSaveData} />
                 :
                 <></>
             }

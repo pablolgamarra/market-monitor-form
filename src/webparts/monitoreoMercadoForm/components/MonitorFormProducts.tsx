@@ -13,6 +13,12 @@ import {
 	OptionOnSelectData,
 	InputOnChangeData,
 	Spinner,
+	useToastController,
+	Toast,
+	ToastBody,
+	ToastTitle,
+	Toaster,
+	useId,
 } from '@fluentui/react-components';
 import {
 	ArrowLeftFilled,
@@ -21,12 +27,14 @@ import {
 	DismissFilled,
 	SaveRegular,
 } from '@fluentui/react-icons';
-import { FamiliaProducto, Proveedor, PeriodoCultivo } from '../types';
+import * as productsFormStrings from 'MonitorFormProductsStrings'
+import { FamiliaProducto, Proveedor, PeriodoCultivo } from '@/types';
+
 export interface MonitorFormProductsProps {
 	listaFamiliasProducto: FamiliaProducto[];
 	listaProveedores: Proveedor[];
 	periodoCultivo: PeriodoCultivo;
-	status: string;
+	submitStatus: string;
 	saveData(values: ProductValueState[]): void
 }
 
@@ -72,13 +80,15 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
-	const { listaFamiliasProducto, listaProveedores, periodoCultivo, status, saveData } = props;
+	const { listaFamiliasProducto, listaProveedores, periodoCultivo, submitStatus, saveData } = props;
 	const volumen: number[] = [ ...Array(11).keys() ].map(
 		(value: number) => value * 10,
 	);
 
 	//Component Style
 	const styles = useStyles();
+	const toastId = useId("Toaster");
+	const { dispatchToast } = useToastController(toastId);
 
 	const listaProductosFiltro: FamiliaProducto[] =
 		listaFamiliasProducto.filter(
@@ -239,13 +249,57 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 		[ handleSelectedChanges ],
 	);
 
+	React.useEffect(() => {
+		switch (submitStatus) {
+			case 'saving':
+				console.log('Toast controller:', dispatchToast);
+				dispatchToast(
+					<Toast>
+						<ToastTitle media={<Spinner size='tiny' />}>{productsFormStrings.GuardandoTitle}</ToastTitle>
+						<ToastBody>
+							{productsFormStrings.GuardandoText}
+						</ToastBody>
+					</Toast>
+				)
+				break;
+			case 'saved':
+				dispatchToast(
+					<Toast>
+						<ToastTitle>{productsFormStrings.GuardarTitle}</ToastTitle>
+						<ToastBody>
+							{productsFormStrings.GuardarTitle}
+						</ToastBody>
+					</Toast>
+					,
+					{ intent: 'success' }
+				)
+				setTimeout(() => {
+					window.location.reload()
+				}, 2000)
+				break;
+			case 'error':
+				dispatchToast(
+					<Toast>
+						<ToastTitle>{productsFormStrings.ErrorTitle}</ToastTitle>
+						<ToastBody>
+							{productsFormStrings.ErrorText}
+						</ToastBody>
+					</Toast>,
+					{ intent: 'error' }
+				)
+				break;
+			default:
+				break;
+		}
+	}, [ submitStatus, dispatchToast ])
+
 	return (
 		<section className={`${styles.FormContainer}`}>
 			<Title2>{productValues[ index ].familiaProducto?.Nombre}</Title2>
 			<form>
 				<Field
 					className={`${styles.Input}`}
-					label={'Volumen Ya Comprado'}
+					label={productsFormStrings.VolumenYaCompradoLabel}
 					required
 				>
 					<Combobox
@@ -253,6 +307,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						placeholder={`Seleccione volumen ya comprado`}
 						value={productValues[ index ]?.volumenComprado || ''}
 						onOptionSelect={handleCbxChanges}
+						disabled={submitStatus === 'saving' || submitStatus === 'saved'}
 					>
 						{volumen.map((item: number) => (
 							<Option
@@ -277,6 +332,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							''
 						}
 						onChange={handleInputChanges}
+						disabled={submitStatus === 'saving' || submitStatus === 'saved'}
 					/>
 				</Field>
 				<Field
@@ -289,6 +345,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						placeholder={'Seleccione condicion de pago'}
 						value={productValues[ index ]?.condicionPago || ''}
 						onOptionSelect={handleCbxChanges}
+						disabled={submitStatus === 'saving' || submitStatus === 'saved'}
 					>
 						<Option>Crédito</Option>
 						<Option>Contado</Option>
@@ -307,8 +364,9 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							''
 						}
 						onOptionSelect={handleCbxChanges}
+						disabled={submitStatus === 'saving' || submitStatus === 'saved'}
 					>
-						{listaProveedoresFiltro.map((item: Proveedor) => (
+						{listaProveedores.map((item: Proveedor) => (
 							<Option
 								key={item.Id}
 								text='Opcion'
@@ -329,6 +387,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 								shape='rounded'
 								icon={<ArrowLeftFilled />}
 								iconPosition='before'
+								disabled={submitStatus === 'saving' || submitStatus === 'saved'}
 							>
 								<Text
 									size={400}
@@ -348,19 +407,19 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							onClick={handleBtnAvanzarClick}
 							appearance='primary'
 							shape='rounded'
-							disabled={validateFields(productValues[ index ])}
+							disabled={(validateFields(productValues[ index ])) || submitStatus === 'saving' || submitStatus === 'saved'}
 							icon={
-								status === 'idle' ?
+								submitStatus === 'idle' ?
 									index + 1 === largoLista ? (
 										<SaveRegular />
 									) : (
 										<ArrowRightFilled />
 									)
-									: status === 'saving' ?
+									: submitStatus === 'saving' ?
 										<Spinner size='tiny' />
-										: status === 'saved' ?
+										: submitStatus === 'saved' ?
 											<CheckmarkFilled />
-											: status === 'error' ?
+											: submitStatus === 'error' ?
 												<DismissFilled />
 												: <></>
 							}
@@ -378,6 +437,10 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						</Button>
 					</div>
 				</section>
+				<Toaster
+					toasterId={toastId}
+					position={'top-end'}
+					pauseOnHover={true} />
 			</form>
 		</section >
 	);
