@@ -141,6 +141,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							value={
 								unidad?.Nombre || ''
 							}
+							disabled={unidad && cliente ? true : false}
 						>
 							{listaUnidades.map((item: Unidad) => (
 								<Option
@@ -161,6 +162,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							value={
 								cliente?.Nombre || ''
 							}
+							disabled={unidad && cliente ? true : false}
 						>
 							{listaClientesFiltro.map((item: Cliente) => (
 								<Option
