@@ -1,19 +1,20 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
-  "version": "2.0",
-  "bundles": {
-    "monitoreo-mercado-form-web-part": {
-      "components": [
-        {
-          "entrypoint": "./lib/webparts/monitoreoMercadoForm/MonitoreoMercadoFormWebPart.js",
-          "manifest": "./src/webparts/monitoreoMercadoForm/MonitoreoMercadoFormWebPart.manifest.json"
-        }
-      ]
-    }
-  },
-  "externals": {},
-  "localizedResources": {
-    "MonitoreoMercadoFormWebPartStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
-    "MonitorFormHeaderStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js"
-  }
+	"$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+	"version": "2.0",
+	"bundles": {
+		"monitoreo-mercado-form-web-part": {
+			"components": [
+				{
+					"entrypoint": "./lib/webparts/monitoreoMercadoForm/MonitoreoMercadoFormWebPart.js",
+					"manifest": "./src/webparts/monitoreoMercadoForm/MonitoreoMercadoFormWebPart.manifest.json"
+				}
+			]
+		}
+	},
+	"externals": {},
+	"localizedResources": {
+		"MonitoreoMercadoFormWebPartStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
+		"MonitorFormHeaderStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
+		"MonitorFormProductsStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js"
+	}
 }
