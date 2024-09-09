@@ -10,6 +10,7 @@ import {
 	ProveedoresResponseValue,
 } from '../types';
 import { getFamiliasProductoById } from './familiasProducto';
+import generateBatchString from './generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },
@@ -91,4 +92,88 @@ export const getProveedorById = async (
 			console.error(`Error fetching Proveedor por Id ${e}`);
 			return undefined;
 		});
+};
+
+export const createProveedor = async (
+	context: WebPartContext,
+	proveedor: Proveedor,
+): Promise<boolean> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Proveedores')/items`;
+
+	const { batchID, batchBody } = generateBatchString(
+		batchUrl,
+		[proveedor],
+		'Proveedores',
+	);
+
+	const requestOptions: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary=batch_${batchID}`,
+		},
+		body: batchBody,
+	};
+
+	try {
+		const response = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			requestOptions,
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Send Proveedores Data Query failed! Status: ${response.status} - ${errorText}`,
+			);
+		}
+
+		return true;
+	} catch (error) {
+		console.error(`Error al insertar datos en SP: ${error}`);
+		return false;
+	}
+};
+
+export const createProveedores = async (
+	context: WebPartContext,
+	proveedores: Proveedor[],
+): Promise<boolean> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Proveedores')/items`;
+
+	const { batchID, batchBody } = generateBatchString(
+		batchUrl,
+		proveedores,
+		'Proveedores',
+	);
+
+	const requestOptions: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary=batch_${batchID}`,
+		},
+		body: batchBody,
+	};
+
+	try {
+		const response = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			requestOptions,
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Send Proveedores Data Query failed! Status: ${response.status} - ${errorText}`,
+			);
+		}
+
+		return true;
+	} catch (error) {
+		console.error(`Error al insertar datos en SP: ${error}`);
+		return false;
+	}
 };

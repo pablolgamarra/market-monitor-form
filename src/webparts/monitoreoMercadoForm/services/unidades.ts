@@ -7,7 +7,7 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { Unidad, UnidadesResponse, UnidadesResponseValue } from '../types';
 
 const OPTIONS: ISPHttpClientOptions = {
-	headers: { Accept: 'application/json'},
+	headers: { Accept: 'application/json' },
 };
 
 export const getAllUnidades = async (
@@ -65,6 +65,36 @@ export const getUnidadById = async (
 		})
 		.catch((e) => {
 			console.error(`Error fetching unidad por Id ${e}`);
+			return undefined;
+		});
+};
+
+export const getUnidadByNombre = async (
+	context: WebPartContext,
+	Nombre: string,
+): Promise<Unidad | undefined> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items?$filter=Title eq '${Nombre}'&$select=Id,Title`;
+
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, OPTIONS)
+		.then((data: SPHttpClientResponse) => {
+			if (data.status !== 200) {
+				return;
+			}
+			return data.json();
+		})
+		.then((data: UnidadesResponse) => {
+			const unidad: Unidad | undefined = data.value
+				.map((item: UnidadesResponseValue) => ({
+					Id: item.Id,
+					Nombre: item.Title,
+				}))
+				.find((item: Unidad) => item.Nombre === Nombre);
+
+			return unidad;
+		})
+		.catch((e) => {
+			console.error(`Error fetching unidad por Nombre ${e}`);
 			return undefined;
 		});
 };

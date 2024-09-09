@@ -7,8 +7,9 @@ import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { Cliente, ClientesResponse, ClientesResponseValue } from '../types';
 import { getUnidadById } from './unidades';
 import { getCNGById } from './cngs';
+import generateBatchString from './generateBatchString';
 
-const OPTIONS: ISPHttpClientOptions = {
+const GET_OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },
 };
 
@@ -18,7 +19,7 @@ export const getAllClientes = async (
 	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items?$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId,A_x00f1_o`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, OPTIONS)
+		.get(url, SPHttpClient.configurations.v1, GET_OPTIONS)
 		.then((data: SPHttpClientResponse) => {
 			if (!data.ok) return [];
 			return data.json();
@@ -38,7 +39,7 @@ export const getAllClientes = async (
 						CodigoSAP: item.Codigo_x0020_SAP,
 						Unidad: unidad,
 						CNG: cng,
-						Anho: item.A_x00f1_o
+						Anho: item.A_x00f1_o,
 					};
 				}),
 			);
@@ -57,7 +58,7 @@ export const getClienteById = async (
 	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items?$filter = Id eq '${Id}'&$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId, A_x00f1_o`;
 
 	return context.spHttpClient
-		.get(url, SPHttpClient.configurations.v1, OPTIONS)
+		.get(url, SPHttpClient.configurations.v1, GET_OPTIONS)
 		.then((data: SPHttpClientResponse) => {
 			if (!data.ok) return;
 			return data.json();
@@ -77,7 +78,7 @@ export const getClienteById = async (
 						CodigoSAP: item.Codigo_x0020_SAP,
 						Unidad: unidad,
 						CNG: cng,
-						Anho: item.A_x00f1_o
+						Anho: item.A_x00f1_o,
 					};
 				}),
 			).then((value) => {
@@ -92,4 +93,103 @@ export const getClienteById = async (
 			console.error(`Error fetching clientes -> ${e}`);
 			return undefined;
 		});
+};
+
+export const createClient = async (
+	context: WebPartContext,
+	cliente: Cliente,
+): Promise<boolean> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items`;
+
+	const { batchID, batchBody } = generateBatchString(
+		batchUrl,
+		[cliente],
+		'Clientes',
+	);
+
+	const requestOptions: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary=batch_${batchID}`,
+		},
+		body: batchBody,
+	};
+
+	try {
+		const response = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			requestOptions,
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Send Clients Data Query failed! Status: ${response.status} - ${errorText}`,
+			);
+		}
+
+		return true;
+	} catch (error) {
+		console.error(`Error al insertar datos en SP: ${error}`);
+		return false;
+	}
+};
+
+export const createClients = async (
+	context: WebPartContext,
+	clientes: Cliente[],
+): Promise<boolean> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items`;
+
+	const { batchID, batchBody } = generateBatchString(
+		batchUrl,
+		clientes,
+		'Clientes',
+	);
+
+	const requestOptions: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary=batch_${batchID}`,
+		},
+		body: batchBody,
+	};
+
+	try {
+		const response = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			requestOptions,
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Send Clients Data Query failed! Status: ${response.status} - ${errorText}`,
+			);
+		}
+
+		return true;
+	} catch (error) {
+		console.error(`Error al insertar datos en SP: ${error}`);
+		return false;
+	}
+};
+
+export const createClientsBatch = async (
+	context: WebPartContext,
+	clientes: Cliente[],
+): Promise<{ batchId: string; batchBody: string }> => {
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items`;
+
+	const { batchID, batchBody } = generateBatchString(
+		batchUrl,
+		clientes,
+		'Clientes',
+	);
+
+	return { batchId: batchID, batchBody: batchBody };
 };

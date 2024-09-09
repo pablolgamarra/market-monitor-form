@@ -5,6 +5,7 @@ import {
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { CNG, CNGResponse, CNGResponseValue } from '../types';
+import generateBatchString from './generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },
@@ -92,7 +93,6 @@ export const getCNGByCodSAP = async (
 					Correo: item.Correo,
 				}))
 				.find((item: CNG) => item.CodigoSAP === CodSAP);
-
 			return CNG;
 		})
 		.catch((e) => {
@@ -131,4 +131,80 @@ export const getCNGById = async (
 			console.error(`Error fetching CNG por Codigo SAP ${e}`);
 			return undefined;
 		});
+};
+
+export const createCng = async (
+	context: WebPartContext,
+	cng: CNG,
+): Promise<boolean> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('CNG')/items`;
+
+	const { batchID, batchBody } = generateBatchString(batchUrl, [cng], 'CNG');
+
+	const requestOptions: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary=batch_${batchID}`,
+		},
+		body: batchBody,
+	};
+
+	try {
+		const response = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			requestOptions,
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Send CNG Data Query failed! Status: ${response.status} - ${errorText}`,
+			);
+		}
+
+		return true;
+	} catch (error) {
+		console.error(`Error al insertar datos en SP: ${error}`);
+		return false;
+	}
+};
+
+export const createCngs = async (
+	context: WebPartContext,
+	cngs: CNG[],
+): Promise<boolean> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('CNG')/items`;
+
+	const { batchID, batchBody } = generateBatchString(batchUrl, cngs, 'CNG');
+
+	const requestOptions: ISPHttpClientOptions = {
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': `multipart/mixed; boundary=batch_${batchID}`,
+		},
+		body: batchBody,
+	};
+
+	try {
+		const response = await context.spHttpClient.post(
+			url,
+			SPHttpClient.configurations.v1,
+			requestOptions,
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(
+				`Send CNGs Data Query failed! Status: ${response.status} - ${errorText}`,
+			);
+		}
+
+		return true;
+	} catch (error) {
+		console.error(`Error al insertar datos en SP: ${error}`);
+		return false;
+	}
 };

@@ -72,3 +72,33 @@ export const getPeriodoCultivoById = async (
 			return undefined;
 		});
 };
+
+export const getPeriodoCultivoByNombre = async (
+	context: WebPartContext,
+	Nombre: string,
+): Promise<PeriodoCultivo | undefined> => {
+	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Title eq '${Nombre}'&$select=Id, Title`;
+
+	return context.spHttpClient
+		.get(url, SPHttpClient.configurations.v1, OPTIONS)
+		.then((data: SPHttpClientResponse) => {
+			if (data.status !== 200) {
+				return;
+			}
+			return data.json();
+		})
+		.then((data: PeriodosCultivoResponse) => {
+			const PeriodoCultivo: PeriodoCultivo | undefined = data.value
+				.map((item: PeriodosCultivoResponseValue) => ({
+					Id: item.Id,
+					Nombre: item.Title,
+				}))
+				.find((item: PeriodoCultivo) => item.Nombre === Nombre);
+
+			return PeriodoCultivo;
+		})
+		.catch((e) => {
+			console.error(`Error fetching Periodos Cultivo por Id ${e}`);
+			return undefined;
+		});
+};

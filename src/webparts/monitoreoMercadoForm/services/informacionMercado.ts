@@ -12,6 +12,7 @@ export const saveInformacionesMercado = async (
 	const { batchBody, batchID } = generateBatchString(
 		`${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Informacion%20Mercado')/items`,
 		data,
+		'Informacion Mercado',
 	);
 
 	const request: ISPHttpClientOptions = {
