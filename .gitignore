@@ -41,3 +41,12 @@ example
 
 #Scripts folder
 scripts
+
+#JSON Data files
+src/webparts/monitoreoMercadoForm/data/agroquimicos.json
+src/webparts/monitoreoMercadoForm/data/clientes.json
+src/webparts/monitoreoMercadoForm/data/cngs.json
+src/webparts/monitoreoMercadoForm/data/proveedores.json
+
+#Business Logo
+glymax.png

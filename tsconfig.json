@@ -1,40 +1,29 @@
 {
-  "extends": "./node_modules/@microsoft/rush-stack-compiler-4.7/includes/tsconfig-web.json",
-  "compilerOptions": {
-    "strict": true,
-    "target": "ES2015",
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "declaration": true,
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "skipLibCheck": true,
-    "outDir": "lib",
-    "inlineSources": false,
-    "noImplicitAny": true,
+	"extends": "./node_modules/@microsoft/rush-stack-compiler-4.7/includes/tsconfig-web.json",
+	"compilerOptions": {
+		"strict": true,
+		"target": "ES2015",
+		"forceConsistentCasingInFileNames": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"jsx": "react",
+		"declaration": true,
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"outDir": "lib",
+		"inlineSources": false,
+		"noImplicitAny": true,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
 
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@microsoft"
-    ],
-    "types": [
-      "webpack-env"
-    ],
-    "lib": [
-      "ES6",
-      "dom",
-      "es2015.collection",
-      "es2015.promise"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@/*":["src/webparts/monitoreoMercadoForm/*"]
-    }
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ]
+		"typeRoots": ["./node_modules/@types", "./node_modules/@microsoft"],
+		"types": ["webpack-env"],
+		"lib": ["ES6", "dom", "es2015.collection", "es2015.promise"],
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/webparts/monitoreoMercadoForm/*"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx"]
 }
