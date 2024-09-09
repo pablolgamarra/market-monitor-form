@@ -1,5 +1,5 @@
 export interface Cliente {
-	Id: number;
+	Id: number | undefined;
 	Nombre: string | undefined;
 	CodigoSAP: number | undefined;
 	Unidad: Unidad | undefined;
@@ -8,18 +8,18 @@ export interface Cliente {
 }
 
 export interface CNG {
-	Id: number;
+	Id: number | undefined;
 	Nombre: string;
 	CodigoSAP: string;
 	Correo: string;
 }
 
 export interface FamiliaProducto {
-	Id: number;
+	Id: number | undefined;
 	Nombre: string;
 	UnidadMedida: string;
 	PeriodoCultivo: PeriodoCultivo | undefined;
-	Estado: Activo;
+	Estado: Activo | string;
 }
 
 export interface PeriodoCultivo {
@@ -28,7 +28,7 @@ export interface PeriodoCultivo {
 }
 
 export interface Unidad {
-	Id: number;
+	Id: number | undefined;
 	Nombre: string | undefined;
 }
 
@@ -39,9 +39,9 @@ export interface Proveedor {
 }
 
 export interface InformacionMercado {
-	idCliente: number;
-	idUnidad: number;
-	idPeriodoCultivo: number;
+	idCliente: number | undefined;
+	idUnidad: number | undefined;
+	idPeriodoCultivo: number | undefined;
 	idFamilia: number | undefined;
 	volumenComprado: string | undefined;
 	precioPorMedida: number | undefined;
