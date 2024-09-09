@@ -1,12 +1,13 @@
-import { WpContext } from "@/context/webPart";
-import { useContext } from "react";
+import { WpContext } from '@/context/webPart';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+import { useContext } from 'react';
 
-export const useWpContext = ()=>{
-    const context = useContext(WpContext)
+export const useWpContext = (): WebPartContext => {
+	const context = useContext(WpContext);
 
-    if (context === undefined) {
-        throw Error("useWpContext must be used within the WpProvider")
-    }
+	if (context === undefined) {
+		throw Error('useWpContext must be used within the WpProvider');
+	}
 
-    return context;
-}
+	return context;
+};

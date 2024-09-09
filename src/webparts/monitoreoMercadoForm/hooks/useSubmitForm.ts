@@ -3,7 +3,10 @@ import { InformacionMercado } from '@/types';
 import { saveInformacionesMercado } from '@/services/informacionMercado';
 import { useWpContext } from './useWpContext';
 
-export const useSubmitForm = (): [Function, string] => {
+export const useSubmitForm = (): [
+	(data: InformacionMercado[]) => void,
+	string,
+] => {
 	const context = useWpContext();
 	const [status, setStatus] = useState<string>('idle');
 
