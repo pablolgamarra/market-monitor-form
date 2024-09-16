@@ -4,7 +4,7 @@ import {
 	FamiliaProducto,
 	InformacionMercado,
 	Proveedor,
-} from '../types';
+} from '@/types';
 
 import generateUUID from './generateUUID';
 

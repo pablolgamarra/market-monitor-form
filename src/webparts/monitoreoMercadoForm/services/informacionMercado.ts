@@ -7,10 +7,10 @@ export const saveInformacionesMercado = async (
 	context: WebPartContext,
 	data: InformacionMercado[],
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
 
 	const { batchBody, batchID } = generateBatchString(
-		`${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Informacion%20Mercado')/items`,
+		`${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Informacion%20Mercado')/items`,
 		data,
 		'Informacion Mercado',
 	);
@@ -31,10 +31,8 @@ export const saveInformacionesMercado = async (
 			request,
 		);
 		if (data.status === 200) {
-			console.log(data.ok);
 			return true;
 		} else {
-			console.log(data);
 			throw Error(`${data.statusText}`);
 		}
 	} catch (e) {

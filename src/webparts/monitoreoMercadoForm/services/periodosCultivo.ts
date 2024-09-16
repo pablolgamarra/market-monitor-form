@@ -8,7 +8,7 @@ import {
 	PeriodoCultivo,
 	PeriodosCultivoResponse,
 	PeriodosCultivoResponseValue,
-} from '../types';
+} from '@/types';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },
@@ -17,7 +17,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllPeriodosCultivo = async (
 	context: WebPartContext,
 ): Promise<PeriodoCultivo[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$select=Id, Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$select=Id, Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -47,7 +47,7 @@ export const getPeriodoCultivoById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<PeriodoCultivo | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Id eq '${Id}'&$select=Id, Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Id eq '${Id}'&$select=Id, Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -77,7 +77,7 @@ export const getPeriodoCultivoByNombre = async (
 	context: WebPartContext,
 	Nombre: string,
 ): Promise<PeriodoCultivo | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Title eq '${Nombre}'&$select=Id, Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Periodos Cultivo')/items?$filter=Title eq '${Nombre}'&$select=Id, Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)

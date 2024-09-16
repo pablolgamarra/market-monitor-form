@@ -5,11 +5,12 @@ import {
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import {
+	FamiliaProducto,
 	Proveedor,
 	ProveedoresResponse,
 	ProveedoresResponseValue,
-} from '../types';
-import { getFamiliasProductoById } from './familiasProducto';
+} from '@/types';
+import { getAllFamiliasProducto } from './familiasProducto';
 import generateBatchString from './generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {
@@ -19,7 +20,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllProveedores = async (
 	context: WebPartContext,
 ): Promise<Proveedor[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items?$select=Id, Title, Familia_x0020_de_x0020_ProductoId`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Proveedores')/items?$select=Id, Title, Familia_x0020_de_x0020_ProductoId`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -30,11 +31,14 @@ export const getAllProveedores = async (
 			return data.json();
 		})
 		.then(async (data: ProveedoresResponse) => {
+			const familiasProducto = await getAllFamiliasProducto(context);
+
 			const proveedores: Proveedor[] = await Promise.all(
 				data.value.map(async (item: ProveedoresResponseValue) => {
-					const familiaProducto = await getFamiliasProductoById(
-						context,
-						item.Familia_x0020_de_x0020_ProductoId,
+					const familiaProducto = familiasProducto.find(
+						(familia: FamiliaProducto) =>
+							familia.Id ===
+							item.Familia_x0020_de_x0020_ProductoId,
 					);
 					return {
 						Id: item.Id,
@@ -56,7 +60,7 @@ export const getProveedorById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<Proveedor | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Proveedores')/items?$filter=Id eq '${Id}'&$select=Id,Title, Familia_x0020_de_x0020_ProductoId`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Proveedores')/items?$filter=Id eq '${Id}'&$select=Id,Title, Familia_x0020_de_x0020_ProductoId`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -67,11 +71,14 @@ export const getProveedorById = async (
 			return data.json();
 		})
 		.then(async (data: ProveedoresResponse) => {
+			const familiasProducto = await getAllFamiliasProducto(context);
+
 			const proveedor: Proveedor | undefined = await Promise.all(
 				data.value.map(async (item: ProveedoresResponseValue) => {
-					const familiaProducto = getFamiliasProductoById(
-						context,
-						Id,
+					const familiaProducto = familiasProducto.find(
+						(familia: FamiliaProducto) =>
+							familia.Id ===
+							item.Familia_x0020_de_x0020_ProductoId,
 					);
 
 					return {
@@ -98,8 +105,8 @@ export const createProveedor = async (
 	context: WebPartContext,
 	proveedor: Proveedor,
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Proveedores')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Proveedores')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,
@@ -140,8 +147,8 @@ export const createProveedores = async (
 	context: WebPartContext,
 	proveedores: Proveedor[],
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Proveedores')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Proveedores')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,

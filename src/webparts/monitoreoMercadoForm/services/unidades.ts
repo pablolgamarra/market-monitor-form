@@ -4,7 +4,7 @@ import {
 	SPHttpClientResponse,
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { Unidad, UnidadesResponse, UnidadesResponseValue } from '../types';
+import { Unidad, UnidadesResponse, UnidadesResponseValue } from '@/types';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },
@@ -13,7 +13,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllUnidades = async (
 	context: WebPartContext,
 ): Promise<Unidad[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items?$select=Id,Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Unidades')/items?$select=Id,Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -43,7 +43,7 @@ export const getUnidadById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<Unidad | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items?$filter=Id eq '${Id}'&$select=Id,Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Unidades')/items?$filter=Id eq '${Id}'&$select=Id,Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -73,7 +73,7 @@ export const getUnidadByNombre = async (
 	context: WebPartContext,
 	Nombre: string,
 ): Promise<Unidad | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Unidades')/items?$filter=Title eq '${Nombre}'&$select=Id,Title`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Unidades')/items?$filter=Title eq '${Nombre}'&$select=Id,Title`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)

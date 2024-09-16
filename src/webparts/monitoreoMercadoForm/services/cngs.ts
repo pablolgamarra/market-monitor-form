@@ -4,7 +4,7 @@ import {
 	SPHttpClientResponse,
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { CNG, CNGResponse, CNGResponseValue } from '../types';
+import { CNG, CNGResponse, CNGResponseValue } from '@/types';
 import generateBatchString from './generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {
@@ -12,7 +12,7 @@ const OPTIONS: ISPHttpClientOptions = {
 };
 
 export const getAllCNG = async (context: WebPartContext): Promise<CNG[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('CNG')/items?$select=Id, Title, Correo, NombreCNG`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('CNG')/items?$select=Id, Title, Correo, NombreCNG`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -42,7 +42,7 @@ export const getCNGByCorreo = async (
 	context: WebPartContext,
 	Correo: string,
 ): Promise<CNG | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('CNG')/items?$filter=Correo eq ${Correo}&$select=Id, Title, Correo, NombreCNG`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('CNG')/items?$filter=Correo eq ${Correo}&$select=Id, Title, Correo, NombreCNG`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -74,7 +74,7 @@ export const getCNGByCodSAP = async (
 	context: WebPartContext,
 	CodSAP: string,
 ): Promise<CNG | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('CNG')/items?$filter=Title eq '${CodSAP}'&$select=Id, Title, Correo, NombreCNG`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('CNG')/items?$filter=Title eq '${CodSAP}'&$select=Id, Title, Correo, NombreCNG`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -105,7 +105,7 @@ export const getCNGById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<CNG | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('CNG')/items?$filter=Id eq '${Id}'&$select=Id, Title, Correo, NombreCNG`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('CNG')/items?$filter=Id eq '${Id}'&$select=Id, Title, Correo, NombreCNG`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -137,8 +137,8 @@ export const createCng = async (
 	context: WebPartContext,
 	cng: CNG,
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('CNG')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('CNG')/items`;
 
 	const { batchID, batchBody } = generateBatchString(batchUrl, [cng], 'CNG');
 
@@ -175,8 +175,8 @@ export const createCngs = async (
 	context: WebPartContext,
 	cngs: CNG[],
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('CNG')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('CNG')/items`;
 
 	const { batchID, batchBody } = generateBatchString(batchUrl, cngs, 'CNG');
 

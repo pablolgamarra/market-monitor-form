@@ -8,8 +8,9 @@ import {
 	FamiliaProducto,
 	FamiliaProductosResponse,
 	FamiliaProductosResponseValue,
-} from '../types';
-import { getPeriodoCultivoById } from './periodosCultivo';
+	PeriodoCultivo,
+} from '@/types';
+import { getAllPeriodosCultivo } from './periodosCultivo';
 import generateBatchString from './generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {
@@ -19,7 +20,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllFamiliasProducto = async (
 	context: WebPartContext,
 ): Promise<FamiliaProducto[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items?$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -30,11 +31,13 @@ export const getAllFamiliasProducto = async (
 			return data.json();
 		})
 		.then(async (data: FamiliaProductosResponse) => {
+			const periodosCultivo = await getAllPeriodosCultivo(context);
+
 			const familiasProducto: FamiliaProducto[] = await Promise.all(
 				data.value.map(async (item: FamiliaProductosResponseValue) => {
-					const periodoCultivo = await getPeriodoCultivoById(
-						context,
-						item.PeriododeCultivoId,
+					const periodoCultivo = periodosCultivo.find(
+						(periodo: PeriodoCultivo) =>
+							periodo.Id === item.PeriododeCultivoId,
 					);
 
 					return {
@@ -59,7 +62,7 @@ export const getFamiliasProductoById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<FamiliaProducto | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Id eq '${Id}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Id eq '${Id}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -70,13 +73,15 @@ export const getFamiliasProductoById = async (
 			return data.json();
 		})
 		.then(async (data: FamiliaProductosResponse) => {
+			const periodosCultivo = await getAllPeriodosCultivo(context);
+
 			const familiaProducto: FamiliaProducto | undefined =
 				await Promise.all(
 					data.value.map(
 						async (item: FamiliaProductosResponseValue) => {
-							const periodoCultivo = getPeriodoCultivoById(
-								context,
-								item.Id,
+							const periodoCultivo = periodosCultivo.find(
+								(periodo: PeriodoCultivo) =>
+									periodo.Id === item.PeriododeCultivoId,
 							);
 
 							return {
@@ -106,7 +111,7 @@ export const getFamiliasProductoByNombre = async (
 	context: WebPartContext,
 	Nombre: string,
 ): Promise<FamiliaProducto | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Title eq '${Nombre}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Title eq '${Nombre}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -117,13 +122,15 @@ export const getFamiliasProductoByNombre = async (
 			return data.json();
 		})
 		.then(async (data: FamiliaProductosResponse) => {
+			const periodosCultivo = await getAllPeriodosCultivo(context);
+
 			const familiaProducto: FamiliaProducto | undefined =
 				await Promise.all(
 					data.value.map(
 						async (item: FamiliaProductosResponseValue) => {
-							const periodoCultivo = getPeriodoCultivoById(
-								context,
-								item.Id,
+							const periodoCultivo = periodosCultivo.find(
+								(periodo: PeriodoCultivo) =>
+									periodo.Id === item.PeriododeCultivoId,
 							);
 
 							return {
@@ -153,8 +160,8 @@ export const createFamiliaProducto = async (
 	context: WebPartContext,
 	familiaProducto: FamiliaProducto,
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Familias Productos')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Familias Productos')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,
@@ -195,8 +202,8 @@ export const createFamiliasProducto = async (
 	context: WebPartContext,
 	familiasProductos: FamiliaProducto[],
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Familias Productos')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Familias Productos')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,

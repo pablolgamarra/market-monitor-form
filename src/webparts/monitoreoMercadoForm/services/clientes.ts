@@ -4,9 +4,15 @@ import {
 	SPHttpClientResponse,
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { Cliente, ClientesResponse, ClientesResponseValue } from '../types';
-import { getUnidadById } from './unidades';
-import { getCNGById } from './cngs';
+import {
+	Cliente,
+	ClientesResponse,
+	ClientesResponseValue,
+	CNG,
+	Unidad,
+} from '@/types';
+import { getAllUnidades } from './unidades';
+import { getAllCNG } from './cngs';
 import generateBatchString from './generateBatchString';
 
 const GET_OPTIONS: ISPHttpClientOptions = {
@@ -16,7 +22,7 @@ const GET_OPTIONS: ISPHttpClientOptions = {
 export const getAllClientes = async (
 	context: WebPartContext,
 ): Promise<Cliente[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items?$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId,A_x00f1_o`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Clientes')/items?$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId,A_x00f1_o&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, GET_OPTIONS)
@@ -25,12 +31,19 @@ export const getAllClientes = async (
 			return data.json();
 		})
 		.then(async (data: ClientesResponse) => {
+			const unidades = await getAllUnidades(context);
+			const cngs = await getAllCNG(context);
+
 			const clientes: Cliente[] = await Promise.all(
 				data.value.map(async (item: ClientesResponseValue) => {
-					const unidad = await getUnidadById(context, item.UnidadId);
-					const cng = await getCNGById(
-						context,
-						item.Codigo_x0020_SAP_x0020_CNGId,
+					const unidad = unidades.find(
+						(unidad: Unidad) => unidad.Id === item.UnidadId,
+					);
+
+					const cng = cngs.find(
+						(cng: CNG) =>
+							Number(cng.Id) ===
+							item.Codigo_x0020_SAP_x0020_CNGId,
 					);
 
 					return {
@@ -55,7 +68,7 @@ export const getClienteById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<Cliente | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/GetByTitle('Clientes')/items?$filter = Id eq '${Id}'&$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId, A_x00f1_o`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Clientes')/items?$filter = Id eq '${Id}'&$select=Id, Title, Codigo_x0020_SAP, UnidadId, Codigo_x0020_SAP_x0020_CNGId, A_x00f1_o&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, GET_OPTIONS)
@@ -64,12 +77,19 @@ export const getClienteById = async (
 			return data.json();
 		})
 		.then(async (data: ClientesResponse) => {
+			const unidades = await getAllUnidades(context);
+			const cngs = await getAllCNG(context);
+
 			const cliente: Cliente | undefined = await Promise.all(
 				data.value.map(async (item: ClientesResponseValue) => {
-					const unidad = await getUnidadById(context, item.UnidadId);
-					const cng = await getCNGById(
-						context,
-						item.Codigo_x0020_SAP_x0020_CNGId,
+					const unidad = unidades.find(
+						(unidad: Unidad) => unidad.Id === item.UnidadId,
+					);
+
+					const cng = cngs.find(
+						(cng: CNG) =>
+							Number(cng.Id) ===
+							item.Codigo_x0020_SAP_x0020_CNGId,
 					);
 
 					return {
@@ -99,8 +119,8 @@ export const createClient = async (
 	context: WebPartContext,
 	cliente: Cliente,
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Clientes')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,
@@ -141,8 +161,8 @@ export const createClients = async (
 	context: WebPartContext,
 	clientes: Cliente[],
 ): Promise<boolean> => {
-	const url = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/$batch`;
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/$batch`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Clientes')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,
@@ -183,7 +203,7 @@ export const createClientsBatch = async (
 	context: WebPartContext,
 	clientes: Cliente[],
 ): Promise<{ batchId: string; batchBody: string }> => {
-	const batchUrl = `${context.pageContext.web.absoluteUrl}/Apps/monitoreo-mercado/_api/web/lists/getByTitle('Clientes')/items`;
+	const batchUrl = `${context.pageContext.web.absoluteUrl}/_api/web/lists/getByTitle('Clientes')/items`;
 
 	const { batchID, batchBody } = generateBatchString(
 		batchUrl,
