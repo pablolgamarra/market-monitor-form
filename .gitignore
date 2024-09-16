@@ -50,3 +50,6 @@ src/webparts/monitoreoMercadoForm/data/proveedores.json
 
 #Business Logo
 glymax.png
+
+#Environment
+.env
