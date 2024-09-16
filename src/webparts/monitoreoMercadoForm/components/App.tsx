@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Cliente, FamiliaProducto, Unidad, PeriodoCultivo, CNG, Proveedor } from '../types';
+import { Cliente, FamiliaProducto, Unidad, PeriodoCultivo, CNG, Proveedor } from '@/types';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { isEmpty } from '@microsoft/sp-lodash-subset';
 import {
@@ -10,6 +10,7 @@ import MonitorForm from './MonitorForm';
 import { UserProvider } from '@/context/user';
 import { WpProvider } from '@/context/webPart';
 import UploadDataButtons from './UploadDataButtons';
+import { DataProvider } from '@/context/data';
 
 export interface AppProps {
     context: WebPartContext;
@@ -35,22 +36,43 @@ const App: React.FC<AppProps> = (props) => {
                 isEmpty(props.listaProveedores) ? (
                 <>
                     <WpProvider context={props.context}>
-                        <Title1>Error en la Aplicación</Title1>
-                        <hr />
-                        <Title2>Comuníquese con el Departamento de T.I.</Title2>
-                        <UploadDataButtons />
+                        <DataProvider
+                            listaClientes={props.listaClientes}
+                            listaUnidades={props.listaUnidades}
+                            listaFamiliasProducto={props.listaFamiliasProducto}
+                            listaProveedores={props.listaProveedores}
+                            listaPeriodosCultivo={props.listaPeriodosCultivo}
+                            listaCNG={props.listaCNG}
+                        >
+                            <>
+                                <Title1>Error en la Aplicación</Title1>
+                                <hr />
+                                <Title2>Comuníquese con el Departamento de T.I.</Title2>
+                                <UploadDataButtons {...props} />
+                            </>
+                        </DataProvider>
                     </WpProvider>
                 </>
             ) : (
                 <WpProvider context={props.context}>
                     <UserProvider user={props.context.pageContext.user}>
-                        <FluentProvider theme={webLightTheme}>
-                            <MonitorForm {...props} />
-                        </FluentProvider>
+                        <DataProvider
+                            listaClientes={props.listaClientes}
+                            listaUnidades={props.listaUnidades}
+                            listaFamiliasProducto={props.listaFamiliasProducto}
+                            listaProveedores={props.listaProveedores}
+                            listaPeriodosCultivo={props.listaPeriodosCultivo}
+                            listaCNG={props.listaCNG}
+                        >
+                            <FluentProvider theme={webLightTheme}>
+                                <MonitorForm {...props} />
+                            </FluentProvider>
+                        </DataProvider>
                     </UserProvider>
                 </WpProvider>
-            )}
-        </FluentProvider>
+            )
+            }
+        </FluentProvider >
     );
 
     return element;

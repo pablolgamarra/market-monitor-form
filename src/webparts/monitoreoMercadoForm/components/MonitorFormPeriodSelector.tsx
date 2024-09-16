@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PeriodoCultivo } from '../types';
+import { PeriodoCultivo } from '@/types';
 import { IMonitorFormState } from './MonitorForm';
 
 import {
@@ -11,6 +11,7 @@ import {
 import * as headerStrings from 'MonitorFormHeaderStrings'
 
 import { makeStyles } from '@fluentui/react-components';
+import { useDataContext } from '@/hooks/useData';
 
 const useStyles = makeStyles(
     {
@@ -41,13 +42,13 @@ const useStyles = makeStyles(
 )
 
 export interface IMonitorFormPeriodSelector {
-    listaPeriodosCultivo: PeriodoCultivo[],
     handleSelectedChange(campo: keyof IMonitorFormState, valor: string | number | undefined): void,
 }
 
 const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (props) => {
+    const { listaPeriodosCultivo } = useDataContext()
+
     const {
-        listaPeriodosCultivo,
         handleSelectedChange
     } = props;
 

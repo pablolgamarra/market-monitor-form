@@ -2,22 +2,47 @@ import * as React from 'react';
 import { useWpContext } from "@/hooks/useWpContext"
 import { uploadData } from "@/services/uploadData"
 import { Button } from "@fluentui/react-components"
+import { Cliente, CNG, FamiliaProducto, PeriodoCultivo, Proveedor, Unidad } from '@/types';
+import { useDataContext } from '@/hooks/useData';
 
-const UploadDataButtons: React.FC = () => {
+export interface UploadDataButtonsProps {
+    listaClientes: Cliente[];
+    listaUnidades: Unidad[];
+    listaFamiliasProducto: FamiliaProducto[];
+    listaProveedores: Proveedor[];
+    listaPeriodosCultivo: PeriodoCultivo[];
+    listaCNG: CNG[];
+}
+
+const UploadDataButtons: React.FC<UploadDataButtonsProps> = (props) => {
+    const { listaClientes, listaFamiliasProducto, listaProveedores, listaCNG } = useDataContext()
+
     const context = useWpContext()
 
     return (
         <>
-            <Button onClick={() => uploadData('CNG', context)}>
+            <Button
+                onClick={() => uploadData('CNG', context)}
+                disabled={listaCNG.length > 0}
+            >
                 Subir CNGs a DB
             </Button>
-            <Button onClick={() => uploadData('Familias Productos', context)}>
+            <Button
+                onClick={() => uploadData('Familias Productos', context)}
+                disabled={listaFamiliasProducto.length > 0}
+            >
                 Subir Familias de Producto
             </Button>
-            <Button onClick={() => uploadData('Proveedores', context)}>
+            <Button
+                onClick={() => uploadData('Proveedores', context)}
+                disabled={listaProveedores.length > 0}
+            >
                 Subir Proveedores
             </Button>
-            <Button onClick={() => uploadData('Clientes', context)}>
+            <Button
+                onClick={() => uploadData('Clientes', context)}
+                disabled={listaClientes.length > 0}
+            >
                 Subir Clientes
             </Button>
         </>

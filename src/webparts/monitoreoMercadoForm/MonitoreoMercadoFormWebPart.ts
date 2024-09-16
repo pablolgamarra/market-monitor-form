@@ -32,7 +32,7 @@ export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<I
 		const listaFamiliasProductos = await getAllFamiliasProducto(context);
 		const listaPeriodosCultivo = await getAllPeriodosCultivo(context);
 		const listaProveedores = await getAllProveedores(context);
-		const listaCNG = await getAllCNG(context)
+		const listaCNG = await getAllCNG(context);
 
 		const root: React.FunctionComponentElement<AppProps> =
 			React.createElement(App, {

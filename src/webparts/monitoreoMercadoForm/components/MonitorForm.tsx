@@ -7,11 +7,12 @@ import {
     shorthands,
 } from '@fluentui/react-components';
 
-import { Cliente, Unidad, FamiliaProducto, PeriodoCultivo, Proveedor, InformacionMercado } from '../types';
+import { Cliente, Unidad, PeriodoCultivo, InformacionMercado } from '@/types';
 import MonitorFormHeader from './MonitorFormHeader';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
 import MonitorFormProducts, { ProductValueState } from './MonitorFormProducts';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useDataContext } from '@/hooks/useData';
 
 const useStyles = makeStyles({
     root: {
@@ -32,11 +33,6 @@ const useStyles = makeStyles({
 
 
 export interface IMonitorFormProps {
-    listaClientes: Cliente[];
-    listaUnidades: Unidad[];
-    listaFamiliasProducto: FamiliaProducto[];
-    listaPeriodosCultivo: PeriodoCultivo[];
-    listaProveedores: Proveedor[];
 }
 
 export interface IMonitorFormState {
@@ -49,10 +45,8 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
     const {
         listaUnidades,
         listaClientes,
-        listaPeriodosCultivo,
-        listaFamiliasProducto,
-        listaProveedores,
-    } = props;
+        listaPeriodosCultivo
+    } = useDataContext();
 
     const styles = useStyles();
 
@@ -69,7 +63,6 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
                     unidad: listaUnidades.find((unidad: Unidad) => unidad.Id === Number(valor)),
                     cliente: undefined,
                 }
-                console.log(objAux.unidad)
                 setFormData(objAux)
                 break;
             case 'cliente':
@@ -119,17 +112,17 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
             <Title1 align="center">Monitoreo del Mercado</Title1> {/*TODO: COLOCAR EN i18n*/}
             <>
                 {!formData.periodoCultivo ?
-                    <MonitorFormPeriodSelector listaPeriodosCultivo={listaPeriodosCultivo} handleSelectedChange={handleHeaderChanges} />
+                    <MonitorFormPeriodSelector handleSelectedChange={handleHeaderChanges} />
                     :
                     <>
                         <MonitorFormHeader
                             {
-                            ...{ ...props, cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
+                            ...{ cliente: formData.cliente, unidad: formData.unidad, periodoCultivo: formData.periodoCultivo, handleSelectedChange: handleHeaderChanges }
                             }
                         />
                         {
                             formData.unidad && formData.cliente ?
-                                <MonitorFormProducts listaFamiliasProducto={listaFamiliasProducto} periodoCultivo={formData.periodoCultivo} listaProveedores={listaProveedores} submitStatus={submitStatus} saveData={handleSaveData} />
+                                <MonitorFormProducts periodoCultivo={formData.periodoCultivo} submitStatus={submitStatus} saveData={handleSaveData} />
                                 :
                                 <></>
                         }

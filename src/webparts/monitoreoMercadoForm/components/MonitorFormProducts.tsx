@@ -29,10 +29,9 @@ import {
 } from '@fluentui/react-icons';
 import * as productsFormStrings from 'MonitorFormProductsStrings'
 import { FamiliaProducto, Proveedor, PeriodoCultivo } from '@/types';
+import { useDataContext } from '@/hooks/useData';
 
 export interface MonitorFormProductsProps {
-    listaFamiliasProducto: FamiliaProducto[];
-    listaProveedores: Proveedor[];
     periodoCultivo: PeriodoCultivo;
     submitStatus: string;
     saveData(values: ProductValueState[]): void
@@ -80,7 +79,9 @@ const useStyles = makeStyles({
 });
 
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
-    const { listaFamiliasProducto, listaProveedores, periodoCultivo, submitStatus, saveData } = props;
+    const { listaFamiliasProducto, listaProveedores } = useDataContext()
+
+    const { periodoCultivo, submitStatus, saveData } = props;
     const volumen: number[] = [ ...Array(11).keys() ].map(
         (value: number) => value * 10,
     );
@@ -252,7 +253,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
     React.useEffect(() => {
         switch (submitStatus) {
             case 'saving':
-                console.log('Toast controller:', dispatchToast);
                 dispatchToast(
                     <Toast>
                         <ToastTitle media={<Spinner size='tiny' />}>{productsFormStrings.GuardandoTitle}</ToastTitle>
