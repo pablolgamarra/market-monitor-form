@@ -6,7 +6,7 @@
 
 	// The "*" signifies that the version should be taken from the package.json
 	"version": "*",
-	"manifestVersion": 3,
+	"manifestVersion": 2,
 
 	// If true, the component can only be installed on sites where Custom Script is allowed.
 	// Components that allow authors to embed arbitrary script code should set this to true.
@@ -19,7 +19,7 @@
 
 	"preconfiguredEntries": [
 		{
-			"groupId": "4aca9e90-eff5-4fa1-bac7-728f5f157b66", // BI
+			"groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Advanced
 			"group": { "default": "Advanced" },
 			"title": { "default": "MarketMonitor-Form" },
 			"description": {
