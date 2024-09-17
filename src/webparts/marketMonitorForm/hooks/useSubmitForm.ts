@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { InformacionMercado } from '@/types';
-import { saveInformacionesMercado } from '@/services/informacionMercado';
+import { InformacionMercado } from 'src/webparts/marketMonitorForm/types';
+import { saveInformacionesMercado } from 'src/webparts/marketMonitorForm/services/informacionMercado';
 import { useWpContext } from './useWpContext';
 
 export const useSubmitForm = (): [

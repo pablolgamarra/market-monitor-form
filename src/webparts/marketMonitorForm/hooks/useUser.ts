@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UserContext } from '@/context/user';
+import { UserContext } from 'src/webparts/marketMonitorForm/context/user';
 
 import { SPUser } from '@microsoft/sp-page-context';
 

@@ -28,8 +28,8 @@ import {
     SaveRegular,
 } from '@fluentui/react-icons';
 import * as productsFormStrings from 'MonitorFormProductsStrings'
-import { FamiliaProducto, Proveedor, PeriodoCultivo } from '@/types';
-import { useDataContext } from '@/hooks/useData';
+import { FamiliaProducto, Proveedor, PeriodoCultivo } from 'src/webparts/marketMonitorForm/types';
+import { useDataContext } from 'src/webparts/marketMonitorForm/hooks/useData';
 
 export interface MonitorFormProductsProps {
     periodoCultivo: PeriodoCultivo;

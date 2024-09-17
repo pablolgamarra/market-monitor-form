@@ -14,12 +14,12 @@ import {
     Subtitle1,
 } from '@fluentui/react-components';
 
-import { Unidad, Cliente, PeriodoCultivo } from '@/types';
+import { Unidad, Cliente, PeriodoCultivo } from 'src/webparts/marketMonitorForm/types';
 
 import * as headerStrings from 'MonitorFormHeaderStrings';
 import { IMonitorFormState } from './MonitorForm';
-import { useUserContext } from '@/hooks/useUser';
-import { useDataContext } from '@/hooks/useData';
+import { useUserContext } from 'src/webparts/marketMonitorForm/hooks/useUser';
+import { useDataContext } from 'src/webparts/marketMonitorForm/hooks/useData';
 
 const useStyles = makeStyles({
     //TODO: TRABAJAR EL RESPONSIVE DESIGN

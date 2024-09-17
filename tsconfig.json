@@ -22,7 +22,7 @@
 		"lib": ["ES6", "dom", "es2015.collection", "es2015.promise"],
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/webparts/monitoreoMercadoForm/*"],
+			"@/*": ["src/webparts/marketMonitorForm/*"],
 			"@clientes/*": ["src/webparts/marketMonitorClientesList/*"]
 		}
 	},

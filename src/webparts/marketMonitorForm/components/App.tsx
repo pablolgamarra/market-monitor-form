@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-import { Cliente, FamiliaProducto, Unidad, PeriodoCultivo, CNG, Proveedor } from '@/types';
+import { Cliente, FamiliaProducto, Unidad, PeriodoCultivo, CNG, Proveedor } from 'src/webparts/marketMonitorForm/types';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { isEmpty } from '@microsoft/sp-lodash-subset';
 import {
     FluentProvider, FluentProviderProps, Title1, Title2, webLightTheme
 } from '@fluentui/react-components';
 import MonitorForm from './MonitorForm';
-import { UserProvider } from '@/context/user';
-import { WpProvider } from '@/context/webPart';
+import { UserProvider } from 'src/webparts/marketMonitorForm/context/user';
+import { WpProvider } from 'src/webparts/marketMonitorForm/context/webPart';
 import UploadDataButtons from './UploadDataButtons';
-import { DataProvider } from '@/context/data';
+import { DataProvider } from 'src/webparts/marketMonitorForm/context/data';
 
 export interface AppProps {
     context: WebPartContext;
@@ -23,6 +23,7 @@ export interface AppProps {
     width: number;
 }
 
+import * as strings from 'MarketMonitorAppStrings'
 //TODO: Estilar min-width para la app a full 320 px.
 
 
@@ -45,9 +46,9 @@ const App: React.FC<AppProps> = (props) => {
                             listaCNG={props.listaCNG}
                         >
                             <>
-                                <Title1>Error en la Aplicación</Title1>
+                                <Title1>{strings.ApplicationErrorTitle}</Title1>
                                 <hr />
-                                <Title2>Comuníquese con el Departamento de T.I.</Title2>
+                                <Title2>{strings.ApplicationErrorText}</Title2>
                                 <UploadDataButtons {...props} />
                             </>
                         </DataProvider>

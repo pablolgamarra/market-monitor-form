@@ -5,7 +5,7 @@ import {
     PeriodoCultivo,
     Proveedor,
     Unidad,
-} from '@/types';
+} from 'src/webparts/marketMonitorForm/types';
 import * as React from 'react';
 
 interface DataProviderProps {

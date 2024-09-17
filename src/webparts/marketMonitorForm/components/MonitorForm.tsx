@@ -7,12 +7,12 @@ import {
     shorthands,
 } from '@fluentui/react-components';
 
-import { Cliente, Unidad, PeriodoCultivo, InformacionMercado } from '@/types';
+import { Cliente, Unidad, PeriodoCultivo, InformacionMercado } from 'src/webparts/marketMonitorForm/types';
 import MonitorFormHeader from './MonitorFormHeader';
 import MonitorFormPeriodSelector from './MonitorFormPeriodSelector';
 import MonitorFormProducts, { ProductValueState } from './MonitorFormProducts';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
-import { useDataContext } from '@/hooks/useData';
+import { useSubmitForm } from 'src/webparts/marketMonitorForm/hooks/useSubmitForm';
+import { useDataContext } from 'src/webparts/marketMonitorForm/hooks/useData';
 
 const useStyles = makeStyles({
     root: {

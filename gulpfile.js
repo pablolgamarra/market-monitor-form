@@ -21,7 +21,7 @@ build.configureWebpack.mergeConfig({
 	additionalConfiguration: (generatedConfiguration) => {
 		generatedConfiguration.resolve.alias['@'] = path.resolve(
 			__dirname,
-			'lib/webparts/monitoreoMercadoForm/',
+			'lib/webparts/marketMonitorForm/',
 		);
 		generatedConfiguration.resolve.alias['@clientes'] = path.resolve(
 			__dirname,

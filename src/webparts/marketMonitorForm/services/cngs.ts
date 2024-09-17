@@ -4,7 +4,11 @@ import {
 	SPHttpClientResponse,
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { CNG, CNGResponse, CNGResponseValue } from '@/types';
+import {
+	CNG,
+	CNGResponse,
+	CNGResponseValue,
+} from 'src/webparts/marketMonitorForm/types';
 import generateBatchString from './generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {

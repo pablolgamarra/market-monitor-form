@@ -9,7 +9,7 @@ import {
 	FamiliaProductosResponse,
 	FamiliaProductosResponseValue,
 	PeriodoCultivo,
-} from '@/types';
+} from 'src/webparts/marketMonitorForm/types';
 import { getAllPeriodosCultivo } from './periodosCultivo';
 import generateBatchString from './generateBatchString';
 

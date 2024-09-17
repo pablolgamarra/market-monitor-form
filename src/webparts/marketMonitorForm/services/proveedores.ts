@@ -9,7 +9,7 @@ import {
 	Proveedor,
 	ProveedoresResponse,
 	ProveedoresResponseValue,
-} from '@/types';
+} from 'src/webparts/marketMonitorForm/types';
 import { getAllFamiliasProducto } from './familiasProducto';
 import generateBatchString from './generateBatchString';
 

@@ -4,7 +4,7 @@ import {
 	FamiliaProducto,
 	InformacionMercado,
 	Proveedor,
-} from '@/types';
+} from 'src/webparts/marketMonitorForm/types';
 
 import generateUUID from './generateUUID';
 

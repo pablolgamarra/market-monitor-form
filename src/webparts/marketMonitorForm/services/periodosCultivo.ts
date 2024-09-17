@@ -8,7 +8,7 @@ import {
 	PeriodoCultivo,
 	PeriodosCultivoResponse,
 	PeriodosCultivoResponseValue,
-} from '@/types';
+} from 'src/webparts/marketMonitorForm/types';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },

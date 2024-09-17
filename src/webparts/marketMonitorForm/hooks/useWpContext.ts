@@ -1,4 +1,4 @@
-import { WpContext } from '@/context/webPart';
+import { WpContext } from 'src/webparts/marketMonitorForm/context/webPart';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { useContext } from 'react';
 

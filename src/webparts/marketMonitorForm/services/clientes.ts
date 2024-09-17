@@ -10,7 +10,7 @@ import {
 	ClientesResponseValue,
 	CNG,
 	Unidad,
-} from '@/types';
+} from 'src/webparts/marketMonitorForm/types';
 import { getAllUnidades } from './unidades';
 import { getAllCNG } from './cngs';
 import generateBatchString from './generateBatchString';

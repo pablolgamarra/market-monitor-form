@@ -18,5 +18,7 @@ define([], function () {
 		ErrorText:
 			'Se ha producido un error al intentar guardar los datos. Por favor intente de nuevo',
 		VolumenYaCompradoLabel: 'Volumen Ya Comprado',
+		ApplicationErrorTitle: 'Error en la Aplicación',
+		ApplicationErrorText: 'Favor comuniquese con el departamento de T.I.',
 	};
 });

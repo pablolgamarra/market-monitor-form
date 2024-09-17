@@ -9,21 +9,21 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
-import * as strings from 'MonitoreoMercadoFormWebPartStrings';
+import * as strings from 'marketMonitorFormWebPartStrings';
 
-import App, { AppProps } from '@/components/App';
-import { getAllUnidades } from '@/services/unidades';
-import { getAllProveedores } from '@/services/proveedores';
-import { getAllPeriodosCultivo } from '@/services/periodosCultivo';
-import { getAllFamiliasProducto } from '@/services/familiasProducto';
-import { getAllClientes } from '@/services/clientes';
-import { getAllCNG } from '@/services/cngs';
+import App, { AppProps } from 'src/webparts/marketMonitorForm/components/App';
+import { getAllUnidades } from 'src/webparts/marketMonitorForm/services/unidades';
+import { getAllProveedores } from 'src/webparts/marketMonitorForm/services/proveedores';
+import { getAllPeriodosCultivo } from 'src/webparts/marketMonitorForm/services/periodosCultivo';
+import { getAllFamiliasProducto } from 'src/webparts/marketMonitorForm/services/familiasProducto';
+import { getAllClientes } from 'src/webparts/marketMonitorForm/services/clientes';
+import { getAllCNG } from 'src/webparts/marketMonitorForm/services/cngs';
 
-export interface IMonitoreoMercadoFormWebPartProps {
+export interface ImarketMonitorFormWebPartProps {
 	description: string;
 }
 
-export default class MonitoreoMercadoFormWebPart extends BaseClientSideWebPart<IMonitoreoMercadoFormWebPartProps> {
+export default class marketMonitorFormWebPart extends BaseClientSideWebPart<ImarketMonitorFormWebPartProps> {
 	public async render(): Promise<void> {
 		//TODO: Reemplazar esto por custom hooks
 		const context = this.context;

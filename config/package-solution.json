@@ -16,10 +16,10 @@
 		},
 		"metadata": {
 			"shortDescription": {
-				"default": "MonitoreoMercado description"
+				"default": "MarketMonitor description"
 			},
 			"longDescription": {
-				"default": "MonitoreoMercado description"
+				"default": "MarketMonitor description"
 			},
 			"screenshotPaths": [],
 			"videoUrl": "",
@@ -27,14 +27,14 @@
 		},
 		"features": [
 			{
-				"title": "monitoreo-mercado Feature",
-				"description": "The feature that activates elements of the monitoreo-mercado solution.",
+				"title": "market-monitor Feature",
+				"description": "The feature that activates elements of the market-monitor solution.",
 				"id": "ea470205-8214-467d-aeda-e3931dfaed42",
 				"version": "1.0.0.1"
 			}
 		]
 	},
 	"paths": {
-		"zippedPackage": "solution/monitoreo-mercado.sppkg"
+		"zippedPackage": "solution/market-monitor.sppkg"
 	}
 }

@@ -1,29 +1,30 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
-  "version": "2.0",
-  "bundles": {
-    "monitoreo-mercado-form-web-part": {
-      "components": [
-        {
-          "entrypoint": "./lib/webparts/monitoreoMercadoForm/MonitoreoMercadoFormWebPart.js",
-          "manifest": "./src/webparts/monitoreoMercadoForm/MonitoreoMercadoFormWebPart.manifest.json"
-        }
-      ]
-    },
-    "market-monitor-clientes-list-web-part": {
-      "components": [
-        {
-          "entrypoint": "./lib/webparts/marketMonitorClientesList/MarketMonitorClientesListWebPart.js",
-          "manifest": "./src/webparts/marketMonitorClientesList/MarketMonitorClientesListWebPart.manifest.json"
-        }
-      ]
-    }
-  },
-  "externals": {},
-  "localizedResources": {
-    "MonitoreoMercadoFormWebPartStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
-    "MonitorFormHeaderStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
-    "MonitorFormProductsStrings": "lib/webparts/monitoreoMercadoForm/loc/{locale}.js",
-    "MarketMonitorClientesListWebPartStrings": "lib/webparts/marketMonitorClientesList/loc/{locale}.js"
-  }
+	"$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+	"version": "2.0",
+	"bundles": {
+		"market-monitor-form-web-part": {
+			"components": [
+				{
+					"entrypoint": "./lib/webparts/marketMonitorForm/marketMonitorFormWebPart.js",
+					"manifest": "./src/webparts/marketMonitorForm/marketMonitorFormWebPart.manifest.json"
+				}
+			]
+		},
+		"market-monitor-clientes-list-web-part": {
+			"components": [
+				{
+					"entrypoint": "./lib/webparts/marketMonitorClientesList/MarketMonitorClientesListWebPart.js",
+					"manifest": "./src/webparts/marketMonitorClientesList/MarketMonitorClientesListWebPart.manifest.json"
+				}
+			]
+		}
+	},
+	"externals": {},
+	"localizedResources": {
+		"AppStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
+		"marketMonitorFormWebPartStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
+		"MonitorFormHeaderStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
+		"MonitorFormProductsStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
+		"MarketMonitorClientesListWebPartStrings": "lib/webparts/marketMonitorClientesList/loc/{locale}.js"
+	}
 }

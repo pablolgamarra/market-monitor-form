@@ -1,4 +1,4 @@
-declare interface IMonitoreoMercadoFormWebPartStrings {
+declare interface ImarketMonitorFormWebPartStrings {
 	PropertyPaneDescription: string;
 	BasicGroupName: string;
 	DescriptionFieldLabel: string;
@@ -13,8 +13,8 @@ declare interface IMonitoreoMercadoFormWebPartStrings {
 	UnknownEnvironment: string;
 }
 
-declare module 'MonitoreoMercadoFormWebPartStrings' {
-	const strings: IMonitoreoMercadoFormWebPartStrings;
+declare module 'marketMonitorFormWebPartStrings' {
+	const strings: ImarketMonitorFormWebPartStrings;
 	export = strings;
 }
 
@@ -45,5 +45,15 @@ declare interface IMonitorFormProductsStrings {
 
 declare module 'MonitorFormProductsStrings' {
 	const value: IMonitorFormProductsStrings;
+	export = value;
+}
+
+declare interface IMarketMonitorAppStrings {
+	ApplicationErrorTitle: string;
+	ApplicationErrorText: string;
+}
+
+declare module 'MarketMonitorAppStrings' {
+	const value: IMarketMonitorAppStrings;
 	export = value;
 }

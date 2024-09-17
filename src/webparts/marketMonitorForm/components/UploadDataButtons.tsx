@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useWpContext } from "@/hooks/useWpContext"
-import { uploadData } from "@/services/uploadData"
+import { useWpContext } from "src/webparts/marketMonitorForm/hooks/useWpContext"
+import { uploadData } from "src/webparts/marketMonitorForm/services/uploadData"
 import { Button } from "@fluentui/react-components"
-import { Cliente, CNG, FamiliaProducto, PeriodoCultivo, Proveedor, Unidad } from '@/types';
-import { useDataContext } from '@/hooks/useData';
+import { Cliente, CNG, FamiliaProducto, PeriodoCultivo, Proveedor, Unidad } from 'src/webparts/marketMonitorForm/types';
+import { useDataContext } from 'src/webparts/marketMonitorForm/hooks/useData';
 
 export interface UploadDataButtonsProps {
     listaClientes: Cliente[];

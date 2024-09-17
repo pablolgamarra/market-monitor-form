@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PeriodoCultivo } from '@/types';
+import { PeriodoCultivo } from 'src/webparts/marketMonitorForm/types';
 import { IMonitorFormState } from './MonitorForm';
 
 import {
@@ -11,7 +11,7 @@ import {
 import * as headerStrings from 'MonitorFormHeaderStrings'
 
 import { makeStyles } from '@fluentui/react-components';
-import { useDataContext } from '@/hooks/useData';
+import { useDataContext } from 'src/webparts/marketMonitorForm/hooks/useData';
 
 const useStyles = makeStyles(
     {

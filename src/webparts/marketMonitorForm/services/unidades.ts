@@ -4,7 +4,11 @@ import {
 	SPHttpClientResponse,
 } from '@microsoft/sp-http';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { Unidad, UnidadesResponse, UnidadesResponseValue } from '@/types';
+import {
+	Unidad,
+	UnidadesResponse,
+	UnidadesResponseValue,
+} from 'src/webparts/marketMonitorForm/types';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },

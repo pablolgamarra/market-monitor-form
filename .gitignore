@@ -43,10 +43,10 @@ example
 scripts
 
 #JSON Data files
-src/webparts/monitoreoMercadoForm/data/agroquimicos.json
-src/webparts/monitoreoMercadoForm/data/clientes.json
-src/webparts/monitoreoMercadoForm/data/cngs.json
-src/webparts/monitoreoMercadoForm/data/proveedores.json
+src/webparts/marketMonitorForm/data/agroquimicos.json
+src/webparts/marketMonitorForm/data/clientes.json
+src/webparts/marketMonitorForm/data/cngs.json
+src/webparts/marketMonitorForm/data/proveedores.json
 
 #Business Logo
 glymax.png

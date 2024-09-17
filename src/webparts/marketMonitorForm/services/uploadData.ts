@@ -30,7 +30,13 @@ interface ProveedoresImport {
 	'Familia de Producto': string;
 }
 
-import { Cliente, CNG, FamiliaProducto, Proveedor, Unidad } from '@/types';
+import {
+	Cliente,
+	CNG,
+	FamiliaProducto,
+	Proveedor,
+	Unidad,
+} from 'src/webparts/marketMonitorForm/types';
 import { getAllUnidades } from './unidades';
 import { createCngs, getAllCNG } from './cngs';
 import {
