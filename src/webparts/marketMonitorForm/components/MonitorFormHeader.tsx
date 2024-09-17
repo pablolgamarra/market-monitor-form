@@ -21,8 +21,8 @@ import {
 } from '@fluentui/react-components';
 
 //Hooks
-import { useUserContext } from '@/hooks/useUser';
-import { useDataContext } from '@/hooks/useData';
+import { useUserContext } from '@/hooks/useUserContext';
+import { useDataContext } from '@/hooks/useDataContext';
 
 //Strings
 import * as headerStrings from 'MonitorFormHeaderStrings';

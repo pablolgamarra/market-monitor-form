@@ -1,6 +1,10 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 
+//Types
+import App, { AppProps } from '@/components/App';
+
+//SP
 import { Version } from '@microsoft/sp-core-library';
 import {
 	type IPropertyPaneConfiguration,
@@ -9,21 +13,22 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
-import * as strings from 'marketMonitorFormWebPartStrings';
+//Services
+import { getAllUnidades } from '@/services/unidades';
+import { getAllProveedores } from '@/services/proveedores';
+import { getAllPeriodosCultivo } from '@/services/periodosCultivo';
+import { getAllFamiliasProducto } from '@/services/familiasProducto';
+import { getAllClientes } from '@/services/clientes';
+import { getAllCNG } from '@/services/cngs';
 
-import App, { AppProps } from 'src/webparts/marketMonitorForm/components/App';
-import { getAllUnidades } from 'src/webparts/marketMonitorForm/services/unidades';
-import { getAllProveedores } from 'src/webparts/marketMonitorForm/services/proveedores';
-import { getAllPeriodosCultivo } from 'src/webparts/marketMonitorForm/services/periodosCultivo';
-import { getAllFamiliasProducto } from 'src/webparts/marketMonitorForm/services/familiasProducto';
-import { getAllClientes } from 'src/webparts/marketMonitorForm/services/clientes';
-import { getAllCNG } from 'src/webparts/marketMonitorForm/services/cngs';
+//Strings
+import * as strings from 'MarketMonitorFormWebPartStrings';
 
-export interface ImarketMonitorFormWebPartProps {
+export interface IMarketMonitorFormWebPartProps {
 	description: string;
 }
 
-export default class marketMonitorFormWebPart extends BaseClientSideWebPart<ImarketMonitorFormWebPartProps> {
+export default class MarketMonitorFormWebPart extends BaseClientSideWebPart<IMarketMonitorFormWebPartProps> {
 	public async render(): Promise<void> {
 		//TODO: Reemplazar esto por custom hooks
 		const context = this.context;

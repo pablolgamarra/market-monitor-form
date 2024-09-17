@@ -13,7 +13,7 @@ import {
 } from '@fluentui/react-components';
 
 //Hooks
-import { useDataContext } from 'src/webparts/marketMonitorForm/hooks/useData';
+import { useDataContext } from '@/hooks/useDataContext';
 
 //Strings
 import * as headerStrings from 'MonitorFormHeaderStrings';

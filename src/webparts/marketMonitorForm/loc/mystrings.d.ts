@@ -13,7 +13,7 @@ declare interface ImarketMonitorFormWebPartStrings {
 	UnknownEnvironment: string;
 }
 
-declare module 'marketMonitorFormWebPartStrings' {
+declare module 'MarketMonitorFormWebPartStrings' {
 	const strings: ImarketMonitorFormWebPartStrings;
 	export = strings;
 }

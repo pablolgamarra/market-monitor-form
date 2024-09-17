@@ -18,7 +18,7 @@ import { uploadData } from '@/services/uploadData';
 
 //Hooks
 import { useWpContext } from '@/hooks/useWpContext';
-import { useDataContext } from '@/hooks/useData';
+import { useDataContext } from '@/hooks/useDataContext';
 
 //Strings
 import * as strings from 'UploadButtonsStrings';
