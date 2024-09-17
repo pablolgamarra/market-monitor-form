@@ -1,23 +1,20 @@
 import * as React from 'react';
+
+//Types
 import { SPUser } from '@microsoft/sp-page-context';
 
 interface UserProviderProps {
-	user:SPUser
+	user: SPUser;
 }
 
 export const UserContext = React.createContext<SPUser>({} as SPUser);
 
 export const UserProvider: React.FunctionComponent<UserProviderProps> = ({
-	children,user
+	children,
+	user,
 }: React.PropsWithChildren<UserProviderProps>) => {
-	return (
-        <UserContext.Provider value={user}>
-			{children}
-        </UserContext.Provider>
-	);
+	return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
-
-
 
 UserContext.displayName = 'UserContext';
 UserProvider.displayName = 'UserProvider';
