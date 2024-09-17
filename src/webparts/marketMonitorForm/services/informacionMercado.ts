@@ -1,7 +1,12 @@
-import { ISPHttpClientOptions, SPHttpClient } from '@microsoft/sp-http-base';
+//Types
+import { InformacionMercado } from '@/types';
 import { WebPartContext } from '@microsoft/sp-webpart-base';
-import { InformacionMercado } from 'src/webparts/marketMonitorForm/types';
-import generateBatchString from 'src/webparts/marketMonitorForm/services/generateBatchString';
+
+//SPHTTP
+import { ISPHttpClientOptions, SPHttpClient } from '@microsoft/sp-http-base';
+
+//Services
+import generateBatchString from '@/services/generateBatchString';
 
 export const saveInformacionesMercado = async (
 	context: WebPartContext,

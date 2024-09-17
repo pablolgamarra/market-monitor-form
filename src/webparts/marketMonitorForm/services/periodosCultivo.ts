@@ -1,14 +1,17 @@
+//Types
+import {
+	PeriodoCultivo,
+	PeriodosCultivoResponse,
+	PeriodosCultivoResponseValue,
+} from '@/types';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+
+//SPHTTP
 import {
 	SPHttpClient,
 	ISPHttpClientOptions,
 	SPHttpClientResponse,
 } from '@microsoft/sp-http';
-import { WebPartContext } from '@microsoft/sp-webpart-base';
-import {
-	PeriodoCultivo,
-	PeriodosCultivoResponse,
-	PeriodosCultivoResponseValue,
-} from 'src/webparts/marketMonitorForm/types';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },

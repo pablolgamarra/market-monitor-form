@@ -1,12 +1,14 @@
+//Types
 import {
 	Cliente,
 	CNG,
 	FamiliaProducto,
 	InformacionMercado,
 	Proveedor,
-} from 'src/webparts/marketMonitorForm/types';
+} from '@/types';
 
-import generateUUID from './generateUUID';
+//Services
+import generateUUID from '@/services/generateUUID';
 
 const jsonClientes = (data: Cliente): string => {
 	const jsonString = `${JSON.stringify({

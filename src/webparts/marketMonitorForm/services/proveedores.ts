@@ -1,17 +1,22 @@
-import {
-	SPHttpClient,
-	ISPHttpClientOptions,
-	SPHttpClientResponse,
-} from '@microsoft/sp-http';
-import { WebPartContext } from '@microsoft/sp-webpart-base';
+//Types
 import {
 	FamiliaProducto,
 	Proveedor,
 	ProveedoresResponse,
 	ProveedoresResponseValue,
-} from 'src/webparts/marketMonitorForm/types';
-import { getAllFamiliasProducto } from './familiasProducto';
-import generateBatchString from './generateBatchString';
+} from '@/types';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+
+//SPHTTP
+import {
+	SPHttpClient,
+	ISPHttpClientOptions,
+	SPHttpClientResponse,
+} from '@microsoft/sp-http';
+
+//Services
+import { getAllFamiliasProducto } from '@/services/familiasProducto';
+import generateBatchString from '@/services/generateBatchString';
 
 const OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },

@@ -1,19 +1,24 @@
-import {
-	SPHttpClient,
-	ISPHttpClientOptions,
-	SPHttpClientResponse,
-} from '@microsoft/sp-http';
-import { WebPartContext } from '@microsoft/sp-webpart-base';
+//Types
 import {
 	Cliente,
 	ClientesResponse,
 	ClientesResponseValue,
 	CNG,
 	Unidad,
-} from 'src/webparts/marketMonitorForm/types';
-import { getAllUnidades } from './unidades';
-import { getAllCNG } from './cngs';
-import generateBatchString from './generateBatchString';
+} from '@/types';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+
+//SPHTTP
+import {
+	SPHttpClient,
+	ISPHttpClientOptions,
+	SPHttpClientResponse,
+} from '@microsoft/sp-http';
+
+//Services
+import { getAllUnidades } from '@/services/unidades';
+import { getAllCNG } from '@/services/cngs';
+import generateBatchString from '@/services/generateBatchString';
 
 const GET_OPTIONS: ISPHttpClientOptions = {
 	headers: { Accept: 'application/json' },

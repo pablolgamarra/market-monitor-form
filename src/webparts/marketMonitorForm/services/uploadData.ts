@@ -1,3 +1,18 @@
+//Types
+import { Cliente, CNG, FamiliaProducto, Proveedor, Unidad } from '@/types';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+
+//Services
+import { getAllUnidades } from '@/services/unidades';
+import { createCngs, getAllCNG } from '@/services/cngs';
+import {
+	createFamiliasProducto,
+	getFamiliasProductoByNombre,
+} from '@/services/familiasProducto';
+import { getPeriodoCultivoByNombre } from '@/services/periodosCultivo';
+import { createClientsBatch } from '@/services/clientes';
+import { createProveedores } from '@/services/proveedores';
+
 //Import JSON Formatted Data
 import clientes from '@/data/clientes.json';
 import cngs from '@/data/cngs.json';
@@ -29,24 +44,6 @@ interface ProveedoresImport {
 	Nombre: string;
 	'Familia de Producto': string;
 }
-
-import {
-	Cliente,
-	CNG,
-	FamiliaProducto,
-	Proveedor,
-	Unidad,
-} from 'src/webparts/marketMonitorForm/types';
-import { getAllUnidades } from './unidades';
-import { createCngs, getAllCNG } from './cngs';
-import {
-	createFamiliasProducto,
-	getFamiliasProductoByNombre,
-} from './familiasProducto';
-import { getPeriodoCultivoByNombre } from './periodosCultivo';
-import { createClientsBatch } from './clientes';
-import { createProveedores } from './proveedores';
-import { WebPartContext } from '@microsoft/sp-webpart-base';
 
 const formatData = async (
 	listName: string,

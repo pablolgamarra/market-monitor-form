@@ -10,7 +10,7 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 import * as strings from 'MarketMonitorClientesListWebPartStrings';
 import App, { AppProps } from '@clientes/components/App';
-import { getAllClientes } from '@/services/clientes';
+import { getAllClientes } from 'src/webparts/marketMonitorForm/services/clientes';
 
 export interface IMarketMonitorClientesListWebPartProps {
 	description: string;
