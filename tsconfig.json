@@ -23,7 +23,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["src/webparts/marketMonitorForm/*"],
-			"@clientes/*": ["src/webparts/marketMonitorClientesList/*"]
+			"@clientes/*": ["src/webparts/marketMonitorClientesList/*"],
+			"@cngs/*": ["src/webparts/marketMonitorCngList/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"]

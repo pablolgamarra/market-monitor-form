@@ -27,6 +27,10 @@ build.configureWebpack.mergeConfig({
 			__dirname,
 			'lib/webparts/marketMonitorClientesList/',
 		);
+		generatedConfiguration.resolve.alias['@cngs'] = path.resolve(
+			__dirname,
+			'lib/webparts/marketMonitorCngList/',
+		);
 		return generatedConfiguration;
 	},
 });

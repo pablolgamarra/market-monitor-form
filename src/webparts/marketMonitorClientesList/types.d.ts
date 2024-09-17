@@ -6,3 +6,14 @@ export interface Cliente {
 	CNG: CNG | undefined;
 	Anho: string;
 }
+
+export interface CNG {
+	Id: number | undefined;
+	Nombre: string;
+	CodigoSAP: string;
+	Correo: string;
+}
+export interface Unidad {
+	Id: number | undefined;
+	Nombre: string | undefined;
+}

@@ -17,6 +17,14 @@
 					"manifest": "./src/webparts/marketMonitorClientesList/MarketMonitorClientesListWebPart.manifest.json"
 				}
 			]
+		},
+		"market-monitor-cng-list-web-part": {
+			"components": [
+				{
+					"entrypoint": "./lib/webparts/marketMonitorCngList/MarketMonitorCngListWebPart.js",
+					"manifest": "./src/webparts/marketMonitorCngList/MarketMonitorCngListWebPart.manifest.json"
+				}
+			]
 		}
 	},
 	"externals": {},
@@ -26,6 +34,7 @@
 		"MonitorFormHeaderStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
 		"MonitorFormProductsStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
 		"MarketMonitorClientesListWebPartStrings": "lib/webparts/marketMonitorClientesList/loc/{locale}.js",
-		"UploadButtonsStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js"
+		"UploadButtonsStrings": "lib/webparts/marketMonitorForm/loc/{locale}.js",
+		"MarketMonitorCngListWebPartStrings": "lib/webparts/marketMonitorCngList/loc/{locale}.js"
 	}
 }

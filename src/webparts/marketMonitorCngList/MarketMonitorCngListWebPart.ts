@@ -8,22 +8,22 @@ import {
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
-import * as strings from 'MarketMonitorClientesListWebPartStrings';
-import { getAllClientes } from '@/services/clientes';
-import { Cliente } from '@clientes/types';
-import ClientsList from '@clientes/components/ClientsList';
+import * as strings from 'MarketMonitorCngListWebPartStrings';
+import { CNG } from '@cngs/types';
+import { getAllCNG } from '@/services/cngs';
+import CngsList from './components/CngsList';
 
-export interface IMarketMonitorClientesListWebPartProps {
+export interface IMarketMonitorCngListWebPartProps {
 	description: string;
 }
 
-export default class MarketMonitorClientesListWebPart extends BaseClientSideWebPart<IMarketMonitorClientesListWebPartProps> {
+export default class MarketMonitorCngListWebPart extends BaseClientSideWebPart<IMarketMonitorCngListWebPartProps> {
 	public async render(): Promise<void> {
-		const clientes = await getAllClientes(this.context);
+		const cngs = await getAllCNG(this.context);
 
-		const element: React.FunctionComponentElement<{ clientes: Cliente[] }> =
-			React.createElement(ClientsList, {
-				clientes: clientes,
+		const element: React.FunctionComponentElement<{ cngs: CNG[] }> =
+			React.createElement(CngsList, {
+				cngs: cngs,
 			});
 
 		ReactDom.render(element, this.domElement);
@@ -31,7 +31,7 @@ export default class MarketMonitorClientesListWebPart extends BaseClientSideWebP
 
 	protected onInit(): Promise<void> {
 		return this._getEnvironmentMessage().then((message) => {
-			//console.log('App Iniciada');
+			//this._environmentMessage = message;
 		});
 	}
 
@@ -81,6 +81,8 @@ export default class MarketMonitorClientesListWebPart extends BaseClientSideWebP
 		if (!currentTheme) {
 			return;
 		}
+
+		//this._isDarkTheme = !!currentTheme.isInverted;
 		const { semanticColors } = currentTheme;
 
 		if (semanticColors) {

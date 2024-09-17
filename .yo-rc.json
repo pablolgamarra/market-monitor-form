@@ -16,6 +16,8 @@
 		"solutionShortDescription": "Market Monitor",
 		"skipFeatureDeployment": true,
 		"isDomainIsolated": false,
-		"componentType": "webpart"
+		"componentType": "webpart",
+		"template": "react",
+		"componentName": "marketMonitor"
 	}
 }
