@@ -1,40 +1,40 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
-  "solution": {
-    "name": "market-monitor-client-side-solution",
-    "id": "6718216b-427b-4ed1-b783-0f21c7b3b357",
-    "version": "1.0.0.3",
-    "includeClientSideAssets": true,
-    "skipFeatureDeployment": true,
-    "isDomainIsolated": false,
-    "developer": {
-      "name": "Pablo Gamarra",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
-      "mpnId": "Undefined-1.18.2"
-    },
-    "metadata": {
-      "shortDescription": {
-        "default": "MarketMonitor description"
-      },
-      "longDescription": {
-        "default": "MarketMonitor description"
-      },
-      "screenshotPaths": [],
-      "videoUrl": "",
-      "categories": []
-    },
-    "features": [
-      {
-        "title": "market-monitor Feature",
-        "description": "The feature that activates elements of the market-monitor solution.",
-        "id": "ea470205-8214-467d-aeda-e3931dfaed42",
-        "version": "1.0.0.1"
-      }
-    ]
-  },
-  "paths": {
-    "zippedPackage": "solution/market-monitor.sppkg"
-  }
+	"$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+	"solution": {
+		"name": "market-monitor-client-side-solution",
+		"id": "6718216b-427b-4ed1-b783-0f21c7b3b357",
+		"version": "1.0.0.4",
+		"includeClientSideAssets": true,
+		"skipFeatureDeployment": true,
+		"isDomainIsolated": false,
+		"developer": {
+			"name": "Pablo Gamarra",
+			"websiteUrl": "",
+			"privacyUrl": "",
+			"termsOfUseUrl": "",
+			"mpnId": "Undefined-1.18.2"
+		},
+		"metadata": {
+			"shortDescription": {
+				"default": "MarketMonitor description"
+			},
+			"longDescription": {
+				"default": "MarketMonitor description"
+			},
+			"screenshotPaths": [],
+			"videoUrl": "",
+			"categories": []
+		},
+		"features": [
+			{
+				"title": "market-monitor Feature",
+				"description": "The feature that activates elements of the market-monitor solution.",
+				"id": "ea470205-8214-467d-aeda-e3931dfaed42",
+				"version": "1.0.0.1"
+			}
+		]
+	},
+	"paths": {
+		"zippedPackage": "solution/market-monitor.sppkg"
+	}
 }
