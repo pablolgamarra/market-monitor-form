@@ -1,6 +1,10 @@
-import { WpContext } from 'src/webparts/marketMonitorForm/context/webPart';
-import { WebPartContext } from '@microsoft/sp-webpart-base';
 import { useContext } from 'react';
+
+//Types
+import { WebPartContext } from '@microsoft/sp-webpart-base';
+
+//Context
+import { WpContext } from '@/context/webPart';
 
 export const useWpContext = (): WebPartContext => {
 	const context = useContext(WpContext);

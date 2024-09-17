@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { DataContext } from 'src/webparts/marketMonitorForm/context/data';
 
+//Types
 import {
 	Cliente,
 	CNG,
@@ -8,7 +8,10 @@ import {
 	PeriodoCultivo,
 	Proveedor,
 	Unidad,
-} from 'src/webparts/marketMonitorForm/types';
+} from '@/types';
+
+//Context
+import { DataContext } from '@/context/data';
 
 export const useDataContext = (): {
 	listaClientes: Cliente[];

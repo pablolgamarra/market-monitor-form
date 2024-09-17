@@ -1,7 +1,10 @@
 import { useContext } from 'react';
-import { UserContext } from 'src/webparts/marketMonitorForm/context/user';
 
+//Types
 import { SPUser } from '@microsoft/sp-page-context';
+
+//Context
+import { UserContext } from '@/context/user';
 
 export const useUserContext = (): SPUser => {
 	const context = useContext(UserContext);
