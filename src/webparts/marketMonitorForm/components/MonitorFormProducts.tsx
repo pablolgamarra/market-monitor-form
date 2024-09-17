@@ -401,10 +401,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							''
 						}
 						onOptionSelect={handleCbxChanges}
-						disabled={
-							submitStatus === 'saving' ||
-							submitStatus === 'saved'
-						}
 					>
 						{listaProveedoresFiltro.map((item: Proveedor) => (
 							<Option
