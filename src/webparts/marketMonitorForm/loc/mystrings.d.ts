@@ -57,3 +57,17 @@ declare module 'MarketMonitorAppStrings' {
 	const value: IMarketMonitorAppStrings;
 	export = value;
 }
+
+declare interface IUploadDataButtonsStrings {
+	UploadButtons: {
+		CNG: string;
+		Clientes: string;
+		Proveedores: string;
+		FamiliasProducto: string;
+	};
+}
+
+declare module 'UploadButtonsStrings' {
+	const value: IUploadDataButtonsStrings;
+	export = value;
+}

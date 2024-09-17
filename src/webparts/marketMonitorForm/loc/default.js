@@ -20,5 +20,11 @@ define([], function () {
 		VolumenYaCompradoLabel: 'Volumen Ya Comprado',
 		ApplicationErrorTitle: 'Error en la Aplicación',
 		ApplicationErrorText: 'Favor comuniquese con el departamento de T.I.',
+		UploadButtons: {
+			CNG: 'Subir Datos de CNG a DB',
+			Clientes: 'Subir Datos de Clientes a DB',
+			Proveedores: 'Subir Datos de Proveedores a DB',
+			FamiliasProducto: 'Subir Datos de Familias de Productos a DB',
+		},
 	};
 });

@@ -23,5 +23,14 @@ define([], function () {
 		Cliente: 'Customer',
 		'Periodo de Cultivo': 'Cultivation period',
 		PeriodoCultivoTitle: 'Select Cultivation Period',
+		VolumenYaCompradoLabel: 'Buyed Volume',
+		ApplicationErrorTitle: 'Application Error',
+		ApplicationErrorText: 'Please communicate with I.T. Department',
+		UploadButtons: {
+			CNG: 'Upload Sales Person Data',
+			Clientes: 'Upload Clients Data',
+			Proveedores: 'Upload Vendors Data',
+			FamiliasProducto: 'Upload Products Family Data',
+		},
 	};
 });
