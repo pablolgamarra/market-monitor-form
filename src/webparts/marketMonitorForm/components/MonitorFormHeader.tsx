@@ -162,6 +162,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							onOptionSelect={handleDpDown}
 							value={unidad?.Nombre || ''}
 							disabled={unidad && cliente ? true : false}
+							inlinePopup
 						>
 							{listaUnidades.map((item: Unidad) => (
 								<Option
@@ -187,6 +188,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							onOptionSelect={handleDpDown}
 							value={cliente?.Nombre || ''}
 							disabled={unidad && cliente ? true : false}
+							inlinePopup
 						>
 							{listaClientesFiltro.map((item: Cliente) => (
 								<Option
