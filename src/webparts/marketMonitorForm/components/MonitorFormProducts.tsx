@@ -32,6 +32,10 @@ import {
 	DismissFilled,
 	SaveRegular,
 } from '@fluentui/react-icons';
+import {
+	Virtualizer,
+	useStaticVirtualizerMeasure,
+} from '@fluentui/react-components/unstable';
 
 //Hooks
 import { useDataContext } from '@/hooks/useDataContext';
@@ -84,15 +88,29 @@ const useStyles = makeStyles({
 			fontSize: '1rem',
 		},
 	},
+	listbox: {
+		maxHeight: '250px',
+	},
+	option: {
+		height: '32px',
+	},
 });
 
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	const { listaFamiliasProducto, listaProveedores } = useDataContext();
 
+	console.log(listaProveedores);
+
 	const { periodoCultivo, submitStatus, saveData } = props;
 	const volumen: number[] = [...Array(11).keys()].map(
 		(value: number) => value * 10,
 	);
+
+	const { virtualizerLength, bufferItems, bufferSize, scrollRef } =
+		useStaticVirtualizerMeasure({
+			defaultItemSize: 32,
+			direction: 'vertical',
+		});
 
 	//Component Style
 	const styles = useStyles();
@@ -120,10 +138,14 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	const [index, setIndex] = React.useState<number>(0);
 
 	const listaProveedoresFiltro = listaProveedores.filter(
-		(item) =>
+		(item: Proveedor) =>
 			item.FamiliadeProducto?.Id ===
 			productValues[index]?.familiaProducto?.Id,
 	);
+
+	console.log(listaProveedoresFiltro);
+	console.log(listaProveedoresFiltro.length);
+	console.log(`Posicion ID -> ${productValues[index]?.familiaProducto?.Id}`);
 
 	const handleSelectedChanges = (
 		campo: keyof ProductValueState,
@@ -334,6 +356,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						name='volumenComprado'
 						placeholder={`Seleccione volumen ya comprado`}
 						value={productValues[index]?.volumenComprado || ''}
+						inlinePopup
 						onOptionSelect={handleCbxChanges}
 						disabled={
 							submitStatus === 'saving' ||
@@ -379,6 +402,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 						placeholder={'Seleccione condicion de pago'}
 						value={productValues[index]?.condicionPago || ''}
 						onOptionSelect={handleCbxChanges}
+						inlinePopup
 						disabled={
 							submitStatus === 'saving' ||
 							submitStatus === 'saved'
@@ -400,21 +424,36 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							productValues[index]?.proveedorPrincipal?.Nombre ||
 							''
 						}
+						inlinePopup
 						onOptionSelect={handleCbxChanges}
 						disabled={
 							submitStatus === 'saving' ||
 							submitStatus === 'saved'
 						}
+						positioning={{ autoSize: 'width' }}
+						listbox={{ ref: scrollRef, className: styles.listbox }}
 					>
-						{listaProveedoresFiltro.map((item: Proveedor) => (
-							<Option
-								key={item.Id}
-								text='Opcion'
-								value={item.Id?.toString()}
-							>
-								{item.Nombre}
-							</Option>
-						))}
+						<Virtualizer
+							numItems={listaProveedoresFiltro.length}
+							virtualizerLength={virtualizerLength}
+							bufferItems={bufferItems}
+							bufferSize={bufferSize}
+							itemSize={80}
+						>
+							{(index) => {
+								return (
+									<Option
+										key={listaProveedoresFiltro[index].Id}
+										text='Opcion'
+										value={listaProveedoresFiltro[
+											index
+										].Id?.toString()}
+									>
+										{listaProveedoresFiltro[index].Nombre}
+									</Option>
+								);
+							}}
+						</Virtualizer>
 					</Combobox>
 				</Field>
 				<section className={`${styles.NavegacionContainer}`}>
