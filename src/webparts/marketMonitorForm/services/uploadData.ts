@@ -7,7 +7,7 @@ import { getAllUnidades } from '@/services/unidades';
 import { createCngs, getAllCNG } from '@/services/cngs';
 import {
 	createFamiliasProducto,
-	getFamiliasProductoByNombre,
+	getAllFamiliasProducto,
 } from '@/services/familiasProducto';
 import { getPeriodoCultivoByNombre } from '@/services/periodosCultivo';
 import { createClientsBatch } from '@/services/clientes';
@@ -118,23 +118,41 @@ const formatData = async (
 		}
 		case 'Proveedores': {
 			const parsedData = data as ProveedoresImport[];
+			const familiasProducto = await getAllFamiliasProducto(context);
+
 			const proveedoresFormatted: Proveedor[] = await Promise.all(
 				parsedData.map(
-					async (value: ProveedoresImport): Promise<Proveedor> => {
-						const familiaProducto =
-							await getFamiliasProductoByNombre(
-								context,
-								value['Familia de Producto'],
+					async (value: ProveedoresImport): Promise<Proveedor[]> => {
+						const familias: FamiliaProducto[] =
+							familiasProducto.filter(
+								(item: FamiliaProducto) =>
+									item.Nombre ===
+									value['Familia de Producto'],
 							);
 
-						return {
-							Id: undefined,
-							Nombre: value.Nombre,
-							FamiliadeProducto: familiaProducto,
-						};
+						return familias.map((familia: FamiliaProducto) => {
+							return {
+								Id: undefined,
+								Nombre: value.Nombre,
+								FamiliadeProducto: familia,
+							};
+						});
 					},
 				),
-			);
+			).then((value: Proveedor[][]) => {
+				const proveedoresMapped: Proveedor[] = [];
+
+				value.map((proveedores: Proveedor[]) => {
+					proveedores.map((proveedor: Proveedor) => {
+						proveedoresMapped.push({
+							Id: undefined,
+							Nombre: proveedor.Nombre,
+							FamiliadeProducto: proveedor.FamiliadeProducto,
+						});
+					});
+				});
+				return proveedoresMapped;
+			});
 			return proveedoresFormatted;
 		}
 		case 'Familias Productos': {
@@ -233,6 +251,7 @@ export const uploadData = async (
 				proveedores,
 				context,
 			)) as Proveedor[];
+
 			try {
 				const result = await createProveedores(context, formattedData);
 				if (result === false) {

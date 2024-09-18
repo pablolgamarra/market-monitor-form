@@ -25,7 +25,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllFamiliasProducto = async (
 	context: WebPartContext,
 ): Promise<FamiliaProducto[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -67,7 +67,7 @@ export const getFamiliasProductoById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<FamiliaProducto | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Id eq '${Id}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Id eq '${Id}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -116,7 +116,7 @@ export const getFamiliasProductoByNombre = async (
 	context: WebPartContext,
 	Nombre: string,
 ): Promise<FamiliaProducto | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Title eq '${Nombre}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Familias Productos')/items?$filter=Title eq '${Nombre}'&$select=Id, Title, UnidaddeMedida, PeriododeCultivoId, Activo&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)

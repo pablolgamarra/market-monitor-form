@@ -25,7 +25,7 @@ const OPTIONS: ISPHttpClientOptions = {
 export const getAllProveedores = async (
 	context: WebPartContext,
 ): Promise<Proveedor[]> => {
-	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Proveedores')/items?$select=Id, Title, Familia_x0020_de_x0020_ProductoId`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Proveedores')/items?$select=Id, Title, Familia_x0020_de_x0020_ProductoId&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
@@ -65,7 +65,7 @@ export const getProveedorById = async (
 	context: WebPartContext,
 	Id: number,
 ): Promise<Proveedor | undefined> => {
-	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Proveedores')/items?$filter=Id eq '${Id}'&$select=Id,Title, Familia_x0020_de_x0020_ProductoId`;
+	const url = `${context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('Proveedores')/items?$filter=Id eq '${Id}'&$select=Id,Title, Familia_x0020_de_x0020_ProductoId&$top=5000`;
 
 	return context.spHttpClient
 		.get(url, SPHttpClient.configurations.v1, OPTIONS)
