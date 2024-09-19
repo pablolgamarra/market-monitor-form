@@ -24,6 +24,7 @@ import {
 	ToastTitle,
 	Toaster,
 	useId,
+	shorthands,
 } from '@fluentui/react-components';
 import {
 	ArrowLeftFilled,
@@ -93,6 +94,18 @@ const useStyles = makeStyles({
 	},
 	option: {
 		height: '32px',
+	},
+	cbx: {
+		display: 'grid',
+		opacity: '100%',
+		gridTemplateRows: 'repeat(1fr)',
+		justifyItems: 'start',
+		...shorthands.gap('2px'),
+		marginBottom: '5px',
+		fontSize: '1rem',
+		'>input': {
+			width: '100%',
+		},
 	},
 });
 
@@ -361,6 +374,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				>
 					<Combobox
 						id={`cbx-volumen-${id}`}
+						className={styles.cbx}
 						name='volumenComprado'
 						placeholder={`Seleccione volumen ya comprado`}
 						value={productValues[index]?.volumenComprado || ''}
@@ -409,6 +423,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				>
 					<Combobox
 						id={`cbx-condicion-pago-${id}`}
+						className={styles.cbx}
 						name='condicionPago'
 						placeholder={'Seleccione condicion de pago'}
 						value={productValues[index]?.condicionPago || ''}
@@ -430,6 +445,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				>
 					<Combobox
 						id={`cbx-proveedor-principal-${id}`}
+						className={styles.cbx}
 						name='proveedorPrincipal'
 						placeholder='Seleccione Proveedor Principal'
 						value={
