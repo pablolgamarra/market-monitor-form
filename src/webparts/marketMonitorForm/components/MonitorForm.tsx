@@ -9,6 +9,7 @@ import {
 	Image,
 	makeStyles,
 	shorthands,
+	useId,
 } from '@fluentui/react-components';
 import MonitorFormHeader from '@/components/MonitorFormHeader';
 import MonitorFormPeriodSelector from '@/components/MonitorFormPeriodSelector';
@@ -52,6 +53,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 	const { listaUnidades, listaClientes, listaPeriodosCultivo } =
 		useDataContext();
 
+	const id = useId('monitor-form');
 	const styles = useStyles();
 
 	const [formData, setFormData] = React.useState<IMonitorFormState>(
@@ -117,14 +119,23 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 	};
 
 	return (
-		<article className={styles.root}>
+		<article
+			id={`content-article-${id}`}
+			className={styles.root}
+		>
 			<Image
+				id={`bussiness-image-${id}`}
 				block={false}
 				src={require('../assets/glymax.png')}
 				alt={'Logo de Glymax Paraguay S.A.'} //TODO: COLOCAR EN i18n
 				width={'150px'}
 			/>
-			<Title1 align='center'>Monitoreo del Mercado</Title1>{' '}
+			<Title1
+				id={`title-${id}`}
+				align='center'
+			>
+				Monitoreo del Mercado
+			</Title1>
 			{/*TODO: COLOCAR EN i18n*/}
 			<>
 				{!formData.periodoCultivo ? (

@@ -112,6 +112,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 			direction: 'vertical',
 		});
 
+	const id = useId('monitor-form-products');
 	//Component Style
 	const styles = useStyles();
 	const toastId = useId('Toaster');
@@ -344,19 +345,25 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	}, [submitStatus, dispatchToast]);
 
 	return (
-		<section className={`${styles.FormContainer}`}>
-			<Title2>{productValues[index].familiaProducto?.Nombre}</Title2>
-			<form>
+		<section
+			id={`content-section-${id}`}
+			className={`${styles.FormContainer}`}
+		>
+			<Title2 id={`section-title-${id}`}>
+				{productValues[index].familiaProducto?.Nombre}
+			</Title2>
+			<form id={`form-${id}`}>
 				<Field
+					id={`field-volumen-${id}`}
 					className={`${styles.Input}`}
 					label={productsFormStrings.VolumenYaCompradoLabel}
 					required
 				>
 					<Combobox
+						id={`cbx-volumen-${id}`}
 						name='volumenComprado'
 						placeholder={`Seleccione volumen ya comprado`}
 						value={productValues[index]?.volumenComprado || ''}
-						inlinePopup
 						onOptionSelect={handleCbxChanges}
 						disabled={
 							submitStatus === 'saving' ||
@@ -374,11 +381,13 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					</Combobox>
 				</Field>
 				<Field
+					id={`field-precio-${id}`}
 					className={`${styles.Input}`}
 					label={`Precio por ${listaProductosFiltro[index].UnidadMedida}`}
 					required
 				>
 					<Input
+						id={`input-precio-${id}`}
 						name='precioPorMedida'
 						placeholder={`Ingresar precio por ${listaProductosFiltro[index].UnidadMedida}`}
 						value={
@@ -393,16 +402,17 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					/>
 				</Field>
 				<Field
+					id={`field-condicion-pago-${id}`}
 					className={`${styles.Input}`}
 					label={`Condición de Pago`}
 					required
 				>
 					<Combobox
+						id={`cbx-condicion-pago-${id}`}
 						name='condicionPago'
 						placeholder={'Seleccione condicion de pago'}
 						value={productValues[index]?.condicionPago || ''}
 						onOptionSelect={handleCbxChanges}
-						inlinePopup
 						disabled={
 							submitStatus === 'saving' ||
 							submitStatus === 'saved'
@@ -413,24 +423,25 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					</Combobox>
 				</Field>
 				<Field
+					id={`field-proveedor-principal-${id}`}
 					className={`${styles.Input}`}
 					label={`Proveedor Principal`}
 					required
 				>
 					<Combobox
+						id={`cbx-proveedor-principal-${id}`}
 						name='proveedorPrincipal'
 						placeholder='Seleccione Proveedor Principal'
 						value={
 							productValues[index]?.proveedorPrincipal?.Nombre ||
 							''
 						}
-						inlinePopup
 						onOptionSelect={handleCbxChanges}
 						disabled={
 							submitStatus === 'saving' ||
 							submitStatus === 'saved'
 						}
-						positioning={{ autoSize: 'width' }}
+						positioning={{ autoSize: 'width', position: 'below' }}
 						listbox={{ ref: scrollRef, className: styles.listbox }}
 					>
 						<Virtualizer

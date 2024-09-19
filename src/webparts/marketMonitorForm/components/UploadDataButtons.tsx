@@ -11,7 +11,7 @@ import {
 } from '@/types';
 
 //Components
-import { Button } from '@fluentui/react-components';
+import { Button, useId } from '@fluentui/react-components';
 
 //Services
 import { uploadData } from '@/services/uploadData';
@@ -38,27 +38,33 @@ const UploadDataButtons: React.FC<UploadDataButtonsProps> = (props) => {
 
 	const context = useWpContext();
 
+	const id = useId('upload-data-buttons');
+
 	return (
 		<>
 			<Button
+				id={`cng-${id}`}
 				onClick={() => uploadData('CNG', context)}
 				disabled={listaCNG.length > 0}
 			>
 				{strings.UploadButtons.CNG}
 			</Button>
 			<Button
+				id={`familias-productos-${id}`}
 				onClick={() => uploadData('Familias Productos', context)}
 				disabled={listaFamiliasProducto.length > 0}
 			>
 				{strings.UploadButtons.FamiliasProducto}
 			</Button>
 			<Button
+				id={`proveedores-${id}`}
 				onClick={() => uploadData('Proveedores', context)}
 				disabled={listaProveedores.length > 0}
 			>
 				{strings.UploadButtons.Proveedores}
 			</Button>
 			<Button
+				id={`clientes-${id}`}
 				onClick={() => uploadData('Clientes', context)}
 				disabled={listaClientes.length > 0}
 			>

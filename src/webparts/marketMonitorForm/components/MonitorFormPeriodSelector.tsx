@@ -10,6 +10,7 @@ import {
 	shorthands,
 	Title2,
 	makeStyles,
+	useId,
 } from '@fluentui/react-components';
 
 //Hooks
@@ -59,6 +60,7 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 
 	const { handleSelectedChange } = props;
 
+	const id = useId('monitor-form-period-selector');
 	//Component Style
 	const styles = useStyles();
 
@@ -75,12 +77,24 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 		);
 
 	return (
-		<article className={styles.root}>
-			<section className={styles.periodSelectorContainer}>
-				<Title2>{headerStrings.PeriodoCultivoTitle}</Title2>
-				<section className={styles.buttonsContainer}>
+		<article
+			id={`content-article-${id}`}
+			className={styles.root}
+		>
+			<section
+				id={`content-section-${id}`}
+				className={styles.periodSelectorContainer}
+			>
+				<Title2 id={`title-${id}`}>
+					{headerStrings.PeriodoCultivoTitle}
+				</Title2>
+				<section
+					id={`buttons-container-${id}`}
+					className={styles.buttonsContainer}
+				>
 					{listaPeriodosCultivo.map((item: PeriodoCultivo) => (
 						<Button
+							id={`period-button-${item.Id}`}
 							key={item.Id}
 							shape='rounded'
 							onClick={handleButtonClicked}

@@ -18,6 +18,7 @@ import {
 	SelectionEvents,
 	shorthands,
 	Subtitle1,
+	useId,
 } from '@fluentui/react-components';
 
 //Hooks
@@ -86,6 +87,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	const { unidad, cliente, periodoCultivo, children, handleSelectedChange } =
 		props;
 
+	const id = useId('monitor-form-header');
 	//Component Style
 	const styles = useStyles();
 
@@ -143,26 +145,36 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 	);
 
 	return (
-		<section className={styles.root}>
+		<section
+			id={`content-section-${id}`}
+			className={styles.root}
+		>
 			{!periodoCultivo ? (
 				<>{children}</>
 			) : (
 				<>
-					<article className={styles.formHeaderCbxContainer}>
+					<article
+						id={`content-article-${id}`}
+						className={styles.formHeaderCbxContainer}
+					>
 						<Label
-							htmlFor='unidad'
+							htmlFor={`unidad-${id}`}
 							size='large'
 							required
 						>
 							{headerStrings.Unidad}
 						</Label>
 						<Combobox
+							id={`unidad-${id}`}
 							name='unidad'
 							placeholder={headerStrings.PlaceholderUnidad}
 							onOptionSelect={handleDpDown}
 							value={unidad?.Nombre || ''}
 							disabled={unidad && cliente ? true : false}
-							inlinePopup
+							positioning={{
+								autoSize: 'width',
+								position: 'below',
+							}}
 						>
 							{listaUnidades.map((item: Unidad) => (
 								<Option
@@ -176,19 +188,23 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 						</Combobox>
 
 						<Label
-							htmlFor='cliente'
+							htmlFor={`cliente-${id}`}
 							size='large'
 							required
 						>
 							{headerStrings.Cliente}
 						</Label>
 						<Combobox
+							id={`cliente-${id}`}
 							name='cliente'
 							placeholder={headerStrings.PlaceholderCliente}
 							onOptionSelect={handleDpDown}
+							positioning={{
+								autoSize: 'width',
+								position: 'below',
+							}}
 							value={cliente?.Nombre || ''}
 							disabled={unidad && cliente ? true : false}
-							inlinePopup
 						>
 							{listaClientesFiltro.map((item: Cliente) => (
 								<Option
@@ -201,11 +217,17 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							))}
 						</Combobox>
 						<Popover
-							inline
 							closeOnScroll
+							positioning={{
+								autoSize: 'width',
+								position: 'after',
+							}}
 						>
 							<PopoverTrigger disableButtonEnhancement>
-								<Button className={`${styles.button}`}>
+								<Button
+									id={`periodo-seleccionado-${id}`}
+									className={`${styles.button}`}
+								>
 									Periodo de Cultivo Seleccionado
 								</Button>
 							</PopoverTrigger>
