@@ -10,6 +10,7 @@ import {
 	makeStyles,
 	shorthands,
 	useId,
+	tokens,
 } from '@fluentui/react-components';
 import MonitorFormHeader from '@/components/MonitorFormHeader';
 import MonitorFormPeriodSelector from '@/components/MonitorFormPeriodSelector';
@@ -26,18 +27,23 @@ import { useDataContext } from '@/hooks/useDataContext';
 //Component Styles
 const useStyles = makeStyles({
 	root: {
-		color: '#2C3C79',
+		width: '100%',
 		display: 'flex',
 		flexDirection: 'column',
-		...shorthands.padding('1em'),
-		...shorthands.margin('5px'),
-		'> img': {
-			alignSelf: 'center',
+		boxSizing: 'border-box',
+		color: tokens.colorBrandForeground1,
+		fontSize: tokens.fontSizeBase600,
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeBase300,
 		},
-		minWidth: '320px',
 	},
-	buttons: {
-		display: 'flex',
+	img: {
+		width: '200px',
+		...shorthands.margin(0, 'auto', tokens.spacingVerticalXXL, 'auto'),
+		'@media screen and (max-width:320px)': {
+			width: '100px',
+			...shorthands.margin(0, 'auto', tokens.spacingVerticalL, 'auto'),
+		},
 	},
 });
 
@@ -128,7 +134,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 				block={false}
 				src={require('../assets/glymax.png')}
 				alt={'Logo de Glymax Paraguay S.A.'} //TODO: COLOCAR EN i18n
-				width={'150px'}
+				className={styles.img}
 			/>
 			<Title1
 				id={`title-${id}`}

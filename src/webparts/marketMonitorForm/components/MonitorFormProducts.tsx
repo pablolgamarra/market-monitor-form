@@ -59,6 +59,10 @@ export interface ProductValueState {
 }
 
 const useStyles = makeStyles({
+	FormContainer: {
+		minWidth: '600px',
+		marginTop: '25px',
+	},
 	NavegacionContainer: {
 		display: 'flex',
 		width: '100%',
@@ -77,10 +81,6 @@ const useStyles = makeStyles({
 	BotonRetroceso: {
 		minWidth: '180px',
 		marginRight: 'auto',
-	},
-	FormContainer: {
-		minWidth: '600px',
-		marginTop: '25px',
 	},
 	Input: {
 		marginBottom: '15px',

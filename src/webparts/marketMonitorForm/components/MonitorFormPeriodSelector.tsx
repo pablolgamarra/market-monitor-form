@@ -11,6 +11,7 @@ import {
 	Title2,
 	makeStyles,
 	useId,
+	tokens,
 } from '@fluentui/react-components';
 
 //Hooks
@@ -22,27 +23,30 @@ import * as headerStrings from 'MonitorFormHeaderStrings';
 //Component Styles
 const useStyles = makeStyles({
 	root: {
-		width: '100%',
-	},
-	periodSelectorContainer: {
 		display: 'flex',
 		flexDirection: 'column',
-		alignItems: 'center',
-		marginTop: '50px',
-		...shorthands.border('.1rem', 'solid', '#003c79'),
-		...shorthands.borderRadius('1rem'),
+		width: '100%',
+		boxSizing: 'border-box',
+		...shorthands.margin('16px'),
+	},
+	periodSelectorContainer: {
+		marginBottom: '16px',
 	},
 	buttonsContainer: {
 		display: 'flex',
-		width: '100%',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		'>Button': {
-			width: '250px',
-			height: '250px',
-			fontSize: '1.6rem',
-			...shorthands.margin('50px', '100px'),
+		flexWrap: 'nowrap',
+		...shorthands.gap('8px'),
+		'@media screen and (max-width:320px)': {
+			width: '100%',
+			flexDirection: 'column',
+			flexWrap: 'wrap',
+			marginTop: tokens.spacingVerticalL,
+			...shorthands.gap('10vw'),
 		},
+	},
+	button: {
+		...shorthands.flex(1, 1, 'auto'),
+		minWidth: '100px',
 	},
 });
 
@@ -85,7 +89,10 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 				id={`content-section-${id}`}
 				className={styles.periodSelectorContainer}
 			>
-				<Title2 id={`title-${id}`}>
+				<Title2
+					id={`title-${id}`}
+					className=''
+				>
 					{headerStrings.PeriodoCultivoTitle}
 				</Title2>
 				<section
@@ -98,6 +105,7 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 							key={item.Id}
 							shape='rounded'
 							onClick={handleButtonClicked}
+							className={styles.button}
 						>
 							{item.Nombre}
 						</Button>
