@@ -220,7 +220,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							closeOnScroll
 							positioning={{
 								autoSize: 'width',
-								position: 'after',
+								position: 'below',
 							}}
 						>
 							<PopoverTrigger disableButtonEnhancement>
