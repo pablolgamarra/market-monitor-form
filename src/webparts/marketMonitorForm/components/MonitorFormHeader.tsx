@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		maxWidth: '100%',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase500,
 			marginTop: tokens.spacingVerticalXL,
 		},
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 		color: 'currentColor',
 		fontSize: '1.3rem',
 		marginBottom: '5px',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: '1em',
 			fontWeight: tokens.fontWeightMedium,
 			marginBottom: tokens.spacingVerticalXS,
@@ -57,7 +57,7 @@ const useStyles = makeStyles({
 		maxWidth: '650px',
 		paddingRight: '60px',
 		flexWrap: 'wrap',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			width: '100%',
 			fontSize: tokens.fontSizeBase500,
 		},
@@ -71,7 +71,7 @@ const useStyles = makeStyles({
 		maxWidth: '650px',
 		marginBottom: tokens.spacingVerticalXL,
 		fontSize: '1rem',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: '.8em',
 		},
 		'> input': {

@@ -65,13 +65,13 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		width: '100%',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase500,
 			marginTop: tokens.spacingHorizontalXXXL,
 		},
 	},
 	sectionTitle: {
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase600,
 			...shorthands.margin(0, 'auto'),
 			marginBottom: tokens.spacingHorizontalMNudge,
@@ -88,7 +88,7 @@ const useStyles = makeStyles({
 		width: '100%',
 		height: 'auto',
 		marginTop: tokens.spacingHorizontalXXXL,
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			marginBottom: tokens.spacingHorizontalXXXL,
 		},
 	},
@@ -99,7 +99,7 @@ const useStyles = makeStyles({
 		justifyContent: 'flex-end',
 	},
 	boton: {
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			'> .fui-Text': {
 				display: 'none',
 			},
@@ -108,7 +108,7 @@ const useStyles = makeStyles({
 	},
 	botonRetroceso: {
 		marginRight: 'auto',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			'> .fui-Text': {
 				display: 'none',
 			},
@@ -121,7 +121,7 @@ const useStyles = makeStyles({
 			color: 'currentColor',
 			fontSize: '1.3rem',
 			marginBottom: '5px',
-			'@media screen and (max-width:320px)': {
+			'@media screen and (max-width:480px)': {
 				fontSize: '1em',
 				fontWeight: tokens.fontWeightMedium,
 				marginBottom: tokens.spacingVerticalXS,
@@ -135,7 +135,7 @@ const useStyles = makeStyles({
 		height: '32px',
 	},
 	indexText: {
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase100,
 		},
 	},
@@ -143,7 +143,7 @@ const useStyles = makeStyles({
 		color: 'currentColor',
 		fontSize: '1.3rem',
 		marginBottom: '5px',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: '1em',
 			fontWeight: tokens.fontWeightMedium,
 			marginBottom: tokens.spacingVerticalXS,
@@ -157,7 +157,7 @@ const useStyles = makeStyles({
 		...shorthands.gap('2px'),
 		maxWidth: '650px',
 		fontSize: '1rem',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: '.8em',
 		},
 		'> input': {

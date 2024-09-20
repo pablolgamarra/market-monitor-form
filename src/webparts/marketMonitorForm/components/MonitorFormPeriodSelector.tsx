@@ -28,14 +28,14 @@ const useStyles = makeStyles({
 		width: '100%',
 		boxSizing: 'border-box',
 		...shorthands.margin('16px'),
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			...shorthands.margin(tokens.spacingVerticalXL, 0),
 			alignItems: 'center',
 			marginTop: tokens.spacingHorizontalM,
 		},
 	},
 	sectionTitle: {
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase500,
 		},
 	},
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexWrap: 'nowrap',
 		...shorthands.gap('8px'),
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			width: '100%',
 			flexDirection: 'column',
 			flexWrap: 'wrap',
@@ -55,7 +55,7 @@ const useStyles = makeStyles({
 	button: {
 		...shorthands.flex(1, 1, 'auto'),
 		minWidth: '100px',
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			width: '80%',
 			height: '3em',
 			fontSize: tokens.fontSizeBase400,

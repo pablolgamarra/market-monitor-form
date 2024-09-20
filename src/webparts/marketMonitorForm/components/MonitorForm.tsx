@@ -33,20 +33,20 @@ const useStyles = makeStyles({
 		boxSizing: 'border-box',
 		color: tokens.colorBrandForeground1,
 		fontSize: tokens.fontSizeBase600,
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase300,
 		},
 	},
 	img: {
 		width: '200px',
 		...shorthands.margin(0, 'auto', tokens.spacingVerticalXXL, 'auto'),
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			width: '120px',
 			...shorthands.margin(0, 'auto', tokens.spacingVerticalL, 'auto'),
 		},
 	},
 	title: {
-		'@media screen and (max-width:320px)': {
+		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeHero700,
 		},
 	},
