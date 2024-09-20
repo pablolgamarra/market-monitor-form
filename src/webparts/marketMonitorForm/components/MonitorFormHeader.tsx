@@ -18,6 +18,7 @@ import {
 	SelectionEvents,
 	shorthands,
 	Subtitle1,
+	tokens,
 	useId,
 } from '@fluentui/react-components';
 
@@ -34,6 +35,20 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		maxWidth: '100%',
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeBase500,
+			marginTop: tokens.spacingVerticalXL,
+		},
+	},
+	label: {
+		color: 'currentColor',
+		fontSize: '1.3rem',
+		marginBottom: '5px',
+		'@media screen and (max-width:320px)': {
+			fontSize: '1em',
+			fontWeight: tokens.fontWeightMedium,
+			marginBottom: tokens.spacingVerticalXS,
+		},
 	},
 	formHeaderCbxContainer: {
 		display: 'flex',
@@ -42,14 +57,9 @@ const useStyles = makeStyles({
 		maxWidth: '650px',
 		paddingRight: '60px',
 		flexWrap: 'wrap',
-		'>Label': {
-			color: 'currentcolor',
-			fontSize: '1.3rem',
-			marginBottom: '5px',
-		},
-		'>button': {
-			fontSize: '1.3rem',
-			marginTop: '5px',
+		'@media screen and (max-width:320px)': {
+			width: '100%',
+			fontSize: tokens.fontSizeBase500,
 		},
 	},
 	cbx: {
@@ -59,14 +69,22 @@ const useStyles = makeStyles({
 		justifyItems: 'start',
 		...shorthands.gap('2px'),
 		maxWidth: '650px',
-		marginBottom: '10px',
+		marginBottom: tokens.spacingVerticalXL,
 		fontSize: '1rem',
+		'@media screen and (max-width:320px)': {
+			fontSize: '.8em',
+		},
+		'> input': {
+			width: '100%',
+		},
 	},
 	popoverSurface: {
 		display: 'flex',
 		flexDirection: 'column',
 	},
 	button: {
+		fontSize: '1.3rem',
+		marginTop: '5px',
 		color: 'currentcolor',
 	},
 });
@@ -161,6 +179,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							htmlFor={`unidad-${id}`}
 							size='large'
 							required
+							className={styles.label}
 						>
 							{headerStrings.Unidad}
 						</Label>
@@ -175,6 +194,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 								autoSize: 'width',
 								position: 'below',
 							}}
+							className={styles.cbx}
 						>
 							{listaUnidades.map((item: Unidad) => (
 								<Option
@@ -191,6 +211,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							htmlFor={`cliente-${id}`}
 							size='large'
 							required
+							className={styles.label}
 						>
 							{headerStrings.Cliente}
 						</Label>
@@ -205,6 +226,7 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							}}
 							value={cliente?.Nombre || ''}
 							disabled={unidad && cliente ? true : false}
+							className={styles.cbx}
 						>
 							{listaClientesFiltro.map((item: Cliente) => (
 								<Option

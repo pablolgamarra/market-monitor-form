@@ -41,8 +41,13 @@ const useStyles = makeStyles({
 		width: '200px',
 		...shorthands.margin(0, 'auto', tokens.spacingVerticalXXL, 'auto'),
 		'@media screen and (max-width:320px)': {
-			width: '100px',
+			width: '120px',
 			...shorthands.margin(0, 'auto', tokens.spacingVerticalL, 'auto'),
+		},
+	},
+	title: {
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeHero700,
 		},
 	},
 });
@@ -139,6 +144,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 			<Title1
 				id={`title-${id}`}
 				align='center'
+				className={styles.title}
 			>
 				Monitoreo del Mercado
 			</Title1>

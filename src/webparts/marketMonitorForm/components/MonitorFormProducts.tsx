@@ -25,6 +25,8 @@ import {
 	Toaster,
 	useId,
 	shorthands,
+	tokens,
+	mergeClasses,
 } from '@fluentui/react-components';
 import {
 	ArrowLeftFilled,
@@ -59,34 +61,71 @@ export interface ProductValueState {
 }
 
 const useStyles = makeStyles({
-	FormContainer: {
-		minWidth: '600px',
-		marginTop: '25px',
+	contentContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '100%',
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeBase500,
+			marginTop: tokens.spacingHorizontalXXXL,
+		},
+	},
+	sectionTitle: {
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeBase600,
+			...shorthands.margin(0, 'auto'),
+			marginBottom: tokens.spacingHorizontalMNudge,
+		},
+	},
+	formContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '100%',
+		justifyContent: 'start',
 	},
 	NavegacionContainer: {
 		display: 'flex',
 		width: '100%',
 		height: 'auto',
-		marginTop: '50px',
+		marginTop: tokens.spacingHorizontalXXXL,
+		'@media screen and (max-width:320px)': {
+			marginBottom: tokens.spacingHorizontalXXXL,
+		},
 	},
-	BotonesContainer: {
+	containerBotones: {
 		display: 'flex',
 		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
 	},
-	Boton: {
-		minWidth: '180px',
+	boton: {
+		'@media screen and (max-width:320px)': {
+			'> .fui-Text': {
+				display: 'none',
+			},
+			width: 'auto',
+		},
 	},
-	BotonRetroceso: {
-		minWidth: '180px',
+	botonRetroceso: {
 		marginRight: 'auto',
+		'@media screen and (max-width:320px)': {
+			'> .fui-Text': {
+				display: 'none',
+			},
+			width: 'auto',
+		},
 	},
-	Input: {
-		marginBottom: '15px',
-		'>label': {
-			color: 'currentcolor',
-			fontSize: '1rem',
+	field: {
+		marginBottom: tokens.spacingHorizontalXXL,
+		'> label': {
+			color: 'currentColor',
+			fontSize: '1.3rem',
+			marginBottom: '5px',
+			'@media screen and (max-width:320px)': {
+				fontSize: '1em',
+				fontWeight: tokens.fontWeightMedium,
+				marginBottom: tokens.spacingVerticalXS,
+			},
 		},
 	},
 	listbox: {
@@ -95,15 +134,33 @@ const useStyles = makeStyles({
 	option: {
 		height: '32px',
 	},
+	indexText: {
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeBase100,
+		},
+	},
+	label: {
+		color: 'currentColor',
+		fontSize: '1.3rem',
+		marginBottom: '5px',
+		'@media screen and (max-width:320px)': {
+			fontSize: '1em',
+			fontWeight: tokens.fontWeightMedium,
+			marginBottom: tokens.spacingVerticalXS,
+		},
+	},
 	cbx: {
 		display: 'grid',
 		opacity: '100%',
 		gridTemplateRows: 'repeat(1fr)',
 		justifyItems: 'start',
 		...shorthands.gap('2px'),
-		marginBottom: '5px',
+		maxWidth: '650px',
 		fontSize: '1rem',
-		'>input': {
+		'@media screen and (max-width:320px)': {
+			fontSize: '.8em',
+		},
+		'> input': {
 			width: '100%',
 		},
 	},
@@ -360,15 +417,18 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	return (
 		<section
 			id={`content-section-${id}`}
-			className={`${styles.FormContainer}`}
+			className={`${styles.contentContainer}`}
 		>
-			<Title2 id={`section-title-${id}`}>
+			<Title2
+				id={`section-title-${id}`}
+				className={styles.sectionTitle}
+			>
 				{productValues[index].familiaProducto?.Nombre}
 			</Title2>
 			<form id={`form-${id}`}>
 				<Field
 					id={`field-volumen-${id}`}
-					className={`${styles.Input}`}
+					className={`${styles.field}`}
 					label={productsFormStrings.VolumenYaCompradoLabel}
 					required
 				>
@@ -396,7 +456,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				</Field>
 				<Field
 					id={`field-precio-${id}`}
-					className={`${styles.Input}`}
+					className={`${styles.field}`}
 					label={`Precio por ${listaProductosFiltro[index].UnidadMedida}`}
 					required
 				>
@@ -417,7 +477,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				</Field>
 				<Field
 					id={`field-condicion-pago-${id}`}
-					className={`${styles.Input}`}
+					className={`${styles.field}`}
 					label={`Condición de Pago`}
 					required
 				>
@@ -439,7 +499,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				</Field>
 				<Field
 					id={`field-proveedor-principal-${id}`}
-					className={`${styles.Input}`}
+					className={`${styles.field}`}
 					label={`Proveedor Principal`}
 					required
 				>
@@ -484,12 +544,13 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					</Combobox>
 				</Field>
 				<section className={`${styles.NavegacionContainer}`}>
-					<div className={`${styles.BotonesContainer}`}>
+					<div className={`${styles.containerBotones}`}>
 						{index > 0 && (
 							<Button
-								className={
-									styles.BotonRetroceso + '' + styles.Boton
-								}
+								className={mergeClasses(
+									styles.botonRetroceso,
+									styles.boton,
+								)}
 								onClick={handleBtnRetrocesoClick}
 								appearance='secondary'
 								shape='rounded'
@@ -512,9 +573,9 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 							{index + 1} de {largoLista}
 						</Body2>
 					</div>
-					<div className={`${styles.BotonesContainer}`}>
+					<div className={`${styles.containerBotones}`}>
 						<Button
-							className={`${styles.Boton}`}
+							className={`${styles.boton}`}
 							onClick={handleBtnAvanzarClick}
 							appearance='primary'
 							shape='rounded'

@@ -22,15 +22,22 @@ import * as headerStrings from 'MonitorFormHeaderStrings';
 
 //Component Styles
 const useStyles = makeStyles({
-	root: {
+	container: {
 		display: 'flex',
 		flexDirection: 'column',
 		width: '100%',
 		boxSizing: 'border-box',
 		...shorthands.margin('16px'),
+		'@media screen and (max-width:320px)': {
+			...shorthands.margin(tokens.spacingVerticalXL, 0),
+			alignItems: 'center',
+			marginTop: tokens.spacingHorizontalM,
+		},
 	},
-	periodSelectorContainer: {
-		marginBottom: '16px',
+	sectionTitle: {
+		'@media screen and (max-width:320px)': {
+			fontSize: tokens.fontSizeBase500,
+		},
 	},
 	buttonsContainer: {
 		display: 'flex',
@@ -40,13 +47,19 @@ const useStyles = makeStyles({
 			width: '100%',
 			flexDirection: 'column',
 			flexWrap: 'wrap',
-			marginTop: tokens.spacingVerticalL,
-			...shorthands.gap('10vw'),
+			alignItems: 'center',
+			...shorthands.margin(tokens.spacingVerticalXL, 'auto'),
+			...shorthands.gap('6vw'),
 		},
 	},
 	button: {
 		...shorthands.flex(1, 1, 'auto'),
 		minWidth: '100px',
+		'@media screen and (max-width:320px)': {
+			width: '80%',
+			height: '3em',
+			fontSize: tokens.fontSizeBase400,
+		},
 	},
 });
 
@@ -83,34 +96,29 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 	return (
 		<article
 			id={`content-article-${id}`}
-			className={styles.root}
+			className={styles.container}
 		>
-			<section
-				id={`content-section-${id}`}
-				className={styles.periodSelectorContainer}
+			<Title2
+				id={`title-${id}`}
+				className={styles.sectionTitle}
 			>
-				<Title2
-					id={`title-${id}`}
-					className=''
-				>
-					{headerStrings.PeriodoCultivoTitle}
-				</Title2>
-				<section
-					id={`buttons-container-${id}`}
-					className={styles.buttonsContainer}
-				>
-					{listaPeriodosCultivo.map((item: PeriodoCultivo) => (
-						<Button
-							id={`period-button-${item.Id}`}
-							key={item.Id}
-							shape='rounded'
-							onClick={handleButtonClicked}
-							className={styles.button}
-						>
-							{item.Nombre}
-						</Button>
-					))}
-				</section>
+				{headerStrings.PeriodoCultivoTitle}
+			</Title2>
+			<section
+				id={`buttons-container-${id}`}
+				className={styles.buttonsContainer}
+			>
+				{listaPeriodosCultivo.map((item: PeriodoCultivo) => (
+					<Button
+						id={`period-button-${item.Id}`}
+						key={item.Id}
+						shape='rounded'
+						onClick={handleButtonClicked}
+						className={styles.button}
+					>
+						{item.Nombre}
+					</Button>
+				))}
 			</section>
 		</article>
 	);

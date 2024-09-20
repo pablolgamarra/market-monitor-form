@@ -87,7 +87,13 @@ const useBaseClass = makeResetStyles({
 		tokens.spacingHorizontalXXXL,
 	),
 	'@media screen and (max-width:320px)': {
-		...shorthands.margin(0),
+		width: `calc(100vw - ${tokens.spacingHorizontalXL} - ${tokens.spacingHorizontalXL})`,
+		...shorthands.margin(
+			0,
+			tokens.spacingHorizontalXL,
+			0,
+			tokens.spacingHorizontalXL,
+		),
 	},
 });
 
