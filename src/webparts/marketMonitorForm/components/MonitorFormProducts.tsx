@@ -27,6 +27,7 @@ import {
 	shorthands,
 	tokens,
 	mergeClasses,
+	//	makeResetStyles,
 } from '@fluentui/react-components';
 import {
 	ArrowLeftFilled,
@@ -60,6 +61,107 @@ export interface ProductValueState {
 	proveedorPrincipal: Proveedor | undefined;
 }
 
+//Component Styles
+// const useBaseStyles = makeResetStyles({
+// 	display: 'flex',
+// 	flexDirection: 'column',
+// 	width: `calc(100vw - ${tokens.spacingHorizontalXL} - ${tokens.spacingHorizontalXL})`,
+// 	// ...shorthands.margin(
+// 	// 	0,
+// 	// 	tokens.spacingHorizontalXL,
+// 	// 	0,
+// 	// 	tokens.spacingHorizontalXL,
+// 	// ),
+// 	columnCount: 1,
+// 	columnWidth: '100%',
+// 	fontSize: tokens.fontSizeBase500,
+
+// 	'@media screen and (min-width:480px)': {
+// 		// Mediano
+// 		//Margenes de 24px y padding de 8px a los costados (12 columnas y medianiles de 16px)
+// 		width: `416px`,
+// 		// ...shorthands.margin(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalXXL,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalXXL,
+// 		// ),
+// 		// ...shorthands.padding(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// ),
+// 		columnCount: 12,
+// 		columnGap: '16px',
+// 		fontSize: tokens.fontSizeBase600,
+// 	},
+// 	'@media screen and (min-width:640px)': {
+// 		// Grande
+// 		//Margenes de 24px y padding de 8px a los costados (12 columnas y medianiles de 24px)
+// 		width: `576px`,
+// 		// ...shorthands.margin(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalXXL,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalXXL,
+// 		// ),
+// 		// ...shorthands.padding(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// ),
+// 		columnCount: 12,
+// 		columnGap: tokens.spacingHorizontalXXL,
+// 		fontSize: tokens.fontSizeBase500,
+// 	},
+// 	'@media screen and (min-width:1024px)': {
+// 		// XL
+// 		//Margenes de 24px y padding de 8px a la izquierda, margen de 20 y padding de 8 a la derecha (12 columnas y medianiles de 24px)
+// 		width: `756px`,
+// 		// ...shorthands.margin(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalXL,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalXXL,
+// 		// ),
+// 		// ...shorthands.padding(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// ),
+// 		columnCount: 12,
+// 		columnGap: tokens.spacingHorizontalXXL,
+// 		fontSize: tokens.fontSizeBase500,
+// 	},
+// 	'@media screen and (min-width:1366px)': {
+// 		// XXL
+// 		width: `1072px`,
+// 		// ...shorthands.margin(0, '48px', 0, tokens.spacingHorizontalXXL),
+// 		// ...shorthands.padding(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// ),
+// 		columnCount: 12,
+// 		columnGap: tokens.spacingHorizontalXXXL,
+// 		fontSize: tokens.fontSizeBase500,
+// 	},
+// 	'@media screen and (min-width: 1920px)': {
+// 		// XXXL
+// 		width: `1204px`,
+// 		// ...shorthands.margin(0, 'auto', 0, tokens.spacingHorizontalXXL),
+// 		// ...shorthands.padding(
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// 	0,
+// 		// 	tokens.spacingHorizontalS,
+// 		// ),
+// 	},
+// });
 const useStyles = makeStyles({
 	contentContainer: {
 		display: 'flex',
@@ -67,6 +169,9 @@ const useStyles = makeStyles({
 		width: '100%',
 		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase500,
+			marginTop: tokens.spacingHorizontalXXXL,
+		},
+		'@media screen and (min-width:640px)': {
 			marginTop: tokens.spacingHorizontalXXXL,
 		},
 	},
@@ -155,7 +260,6 @@ const useStyles = makeStyles({
 		gridTemplateRows: 'repeat(1fr)',
 		justifyItems: 'start',
 		...shorthands.gap('2px'),
-		maxWidth: '650px',
 		fontSize: '1rem',
 		'@media screen and (max-width:480px)': {
 			fontSize: '.8em',

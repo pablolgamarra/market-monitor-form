@@ -7,11 +7,13 @@ import { IMonitorFormState } from '@/components/MonitorForm';
 //Components
 import {
 	Button,
-	shorthands,
+	// shorthands,
 	Title2,
 	makeStyles,
 	useId,
 	tokens,
+	makeResetStyles,
+	//	makeResetStyles,
 } from '@fluentui/react-components';
 
 //Hooks
@@ -21,44 +23,62 @@ import { useDataContext } from '@/hooks/useDataContext';
 import * as headerStrings from 'MonitorFormHeaderStrings';
 
 //Component Styles
+const useBaseStyles = makeResetStyles({
+	display: 'flex',
+	flexDirection: 'column',
+	width: '100%',
+	boxSizing: 'border-box',
+	color: tokens.colorBrandForeground1,
+	fontSize: '1em',
+	alignItems: 'center',
+	marginTop: tokens.spacingHorizontalXL,
+});
+
 const useStyles = makeStyles({
-	container: {
-		display: 'flex',
-		flexDirection: 'column',
-		width: '100%',
-		boxSizing: 'border-box',
-		...shorthands.margin('16px'),
-		'@media screen and (max-width:480px)': {
-			...shorthands.margin(tokens.spacingVerticalXL, 0),
-			alignItems: 'center',
-			marginTop: tokens.spacingHorizontalM,
-		},
-	},
 	sectionTitle: {
-		'@media screen and (max-width:480px)': {
-			fontSize: tokens.fontSizeBase500,
-		},
+		fontSize: '1em',
+		fontWeight: tokens.fontWeightMedium,
 	},
 	buttonsContainer: {
+		width: '100%',
 		display: 'flex',
-		flexWrap: 'nowrap',
-		...shorthands.gap('8px'),
-		'@media screen and (max-width:480px)': {
-			width: '100%',
-			flexDirection: 'column',
-			flexWrap: 'wrap',
-			alignItems: 'center',
-			...shorthands.margin(tokens.spacingVerticalXL, 'auto'),
-			...shorthands.gap('6vw'),
+		flexDirection: 'column',
+		alignItems: 'center',
+		gap: tokens.spacingHorizontalXL,
+		marginTop: tokens.spacingHorizontalL,
+
+		'@media screen and (min-width:480px)': {
+			// Mediano
+		},
+		'@media screen and (min-width:640px)': {
+			// Grande
+			'.img': {
+				width: '210px',
+			},
+		},
+		'@media screen and (min-width:1024px)': {
+			flexDirection: 'row',
+		},
+		'@media screen and (min-width:1366px)': {
+			// XXL
+			'.img': {
+				width: '250px',
+			},
+		},
+		'@media screen and (min-width: 1920px)': {
+			// XXXL
+			'.img': {
+				width: '300px',
+			},
 		},
 	},
 	button: {
-		...shorthands.flex(1, 1, 'auto'),
-		minWidth: '100px',
-		'@media screen and (max-width:480px)': {
-			width: '80%',
-			height: '3em',
-			fontSize: tokens.fontSizeBase400,
+		width: '80%',
+		fontSize: '.9em',
+		fontWeight: tokens.fontWeightSemibold,
+		height: '2.5em',
+		'@media screen and (min-width:1024px)': {
+			height: '250px',
 		},
 	},
 });
@@ -79,6 +99,7 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 
 	const id = useId('monitor-form-period-selector');
 	//Component Style
+	const baseStyles = useBaseStyles();
 	const styles = useStyles();
 
 	const handleButtonClicked: React.MouseEventHandler<HTMLButtonElement> =
@@ -96,11 +117,12 @@ const MonitorFormPeriodSelector: React.FC<IMonitorFormPeriodSelector> = (
 	return (
 		<article
 			id={`content-article-${id}`}
-			className={styles.container}
+			className={baseStyles}
 		>
 			<Title2
 				id={`title-${id}`}
 				className={styles.sectionTitle}
+				align='center'
 			>
 				{headerStrings.PeriodoCultivoTitle}
 			</Title2>

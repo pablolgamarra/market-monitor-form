@@ -16,20 +16,20 @@ Created for the marketing department to retrieve market information about the be
 
 ## Applies to
 
-- [SharePoint Framework](https://aka.ms/spfx)
-- [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
+-   [SharePoint Framework](https://aka.ms/spfx)
+-   [Microsoft 365 tenant](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
 
 ## Solution
 
-| Solution    | Author(s)                                               |
-| ----------- | ------------------------------------------------------- |
+| Solution          | Author(s)                      |
+| ----------------- | ------------------------------ |
 | monitoreo-mercado | Pablo Gamarra (@pablolgamarra) |
 
 ## Version history
 
-| Version | Date             | Comments        |
-| ------- | ---------------- | --------------- |
-| 1.0     | May 5, 2024 | Initial release (MVP) |
+| Version | Date               | Comments             |
+| ------- | ------------------ | -------------------- |
+| 1.0.0.5 | 23 September, 2024 | First Usable version |
 
 ## Disclaimer
 
@@ -39,12 +39,12 @@ Created for the marketing department to retrieve market information about the be
 
 ## How to implement this web part
 
-- Clone this repository
-`git clone https://github.com/pablolgamarra/market-monitor-form.git`
-- Ensure that you are at the solution folder
-- in the command-line run:
-  - **npm install**
-  - **gulp serve**
+-   Clone this repository
+    `git clone https://github.com/pablolgamarra/market-monitor-form.git`
+-   Ensure that you are at the solution folder
+-   in the command-line run:
+    -   **npm install**
+    -   **gulp serve**
 
 ## Features
 
@@ -52,12 +52,12 @@ Get customer and business branch information from a Sharepoint list.
 
 Edit data measurement units for each product family.
 
-Save data to a SharePoint List 
+Save data to a SharePoint List
 
 ## References
 
-- [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
-- [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
-- [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
-- [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
-- [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
+-   [Getting started with SharePoint Framework](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-developer-tenant)
+-   [Building for Microsoft teams](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/build-for-teams-overview)
+-   [Use Microsoft Graph in your solution](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/get-started/using-microsoft-graph-apis)
+-   [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
+-   [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development

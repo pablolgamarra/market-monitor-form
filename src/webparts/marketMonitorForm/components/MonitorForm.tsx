@@ -11,6 +11,8 @@ import {
 	shorthands,
 	useId,
 	tokens,
+	makeResetStyles,
+	mergeClasses,
 } from '@fluentui/react-components';
 import MonitorFormHeader from '@/components/MonitorFormHeader';
 import MonitorFormPeriodSelector from '@/components/MonitorFormPeriodSelector';
@@ -25,30 +27,81 @@ import { useDataContext } from '@/hooks/useDataContext';
 //Strings
 
 //Component Styles
-const useStyles = makeStyles({
-	root: {
-		width: '100%',
-		display: 'flex',
-		flexDirection: 'column',
-		boxSizing: 'border-box',
-		color: tokens.colorBrandForeground1,
-		fontSize: tokens.fontSizeBase600,
-		'@media screen and (max-width:480px)': {
-			fontSize: tokens.fontSizeBase300,
-		},
-	},
-	img: {
-		width: '200px',
+const useBaseStyles = makeResetStyles({
+	display: 'flex',
+	flexDirection: 'column',
+	width: `100%`,
+	boxSizing: 'border-box',
+	color: tokens.colorBrandForeground1,
+	fontSize: '1em',
+
+	'.img': {
+		width: '180px',
 		...shorthands.margin(0, 'auto', tokens.spacingVerticalXXL, 'auto'),
-		'@media screen and (max-width:480px)': {
-			width: '120px',
+	},
+
+	'@media screen and (min-width:480px)': {
+		// Mediano
+		'.img': {
+			width: '200px',
 			...shorthands.margin(0, 'auto', tokens.spacingVerticalL, 'auto'),
 		},
 	},
-	title: {
-		'@media screen and (max-width:480px)': {
-			fontSize: tokens.fontSizeHero700,
+	'@media screen and (min-width:640px)': {
+		// Grande
+		'.img': {
+			width: '210px',
 		},
+	},
+	'@media screen and (min-width:1024px)': {
+		// XL
+		'.img': {
+			width: '230px',
+		},
+	},
+	'@media screen and (min-width:1366px)': {
+		// XXL
+		'.img': {
+			width: '250px',
+		},
+	},
+	'@media screen and (min-width: 1920px)': {
+		// XXXL
+		'.img': {
+			width: '300px',
+		},
+	},
+});
+
+const useStyles = makeStyles({
+	img: {
+		width: '150px',
+		...shorthands.margin(0, 'auto', tokens.spacingVerticalXL, 'auto'),
+
+		'@media screen and (min-width:480px)': {
+			// Mediano
+			width: '180px',
+			...shorthands.margin(0, 'auto', tokens.spacingVerticalL, 'auto'),
+		},
+		'@media screen and (min-width:640px)': {
+			// Grande
+			width: '200px',
+		},
+		'@media screen and (min-width:1024px)': {
+			// XL
+			width: '230px',
+		},
+		'@media screen and (min-width:1366px)': {
+			// XXL
+			width: '250px',
+		},
+		'@media screen and (min-width: 1920px)': {
+			// XXXL
+			width: '300px',
+		},
+	},
+	title: {
+		fontSize: '1.4em',
 	},
 });
 
@@ -66,6 +119,7 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 
 	const id = useId('monitor-form');
 	const styles = useStyles();
+	const baseStyles = useBaseStyles();
 
 	const [formData, setFormData] = React.useState<IMonitorFormState>(
 		{} as IMonitorFormState,
@@ -132,14 +186,14 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 	return (
 		<article
 			id={`content-article-${id}`}
-			className={styles.root}
+			className={baseStyles}
 		>
 			<Image
 				id={`bussiness-image-${id}`}
 				block={false}
 				src={require('../assets/glymax.png')}
 				alt={'Logo de Glymax Paraguay S.A.'} //TODO: COLOCAR EN i18n
-				className={styles.img}
+				className={mergeClasses(styles.img)}
 			/>
 			<Title1
 				id={`title-${id}`}
