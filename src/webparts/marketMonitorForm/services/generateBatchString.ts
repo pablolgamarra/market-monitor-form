@@ -58,8 +58,6 @@ const jsonInformacionesMercado = (data: InformacionMercado): string => {
 		VolumenYaComprado: data.volumenComprado,
 		Familia_x0020_de_x0020_ProductoId: data.idFamilia,
 		Proveedor_x0020_PrincipalId: data.idProveedorPrincipal,
-		Precio: data.precioPorMedida,
-		Condici_x00f3_nPago: data.condicionPago,
 		Periodo_x0020_de_x0020_CultivoId: data.idPeriodoCultivo,
 	})}`;
 

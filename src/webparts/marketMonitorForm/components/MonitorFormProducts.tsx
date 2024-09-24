@@ -5,7 +5,6 @@ import { FamiliaProducto, Proveedor, PeriodoCultivo } from '@/types';
 
 //Components
 import {
-	Input,
 	Combobox,
 	Option,
 	Title2,
@@ -16,7 +15,6 @@ import {
 	Field,
 	SelectionEvents,
 	OptionOnSelectData,
-	InputOnChangeData,
 	Spinner,
 	useToastController,
 	Toast,
@@ -56,8 +54,6 @@ export interface MonitorFormProductsProps {
 export interface ProductValueState {
 	familiaProducto: FamiliaProducto | undefined;
 	volumenComprado: string | undefined;
-	precioPorMedida: number | undefined;
-	condicionPago: string | undefined;
 	proveedorPrincipal: Proveedor | undefined;
 }
 
@@ -328,28 +324,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	): void => {
 		let objAux: ProductValueState[];
 		switch (campo) {
-			case 'condicionPago':
-				objAux = [...productValues];
-
-				objAux.map((productValue: ProductValueState, i: number) => {
-					if (i === index) {
-						objAux[i].condicionPago = valor;
-					}
-				});
-
-				setProductValues(objAux);
-				break;
-			case 'precioPorMedida':
-				objAux = [...productValues];
-
-				objAux.map((productValue: ProductValueState, i: number) => {
-					if (i === index) {
-						objAux[i].precioPorMedida = valor ? +valor : undefined;
-					}
-				});
-
-				setProductValues(objAux);
-				break;
 			case 'proveedorPrincipal':
 				objAux = [...productValues];
 
@@ -396,7 +370,7 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	};
 
 	const validateFields = (values: ProductValueState): boolean => {
-		return Object.keys(values).length !== 5;
+		return Object.keys(values).length !== 3;
 	};
 
 	const handleBtnRetrocesoClick = React.useCallback(() => {
@@ -423,8 +397,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				(item: ProductValueState) => ({
 					familiaProducto: item.familiaProducto,
 					volumenComprado: item.volumenComprado,
-					precioPorMedida: item.precioPorMedida,
-					condicionPago: item.condicionPago,
 					proveedorPrincipal: item.proveedorPrincipal,
 				}),
 			);
@@ -449,23 +421,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					? ''
 					: elementName;
 			const value = data.optionValue;
-
-			handleSelectedChanges(name as keyof ProductValueState, value);
-		},
-		[handleSelectedChanges],
-	);
-
-	const handleInputChanges = React.useCallback(
-		(e: React.ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => {
-			const event: HTMLElement = e.target as HTMLElement;
-
-			const elementName = event.getAttribute('name');
-
-			const name =
-				elementName === null || elementName === undefined
-					? ''
-					: elementName;
-			const value = data.value;
 
 			handleSelectedChanges(name as keyof ProductValueState, value);
 		},
@@ -556,49 +511,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 								{`${item}%`}
 							</Option>
 						))}
-					</Combobox>
-				</Field>
-				<Field
-					id={`field-precio-${id}`}
-					className={`${styles.field}`}
-					label={`Precio por ${listaProductosFiltro[index].UnidadMedida}`}
-					required
-				>
-					<Input
-						id={`input-precio-${id}`}
-						name='precioPorMedida'
-						placeholder={`Ingresar precio por ${listaProductosFiltro[index].UnidadMedida}`}
-						value={
-							productValues[index]?.precioPorMedida?.toString() ||
-							''
-						}
-						onChange={handleInputChanges}
-						disabled={
-							submitStatus === 'saving' ||
-							submitStatus === 'saved'
-						}
-					/>
-				</Field>
-				<Field
-					id={`field-condicion-pago-${id}`}
-					className={`${styles.field}`}
-					label={`Condición de Pago`}
-					required
-				>
-					<Combobox
-						id={`cbx-condicion-pago-${id}`}
-						className={styles.cbx}
-						name='condicionPago'
-						placeholder={'Seleccione condicion de pago'}
-						value={productValues[index]?.condicionPago || ''}
-						onOptionSelect={handleCbxChanges}
-						disabled={
-							submitStatus === 'saving' ||
-							submitStatus === 'saved'
-						}
-					>
-						<Option>Crédito</Option>
-						<Option>Contado</Option>
 					</Combobox>
 				</Field>
 				<Field

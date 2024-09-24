@@ -174,8 +174,6 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 				idPeriodoCultivo: formData.periodoCultivo?.Id,
 				idFamilia: productValue.familiaProducto?.Id,
 				idProveedorPrincipal: productValue.proveedorPrincipal?.Id,
-				condicionPago: productValue.condicionPago,
-				precioPorMedida: productValue.precioPorMedida,
 				volumenComprado: productValue.volumenComprado,
 			}),
 		);

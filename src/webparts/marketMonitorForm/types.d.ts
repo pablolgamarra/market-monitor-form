@@ -44,8 +44,6 @@ export interface InformacionMercado {
 	idPeriodoCultivo: number | undefined;
 	idFamilia: number | undefined;
 	volumenComprado: string | undefined;
-	precioPorMedida: number | undefined;
-	condicionPago: string | undefined;
 	idProveedorPrincipal: number | undefined;
 }
 
