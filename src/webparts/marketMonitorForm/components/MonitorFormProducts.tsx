@@ -374,14 +374,15 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	};
 
 	const handleBtnRetrocesoClick = React.useCallback(() => {
-		const indexNuevo = index - 1 > -1 ? index - 1 : index;
-
-		handleSelectedChanges(
-			'familiaProducto',
-			listaProductosFiltro[indexNuevo].Nombre,
-		);
-		setIndex(indexNuevo);
-	}, [setIndex]);
+		if (index - 1 > -1) {
+			const indexNuevo = index - 1;
+			handleSelectedChanges(
+				'familiaProducto',
+				listaProductosFiltro[indexNuevo].Nombre,
+			);
+			setIndex(indexNuevo);
+		}
+	}, [index, setIndex]);
 
 	const handleBtnAvanzarClick = React.useCallback(() => {
 		if (index < largoLista - 1) {
