@@ -25,6 +25,9 @@ import {
 	shorthands,
 	tokens,
 	mergeClasses,
+	Radio,
+	RadioGroup,
+	RadioGroupOnChangeData,
 	//	makeResetStyles,
 } from '@fluentui/react-components';
 import {
@@ -229,6 +232,10 @@ const useStyles = makeStyles({
 			},
 		},
 	},
+	radioGroup: {
+		display: 'flex',
+		flexDirection: 'row',
+	},
 	listbox: {
 		maxHeight: '250px',
 	},
@@ -269,12 +276,21 @@ const useStyles = makeStyles({
 const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	const { listaFamiliasProducto, listaProveedores } = useDataContext();
 
-	console.log(listaProveedores);
-
 	const { periodoCultivo, submitStatus, saveData } = props;
-	const volumen: number[] = [...Array(11).keys()].map(
-		(value: number) => value * 10,
-	);
+	const volumen: string[] = [
+		'N/S',
+		'0%',
+		'10%',
+		'20%',
+		'30%',
+		'40%',
+		'50%',
+		'60%',
+		'70%',
+		'80%',
+		'90%',
+		'100%',
+	];
 
 	const { virtualizerLength, bufferItems, bufferSize, scrollRef } =
 		useStaticVirtualizerMeasure({
@@ -314,10 +330,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 			productValues[index]?.familiaProducto?.Id,
 	);
 
-	console.log(listaProveedoresFiltro);
-	console.log(listaProveedoresFiltro.length);
-	console.log(`Posicion ID -> ${productValues[index]?.familiaProducto?.Id}`);
-
 	const handleSelectedChanges = (
 		campo: keyof ProductValueState,
 		valor: string | undefined,
@@ -351,7 +363,6 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 				break;
 			case 'familiaProducto':
 				objAux = [...productValues];
-
 				objAux.map((productValue: ProductValueState, i: number) => {
 					if (i === index + 1) {
 						objAux[i].familiaProducto = listaProductosFiltro.find(
@@ -404,6 +415,23 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 			saveData(validatedValues);
 		}
 	}, [setIndex, index, largoLista]);
+
+	const handleRadioSelect = React.useCallback(
+		(e: React.FormEvent<HTMLDivElement>, data: RadioGroupOnChangeData) => {
+			const event: HTMLElement = e.target as HTMLElement;
+
+			const elementName = event.getAttribute('name');
+
+			const name =
+				elementName === null || elementName === undefined
+					? ''
+					: elementName;
+			const value = data.value;
+
+			handleSelectedChanges(name as keyof ProductValueState, value);
+		},
+		[handleSelectedChanges],
+	);
 
 	const handleCbxChanges = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
@@ -492,27 +520,27 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 					label={productsFormStrings.VolumenYaCompradoLabel}
 					required
 				>
-					<Combobox
+					<RadioGroup
 						id={`cbx-volumen-${id}`}
-						className={styles.cbx}
+						className={styles.radioGroup}
 						name='volumenComprado'
 						placeholder={`Seleccione volumen ya comprado`}
 						value={productValues[index]?.volumenComprado || ''}
-						onOptionSelect={handleCbxChanges}
+						onChange={handleRadioSelect}
 						disabled={
 							submitStatus === 'saving' ||
 							submitStatus === 'saved'
 						}
+						layout='horizontal-stacked'
 					>
-						{volumen.map((item: number) => (
-							<Option
-								value={`${item}%`}
+						{volumen.map((item: string) => (
+							<Radio
 								key={item}
-							>
-								{`${item}%`}
-							</Option>
+								value={`${item}`}
+								label={`${item}`}
+							/>
 						))}
-					</Combobox>
+					</RadioGroup>
 				</Field>
 				<Field
 					id={`field-proveedor-principal-${id}`}
