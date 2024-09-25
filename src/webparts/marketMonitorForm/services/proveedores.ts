@@ -40,19 +40,36 @@ export const getAllProveedores = async (
 
 			const proveedores: Proveedor[] = await Promise.all(
 				data.value.map(async (item: ProveedoresResponseValue) => {
-					const familiaProducto = familiasProducto.find(
-						(familia: FamiliaProducto) =>
-							familia.Id ===
-							item.Familia_x0020_de_x0020_ProductoId,
-					);
+					const familiasProveedor: FamiliaProducto[][] =
+						item.Familia_x0020_de_x0020_ProductoId.map(
+							(Id: number) =>
+								familiasProducto.filter(
+									(familia: FamiliaProducto) =>
+										familia.Id === Id,
+								),
+						);
 					return {
 						Id: item.Id,
 						Nombre: item.Title,
-						FamiliadeProducto: familiaProducto,
+						FamiliasdeProducto: familiasProveedor,
 					};
 				}),
-			);
+			).then((value) => {
+				const proveedoresReturn: Proveedor[] = [];
+				value.map((item) => {
+					item.FamiliasdeProducto.map((familias) => {
+						return familias.map((familiaProducto) => {
+							proveedoresReturn.push({
+								Id: item.Id,
+								Nombre: item.Nombre,
+								FamiliadeProducto: familiaProducto,
+							});
+						});
+					});
+				});
 
+				return proveedoresReturn;
+			});
 			return proveedores;
 		})
 		.catch((e) => {
@@ -80,23 +97,42 @@ export const getProveedorById = async (
 
 			const proveedor: Proveedor | undefined = await Promise.all(
 				data.value.map(async (item: ProveedoresResponseValue) => {
-					const familiaProducto = familiasProducto.find(
-						(familia: FamiliaProducto) =>
-							familia.Id ===
-							item.Familia_x0020_de_x0020_ProductoId,
-					);
-
+					const familiasProveedor: FamiliaProducto[][] =
+						item.Familia_x0020_de_x0020_ProductoId.map(
+							(Id: number) =>
+								familiasProducto.filter(
+									(familia: FamiliaProducto) =>
+										familia.Id === Id,
+								),
+						);
 					return {
 						Id: item.Id,
 						Nombre: item.Title,
-						FamiliadeProducto: familiaProducto,
+						FamiliasdeProducto: familiasProveedor,
 					};
 				}),
-			).then((value) => {
-				return value.find((item) => item.Id === Id) as
-					| Proveedor
-					| undefined;
-			});
+			)
+				.then((value) => {
+					const proveedoresReturn: Proveedor[] = [];
+					value.map((item) => {
+						item.FamiliasdeProducto.map((familias) => {
+							return familias.map((familiaProducto) => {
+								proveedoresReturn.push({
+									Id: item.Id,
+									Nombre: item.Nombre,
+									FamiliadeProducto: familiaProducto,
+								});
+							});
+						});
+					});
+
+					return proveedoresReturn;
+				})
+				.then((value) => {
+					return value.find((item) => item.Id === Id) as
+						| Proveedor
+						| undefined;
+				});
 
 			return proveedor;
 		})

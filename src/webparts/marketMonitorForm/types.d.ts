@@ -90,7 +90,7 @@ export interface FamiliaProductosResponseValue {
 	Title: string;
 	UnidaddeMedida: string;
 	Activo: Activo;
-	PeriododeCultivoId: number;
+	PeriododeCultivoId: number[];
 	ID: number;
 }
 
@@ -123,7 +123,7 @@ export interface ProveedoresResponse {
 export interface ProveedoresResponseValue {
 	Id: number;
 	Title: string;
-	Familia_x0020_de_x0020_ProductoId: number;
+	Familia_x0020_de_x0020_ProductoId: number[];
 	ID: number;
 }
 

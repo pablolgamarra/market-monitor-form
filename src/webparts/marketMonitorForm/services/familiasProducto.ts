@@ -40,20 +40,39 @@ export const getAllFamiliasProducto = async (
 
 			const familiasProducto: FamiliaProducto[] = await Promise.all(
 				data.value.map(async (item: FamiliaProductosResponseValue) => {
-					const periodoCultivo = periodosCultivo.find(
-						(periodo: PeriodoCultivo) =>
-							periodo.Id === item.PeriododeCultivoId,
-					);
+					const periodosFamilia: PeriodoCultivo[][] =
+						item.PeriododeCultivoId.map((Id: number) =>
+							periodosCultivo.filter(
+								(periodo: PeriodoCultivo) => periodo.Id === Id,
+							),
+						);
 
 					return {
 						Id: item.Id,
 						Nombre: item.Title,
 						Estado: item.Activo,
 						UnidadMedida: item.UnidaddeMedida,
-						PeriodoCultivo: periodoCultivo,
+						PeriodosCultivo: periodosFamilia,
 					};
 				}),
-			);
+			).then((value) => {
+				const familiasReturn: FamiliaProducto[] = [];
+				value.map((item) => {
+					item.PeriodosCultivo.map((periodos) => {
+						return periodos.map((periodo) => {
+							familiasReturn.push({
+								Id: item.Id,
+								Nombre: item.Nombre,
+								Estado: item.Estado,
+								UnidadMedida: item.UnidadMedida,
+								PeriodoCultivo: periodo,
+							});
+						});
+					});
+				});
+
+				return familiasReturn;
+			});
 
 			return familiasProducto;
 		})
@@ -84,25 +103,47 @@ export const getFamiliasProductoById = async (
 				await Promise.all(
 					data.value.map(
 						async (item: FamiliaProductosResponseValue) => {
-							const periodoCultivo = periodosCultivo.find(
-								(periodo: PeriodoCultivo) =>
-									periodo.Id === item.PeriododeCultivoId,
-							);
+							const periodosFamilia: PeriodoCultivo[][] =
+								item.PeriododeCultivoId.map((Id: number) =>
+									periodosCultivo.filter(
+										(periodo: PeriodoCultivo) =>
+											periodo.Id === Id,
+									),
+								);
 
 							return {
 								Id: item.Id,
 								Nombre: item.Title,
 								Estado: item.Activo,
 								UnidadMedida: item.UnidaddeMedida,
-								PeriodoCultivo: periodoCultivo,
+								PeriodoCultivo: periodosFamilia,
 							};
 						},
 					),
-				).then((value) => {
-					return value.find((item) => item.Id === Id) as
-						| FamiliaProducto
-						| undefined;
-				});
+				)
+					.then((value) => {
+						const familiasReturn: FamiliaProducto[] = [];
+						value.map((item) => {
+							item.PeriodoCultivo.map((periodos) => {
+								return periodos.map((periodo) => {
+									familiasReturn.push({
+										Id: item.Id,
+										Nombre: item.Nombre,
+										Estado: item.Estado,
+										UnidadMedida: item.UnidadMedida,
+										PeriodoCultivo: periodo,
+									});
+								});
+							});
+						});
+
+						return familiasReturn;
+					})
+					.then((value) => {
+						return value.find((item) => item.Id === Id) as
+							| FamiliaProducto
+							| undefined;
+					});
 
 			return familiaProducto;
 		})
@@ -133,25 +174,47 @@ export const getFamiliasProductoByNombre = async (
 				await Promise.all(
 					data.value.map(
 						async (item: FamiliaProductosResponseValue) => {
-							const periodoCultivo = periodosCultivo.find(
-								(periodo: PeriodoCultivo) =>
-									periodo.Id === item.PeriododeCultivoId,
-							);
+							const periodosFamilia: PeriodoCultivo[][] =
+								item.PeriododeCultivoId.map((Id: number) =>
+									periodosCultivo.filter(
+										(periodo: PeriodoCultivo) =>
+											periodo.Id === Id,
+									),
+								);
 
 							return {
 								Id: item.Id,
 								Nombre: item.Title,
 								Estado: item.Activo,
 								UnidadMedida: item.UnidaddeMedida,
-								PeriodoCultivo: periodoCultivo,
+								PeriodoCultivo: periodosFamilia,
 							};
 						},
 					),
-				).then((value) => {
-					return value.find((item) => item.Nombre === Nombre) as
-						| FamiliaProducto
-						| undefined;
-				});
+				)
+					.then((value) => {
+						const familiasReturn: FamiliaProducto[] = [];
+						value.map((item) => {
+							item.PeriodoCultivo.map((periodos) => {
+								return periodos.map((periodo) => {
+									familiasReturn.push({
+										Id: item.Id,
+										Nombre: item.Nombre,
+										Estado: item.Estado,
+										UnidadMedida: item.UnidadMedida,
+										PeriodoCultivo: periodo,
+									});
+								});
+							});
+						});
+
+						return familiasReturn;
+					})
+					.then((value) => {
+						return value.find((item) => item.Nombre === Nombre) as
+							| FamiliaProducto
+							| undefined;
+					});
 
 			return familiaProducto;
 		})

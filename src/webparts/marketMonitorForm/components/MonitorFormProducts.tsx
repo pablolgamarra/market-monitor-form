@@ -327,7 +327,8 @@ const MonitorFormProducts: React.FC<MonitorFormProductsProps> = (props) => {
 	const listaProveedoresFiltro = listaProveedores.filter(
 		(item: Proveedor) =>
 			item.FamiliadeProducto?.Id ===
-			productValues[index]?.familiaProducto?.Id,
+				productValues[index]?.familiaProducto?.Id &&
+			item.FamiliadeProducto?.PeriodoCultivo?.Id === periodoCultivo.Id,
 	);
 
 	const handleSelectedChanges = (
