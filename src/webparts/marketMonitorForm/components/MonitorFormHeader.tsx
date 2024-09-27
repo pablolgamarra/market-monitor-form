@@ -31,112 +31,13 @@ import { useDataContext } from '@/hooks/useDataContext';
 import * as headerStrings from 'MonitorFormHeaderStrings';
 
 //Component Styles
-// const useBaseStyles = makeResetStyles({
-// 	display: 'flex',
-// 	flexDirection: 'column',
-// 	width: `calc(100vw - ${tokens.spacingHorizontalXL} - ${tokens.spacingHorizontalXL})`,
-// 	// ...shorthands.margin(
-// 	// 	0,
-// 	// 	tokens.spacingHorizontalXL,
-// 	// 	0,
-// 	// 	tokens.spacingHorizontalXL,
-// 	// ),
-// 	columnCount: 1,
-// 	columnWidth: '100%',
-// 	fontSize: tokens.fontSizeBase500,
-
-// 	'@media screen and (min-width:480px)': {
-// 		// Mediano
-// 		//Margenes de 24px y padding de 8px a los costados (12 columnas y medianiles de 16px)
-// 		width: `416px`,
-// 		// ...shorthands.margin(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalXXL,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalXXL,
-// 		// ),
-// 		// ...shorthands.padding(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// ),
-// 		columnCount: 12,
-// 		columnGap: '16px',
-// 		fontSize: tokens.fontSizeBase600,
-// 	},
-// 	'@media screen and (min-width:640px)': {
-// 		// Grande
-// 		//Margenes de 24px y padding de 8px a los costados (12 columnas y medianiles de 24px)
-// 		width: `576px`,
-// 		// ...shorthands.margin(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalXXL,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalXXL,
-// 		// ),
-// 		// ...shorthands.padding(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// ),
-// 		columnCount: 12,
-// 		columnGap: tokens.spacingHorizontalXXL,
-// 		fontSize: tokens.fontSizeBase500,
-// 	},
-// 	'@media screen and (min-width:1024px)': {
-// 		// XL
-// 		//Margenes de 24px y padding de 8px a la izquierda, margen de 20 y padding de 8 a la derecha (12 columnas y medianiles de 24px)
-// 		width: `756px`,
-// 		// ...shorthands.margin(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalXL,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalXXL,
-// 		// ),
-// 		// ...shorthands.padding(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// ),
-// 		columnCount: 12,
-// 		columnGap: tokens.spacingHorizontalXXL,
-// 		fontSize: tokens.fontSizeBase500,
-// 	},
-// 	'@media screen and (min-width:1366px)': {
-// 		// XXL
-// 		width: `1072px`,
-// 		// ...shorthands.margin(0, '48px', 0, tokens.spacingHorizontalXXL),
-// 		// ...shorthands.padding(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// ),
-// 		columnCount: 12,
-// 		columnGap: tokens.spacingHorizontalXXXL,
-// 		fontSize: tokens.fontSizeBase500,
-// 	},
-// 	'@media screen and (min-width: 1920px)': {
-// 		// XXXL
-// 		width: `1204px`,
-// 		// ...shorthands.margin(0, 'auto', 0, tokens.spacingHorizontalXXL),
-// 		// ...shorthands.padding(
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// 	0,
-// 		// 	tokens.spacingHorizontalS,
-// 		// ),
-// 	},
-// });
 const useStyles = makeStyles({
 	//TODO: TRABAJAR EL RESPONSIVE DESIGN
 	root: {
 		display: 'flex',
 		flexDirection: 'column',
 		maxWidth: '100%',
+		fontSize: '1em',
 		'@media screen and (max-width:480px)': {
 			fontSize: tokens.fontSizeBase500,
 			marginTop: tokens.spacingVerticalXL,
@@ -330,6 +231,16 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							disabled={unidad && cliente ? true : false}
 							className={styles.cbx}
 						>
+							{listaClientesFiltro.length === 0 && (
+								<Option
+									value={'-1'}
+									key={'-1'}
+									text='Cliente'
+								>
+									Debe Seleccionar la unidad
+								</Option>
+							)}
+
 							{listaClientesFiltro.map((item: Cliente) => (
 								<Option
 									value={item?.Id?.toString()}

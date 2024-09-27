@@ -1,7 +1,13 @@
 import * as React from 'react';
 
 //Types
-import { Cliente, Unidad, PeriodoCultivo, InformacionMercado } from '@/types';
+import {
+	Cliente,
+	Unidad,
+	PeriodoCultivo,
+	InformacionMercado,
+	CNG,
+} from '@/types';
 
 //Components
 import {
@@ -23,6 +29,7 @@ import MonitorFormProducts, {
 //Hooks
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 import { useDataContext } from '@/hooks/useDataContext';
+import { useUserContext } from '@/hooks/useUserContext';
 
 //Strings
 
@@ -33,7 +40,7 @@ const useBaseStyles = makeResetStyles({
 	width: `100%`,
 	boxSizing: 'border-box',
 	color: tokens.colorBrandForeground1,
-	fontSize: '1em',
+	fontSize: '1.5em',
 
 	'.img': {
 		width: '180px',
@@ -114,8 +121,10 @@ export interface IMonitorFormState {
 }
 
 const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
-	const { listaUnidades, listaClientes, listaPeriodosCultivo } =
+	const { listaUnidades, listaClientes, listaPeriodosCultivo, listaCNG } =
 		useDataContext();
+
+	const user = useUserContext();
 
 	const id = useId('monitor-form');
 	const styles = useStyles();
@@ -171,6 +180,8 @@ const MonitorForm: React.FC<IMonitorFormProps> = (props) => {
 			(productValue: ProductValueState) => ({
 				idCliente: formData.cliente?.Id,
 				idUnidad: formData.unidad?.Id,
+				idCng: listaCNG.find((item: CNG) => item.Correo === user.email)
+					?.Id,
 				idPeriodoCultivo: formData.periodoCultivo?.Id,
 				idFamilia: productValue.familiaProducto?.Id,
 				idProveedorPrincipal: productValue.proveedorPrincipal?.Id,
