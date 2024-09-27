@@ -52,24 +52,15 @@ const useStyles = makeStyles({
 		},
 		'@media screen and (min-width:640px)': {
 			// Grande
-			'.img': {
-				width: '210px',
-			},
 		},
 		'@media screen and (min-width:1024px)': {
 			flexDirection: 'row',
 		},
 		'@media screen and (min-width:1366px)': {
 			// XXL
-			'.img': {
-				width: '250px',
-			},
 		},
 		'@media screen and (min-width: 1920px)': {
 			// XXXL
-			'.img': {
-				width: '300px',
-			},
 		},
 	},
 	button: {

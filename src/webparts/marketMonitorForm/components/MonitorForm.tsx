@@ -41,43 +41,6 @@ const useBaseStyles = makeResetStyles({
 	boxSizing: 'border-box',
 	color: tokens.colorBrandForeground1,
 	fontSize: '1.5em',
-
-	'.img': {
-		width: '180px',
-		...shorthands.margin(0, 'auto', tokens.spacingVerticalXXL, 'auto'),
-	},
-
-	'@media screen and (min-width:480px)': {
-		// Mediano
-		'.img': {
-			width: '200px',
-			...shorthands.margin(0, 'auto', tokens.spacingVerticalL, 'auto'),
-		},
-	},
-	'@media screen and (min-width:640px)': {
-		// Grande
-		'.img': {
-			width: '210px',
-		},
-	},
-	'@media screen and (min-width:1024px)': {
-		// XL
-		'.img': {
-			width: '230px',
-		},
-	},
-	'@media screen and (min-width:1366px)': {
-		// XXL
-		'.img': {
-			width: '250px',
-		},
-	},
-	'@media screen and (min-width: 1920px)': {
-		// XXXL
-		'.img': {
-			width: '300px',
-		},
-	},
 });
 
 const useStyles = makeStyles({
