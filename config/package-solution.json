@@ -3,7 +3,7 @@
 	"solution": {
 		"name": "market-monitor-client-side-solution",
 		"id": "6718216b-427b-4ed1-b783-0f21c7b3b357",
-		"version": "1.0.0.5",
+		"version": "1.0.0.6",
 		"includeClientSideAssets": true,
 		"skipFeatureDeployment": true,
 		"isDomainIsolated": false,
