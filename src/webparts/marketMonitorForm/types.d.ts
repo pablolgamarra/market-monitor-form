@@ -45,6 +45,7 @@ export interface InformacionMercado {
 	idFamilia: number | undefined;
 	volumenComprado: string | undefined;
 	idProveedorPrincipal: number | undefined;
+	idCng: number | undefined;
 }
 
 export enum Activo {
