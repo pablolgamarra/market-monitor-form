@@ -12,6 +12,12 @@ export interface CNG {
 	Nombre: string;
 	CodigoSAP: string;
 	Correo: string;
+	Cargo?: Cargo;
+	Unidad?: Unidad;
+}
+
+export interface Cargo {
+	nombre: string;
 }
 
 export interface FamiliaProducto {
@@ -114,6 +120,8 @@ export interface CNGResponseValue {
 	Title: string;
 	Correo: string;
 	NombreCNG: string;
+	Cargo: Cargo;
+	UnidadId: number | null;
 	ID: number;
 }
 
