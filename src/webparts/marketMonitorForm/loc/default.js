@@ -10,6 +10,10 @@ define([], function () {
 		Cliente: 'Cliente',
 		PeriodoCultivo: 'Periodo de Cultivo',
 		PeriodoCultivoTitle: 'Seleccione Periodo de Cultivo',
+		AlertaCbxCliente: {
+			SeleccionUnidad: 'Debe seleccionar una unidad.',
+			SinCliente: 'No tiene clientes asignados en esta unidad',
+		},
 		GuardandoTitle: 'Guardando Datos',
 		GuardandoText: 'Por favor, espere.',
 		GuardarTitle: 'Guardado',

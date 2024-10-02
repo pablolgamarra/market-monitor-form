@@ -26,6 +26,10 @@ declare interface IMonitorFormHeaderStrings {
 	Cliente: string;
 	PeriodoCultivo: string;
 	PeriodoCultivoTitle: string;
+	AlertaCbxCliente: {
+		SeleccionUnidad: string;
+		SinCliente: string;
+	};
 }
 
 declare module 'MonitorFormHeaderStrings' {

@@ -23,6 +23,10 @@ define([], function () {
 		Cliente: 'Customer',
 		'Periodo de Cultivo': 'Cultivation period',
 		PeriodoCultivoTitle: 'Select Cultivation Period',
+		AlertaCbxCliente: {
+			SeleccionUnidad: 'You need to select an company branch',
+			SinCliente: "You don't have any client on this company branch",
+		},
 		VolumenYaCompradoLabel: 'Buyed Volume',
 		ApplicationErrorTitle: 'Application Error',
 		ApplicationErrorText: 'Please communicate with I.T. Department',

@@ -231,13 +231,26 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 							disabled={unidad && cliente ? true : false}
 							className={styles.cbx}
 						>
-							{listaClientesFiltro.length === 0 && (
+							{!unidad && (
 								<Option
 									value={'-1'}
 									key={'-1'}
 									text='Cliente'
 								>
-									Debe Seleccionar la unidad
+									{
+										headerStrings.AlertaCbxCliente
+											.SeleccionUnidad
+									}
+								</Option>
+							)}
+
+							{listaClientesFiltro.length === 0 && unidad && (
+								<Option
+									value={'-1'}
+									key={'-1'}
+									text='Cliente'
+								>
+									{headerStrings.AlertaCbxCliente.SinCliente}
 								</Option>
 							)}
 
