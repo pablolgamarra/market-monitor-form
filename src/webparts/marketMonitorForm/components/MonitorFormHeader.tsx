@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 //Types
-import { Unidad, Cliente, PeriodoCultivo } from '@/types';
+import { Unidad, Cliente, PeriodoCultivo, CNG } from '@/types';
 import { IMonitorFormState } from '@/components/MonitorForm';
 
 //Components
@@ -103,7 +103,7 @@ export interface IMonitorFormHeaderProps {
 }
 
 const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
-	const { listaUnidades, listaClientes } = useDataContext();
+	const { listaUnidades, listaClientes, listaCNG } = useDataContext();
 
 	const { unidad, cliente, periodoCultivo, children, handleSelectedChange } =
 		props;
@@ -114,18 +114,46 @@ const MonitorFormHeader: React.FC<IMonitorFormHeaderProps> = (props) => {
 
 	const user = useUserContext();
 
-	const listaClientesFiltro: Cliente[] = listaClientes.filter(
-		(item: Cliente) =>
-			item.Unidad?.Id === unidad?.Id &&
-			Number(item.Anho) === new Date().getFullYear() - 1 &&
-			item.CNG?.Correo === user.email,
+	const cng: CNG | undefined = listaCNG.find(
+		(item: CNG) => item.Correo === user.email,
 	);
+	let listaClientesFiltro: Cliente[] = [];
 
-	console.log(
-		listaClientes.filter(
-			(item: Cliente) => item.CNG?.Correo === user.email,
-		),
-	);
+	switch (cng?.Cargo) {
+		case 'Gerente':
+			listaClientesFiltro = listaClientes.filter(
+				(item: Cliente) =>
+					item.Unidad?.Id === unidad?.Id &&
+					Number(item.Anho) === new Date().getFullYear() - 1,
+			);
+			break;
+		case 'Gerente de Sucursal':
+			listaClientesFiltro = listaClientes.filter(
+				(item: Cliente) =>
+					item.Unidad?.Id === unidad?.Id &&
+					item.Unidad?.Id === cng.Unidad?.Id &&
+					Number(item.Anho) === new Date().getFullYear() - 1,
+			);
+			break;
+		case 'Coordinador':
+			listaClientesFiltro = listaClientes.filter(
+				(item: Cliente) =>
+					item.Unidad?.Id === unidad?.Id &&
+					Number(item.Anho) === new Date().getFullYear() - 1,
+			);
+			break;
+		case 'CNG':
+			listaClientesFiltro = listaClientes.filter(
+				(item: Cliente) =>
+					item.Unidad?.Id === unidad?.Id &&
+					Number(item.Anho) === new Date().getFullYear() - 1 &&
+					item.CNG?.Correo === user.email,
+			);
+			break;
+		default:
+			listaClientesFiltro = [];
+			break;
+	}
 
 	const handleDpDown = React.useCallback(
 		(e: SelectionEvents, data: OptionOnSelectData) => {
