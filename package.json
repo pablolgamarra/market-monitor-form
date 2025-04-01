@@ -10,7 +10,9 @@
 		"build": "gulp bundle",
 		"clean": "gulp clean",
 		"test": "gulp test",
-		"serve": "fast-serve"
+		"serve": "fast-serve",
+		"publish": "gulp clean && gulp build && gulp bundle --ship",
+		"postpublish": "gulp package-solution --ship"
 	},
 	"dependencies": {
 		"@fluentui/react": "^8.106.4",
@@ -22,6 +24,8 @@
 		"@microsoft/sp-office-ui-fabric-core": "1.19.0",
 		"@microsoft/sp-property-pane": "1.19.0",
 		"@microsoft/sp-webpart-base": "1.19.0",
+		"@pnp/graph": "^4.11.0",
+		"@pnp/sp": "^4.11.0",
 		"dotenv": "^16.4.5",
 		"react": "17.0.1",
 		"react-dom": "17.0.1",

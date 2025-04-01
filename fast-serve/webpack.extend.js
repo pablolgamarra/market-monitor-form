@@ -13,21 +13,12 @@ const path = require('path');
 const webpackConfig = {
 	resolve: {
 		alias: {
-			'@': path.resolve(
-				__dirname,
-				'..',
-				'src/webparts/marketMonitorForm/',
-			),
-			'@clientes': path.resolve(
-				__dirname,
-				'..',
-				'src/webparts/marketMonitorClientesList/',
-			),
-			'@cngs': path.resolve(
-				__dirname,
-				'..',
-				'/webparts/marketMonitorCngList/',
-			),
+			'@': path.resolve(__dirname, '..', 'src/webparts/marketMonitorForm/'),
+			'@clientes': path.resolve(__dirname, '..', 'src/webparts/marketMonitorClientesList/'),
+			'@cngs': path.resolve(__dirname, '..', '/webparts/marketMonitorCngList/'),
+			'@common': path.resolve(__dirname, '..', 'src/common/'),
+			'@services': path.resolve(__dirname, '..', 'src/services/'),
+			'@models': path.resolve(__dirname, '..', 'src/models/'),
 		},
 	},
 };
