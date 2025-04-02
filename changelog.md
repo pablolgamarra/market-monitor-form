@@ -25,3 +25,10 @@
 -   Moved previous services to the new structure.
 
 -   Refactored services.
+
+---
+
+-   Add hooks and context aliases in tsconfig, gulpfile, and webpack.extend.js
+-   Install tailwind
+-   Modify npm scripts on package.json
+-

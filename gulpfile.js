@@ -117,6 +117,9 @@ build.configureWebpack.mergeConfig({
 		generatedConfiguration.resolve.alias['@common'] = path.resolve(__dirname, 'lib/common');
 		generatedConfiguration.resolve.alias['@services'] = path.resolve(__dirname, 'lib/services');
 		generatedConfiguration.resolve.alias['@models'] = path.resolve(__dirname, 'lib/models');
+		generatedConfiguration.resolve.alias['@context'] = path.resolve(__dirname, 'lib/context');
+		generatedConfiguration.resolve.alias['@hooks'] = path.resolve(__dirname, 'lib/hooks');
+		generatedConfiguration.resolve.alias['@controls'] = path.resolve(__dirname, 'lib/controls');
 		return generatedConfiguration;
 	},
 });

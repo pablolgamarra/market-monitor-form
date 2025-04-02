@@ -4,7 +4,7 @@ export interface ISupplierService {
 	getAll(): Promise<Supplier[]>;
 	getById(id: number): Promise<Supplier>;
 	getPaged(pageSize: number, requestedPage: number): Promise<{ suppliersPage: Supplier[]; count: number }>;
-	create(supplier: Supplier): Promise<boolean>;
-	update(supplier: Supplier): Promise<boolean>;
-	delete(supplier: Supplier): Promise<boolean>;
+	createItem(supplier: Supplier): Promise<boolean>;
+	updateItem(supplier: Supplier): Promise<boolean>;
+	deleteItem(supplier: Supplier): Promise<boolean>;
 }

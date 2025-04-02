@@ -1,4 +1,4 @@
-export interface CNGResponseValue {
+export interface CngResponse {
 	Id: number;
 	Title: string;
 	Correo: string;

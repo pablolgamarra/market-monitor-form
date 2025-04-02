@@ -19,6 +19,9 @@ const webpackConfig = {
 			'@common': path.resolve(__dirname, '..', 'src/common/'),
 			'@services': path.resolve(__dirname, '..', 'src/services/'),
 			'@models': path.resolve(__dirname, '..', 'src/models/'),
+			'@context': path.resolve(__dirname, '..', 'src/context/'),
+			'@hooks': path.resolve(__dirname, '..', 'src/hooks/'),
+			'@controls': path.resolve(__dirname, '..', 'src/controls/'),
 		},
 	},
 };

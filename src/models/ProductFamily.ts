@@ -5,6 +5,6 @@ export interface ProductFamily {
 	Id: number;
 	Name: string;
 	MeasureUnit: string;
-	AgroPeriod: AgroPeriod;
+	AgroPeriod: AgroPeriod[];
 	Status: Status;
 }

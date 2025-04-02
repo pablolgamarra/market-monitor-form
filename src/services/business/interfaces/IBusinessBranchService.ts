@@ -7,7 +7,7 @@ export interface IBusinessBranchService {
 		pageSize: number,
 		requestedPage: number,
 	): Promise<{ businessBranchsPage: BusinessBranch[]; count: number }>;
-	create(businessBranch: BusinessBranch): Promise<boolean>;
-	update(businessBranch: BusinessBranch): Promise<boolean>;
-	delete(businessBranch: BusinessBranch): Promise<boolean>;
+	createItem(businessBranch: BusinessBranch): Promise<boolean>;
+	updateItem(businessBranch: BusinessBranch): Promise<boolean>;
+	deleteItem(businessBranch: BusinessBranch): Promise<boolean>;
 }

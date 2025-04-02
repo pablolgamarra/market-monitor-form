@@ -7,7 +7,7 @@ export interface IMarketInformationService {
 		pageSize: number,
 		requestedPage: number,
 	): Promise<{ marketInformationsPage: MarketInformation[]; count: number }>;
-	create(marketInformation: MarketInformation): Promise<boolean>;
-	update(marketInformation: MarketInformation): Promise<boolean>;
-	delete(marketInformation: MarketInformation): Promise<boolean>;
+	createItem(marketInformation: MarketInformation): Promise<boolean>;
+	updateItem(marketInformation: MarketInformation): Promise<boolean>;
+	deleteItem(marketInformation: MarketInformation): Promise<boolean>;
 }

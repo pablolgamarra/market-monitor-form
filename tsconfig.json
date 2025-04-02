@@ -27,7 +27,10 @@
 			"@cngs/*": ["src/webparts/marketMonitorCngList/*"],
 			"@common/*": ["src/common/*"],
 			"@services/*": ["src/services/*"],
-			"@models/*": ["src/models/*"]
+			"@models/*": ["src/models/*"],
+			"@context/*": ["src/context/*"],
+			"@hooks/*": ["src/hooks/*"],
+			"@controls/*": ["src/controls/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"]

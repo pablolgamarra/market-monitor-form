@@ -13,24 +13,18 @@ export class AgroPeriodService implements IAgroPeriodService {
 
 	private _SPService!: ISPService;
 
+	private listName: string = 'Periodos%20Cultivo';
+
 	constructor(serviceScope: ServiceScope) {
 		try {
 			serviceScope.whenFinished(() => {
 				this._SPService = serviceScope.consume(SPService.servicekey);
 			});
 		} catch (e) {
-			throw new Error(`Error initializing InterventionTypeService -> ${e}`);
+			throw new Error(`Error initializing AgroPeriodService -> ${e}`);
 		}
 	}
-	create(agroPeriod: AgroPeriod): Promise<boolean> {
-		throw new Error('Method not implemented.');
-	}
-	update(agroPeriod: AgroPeriod): Promise<boolean> {
-		throw new Error('Method not implemented.');
-	}
-	delete(agroPeriod: AgroPeriod): Promise<boolean> {
-		throw new Error('Method not implemented.');
-	}
+
 	private mapToAgroPeriod(item: AgroPeriodResponse): AgroPeriod {
 		return {
 			Id: item.Id,
@@ -47,7 +41,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 
 	public async getAll(): Promise<AgroPeriod[]> {
 		try {
-			const queryResults: AgroPeriodResponse[] = await this._SPService.getAllItems('Periodos%20Cultivo');
+			const queryResults: AgroPeriodResponse[] = await this._SPService.getAllItems(this.listName);
 			const results: AgroPeriod[] = queryResults.map(this.mapToAgroPeriod);
 			return results;
 		} catch (e) {
@@ -61,7 +55,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 				throw new Error(`Id not valid`);
 			}
 
-			const queryResults: AgroPeriodResponse[] = await this._SPService.getItemById('Periodos%20Cultivo', id);
+			const queryResults: AgroPeriodResponse[] = await this._SPService.getItemById(this.listName, id);
 			const results: AgroPeriod[] = queryResults.map(this.mapToAgroPeriod);
 
 			if (!results[0]) {
@@ -79,7 +73,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 	): Promise<{ agroPeriodsPage: AgroPeriod[]; count: number }> {
 		try {
 			const { results, totalCount } = await this._SPService.getListItemsPaged(
-				'Periodos%20Cultivo',
+				this.listName,
 				pageSize,
 				requestedPage,
 			);
@@ -113,7 +107,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 			}
 
 			const agroPeriodUpdate = this.formatSharepoint(agroPeriod);
-			await this._SPService.updateItem('Periodos%20Cultivo', agroPeriodUpdate);
+			await this._SPService.updateItem(this.listName, agroPeriodUpdate);
 			return true;
 		} catch (e) {
 			throw Error(`Error updating agro period data -> ${e}`);
@@ -126,7 +120,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 				throw new Error(`Cannot Update. Agro Period not valid`);
 			}
 			const agroPeriodDelete = this.formatSharepoint(agroPeriod);
-			await this._SPService.deleteItem('Periodos%20Cultivo', agroPeriodDelete.Id);
+			await this._SPService.deleteItem(this.listName, agroPeriodDelete.Id);
 			return true;
 		} catch (e) {
 			throw Error(`Error deleting agro period data -> ${e}`);

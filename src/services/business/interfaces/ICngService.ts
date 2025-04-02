@@ -4,7 +4,7 @@ export interface ICngService {
 	getAll(): Promise<Cng[]>;
 	getById(id: number): Promise<Cng>;
 	getPaged(pageSize: number, requestedPage: number): Promise<{ cngsPage: Cng[]; count: number }>;
-	create(cng: Cng): Promise<boolean>;
-	update(cng: Cng): Promise<boolean>;
-	delete(cng: Cng): Promise<boolean>;
+	createItem(cng: Cng): Promise<boolean>;
+	updateItem(cng: Cng): Promise<boolean>;
+	deleteItem(cng: Cng): Promise<boolean>;
 }
