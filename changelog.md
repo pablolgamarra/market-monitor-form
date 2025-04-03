@@ -31,4 +31,7 @@
 -   Add hooks and context aliases in tsconfig, gulpfile, and webpack.extend.js
 -   Install tailwind
 -   Modify npm scripts on package.json
+-   Removed no-floating-promises rules in ESLint
+-   Hooks for the forms created
+-   Hooks to get items lists created
 -
