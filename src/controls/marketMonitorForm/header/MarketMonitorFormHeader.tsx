@@ -8,12 +8,18 @@ import useClientList from '@hooks/useClientList';
 import { useDataContext } from '@hooks/useDataContext';
 
 export interface MarketMonitorFormHeaderProps {
-	businessBranchFieldPlaceholder: string;
-	clientFieldPlaceholder: string;
+	strings?: {
+		businessBranchFieldLabel: string;
+		businessBranchFieldPlaceholder: string;
+		clientFieldLabel: string;
+		clientFieldPlaceholder: string;
+	};
 }
 
 const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 	const id = useId('marketMonitorFormHeader');
+	const strings = props.strings;
+
 	const { clientService, businessBranchService } = useDataContext();
 	const { marketMonitorFormData, updateMarketMonitorFormData } = useMarketMonitorForm();
 	const { items: clients, isLoading: clientsLoading } = useClientList(clientService);
@@ -29,7 +35,6 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 
 	return (
 		<div className='mb-4'>
-			<h2 className='text-lg font-bold'>Datos del Cliente</h2>
 			{clientsLoading ? (
 				<>
 					<Skeleton
@@ -46,10 +51,10 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 			) : (
 				<DropdownField
 					id={`dpDown-clients-${id}`}
-					label={'Cliente'}
+					label={strings?.clientFieldLabel || 'Client Data'}
 					name={'client'}
 					className='w-full p-2 border rounded mt-2'
-					placeholder={props.clientFieldPlaceholder}
+					placeholder={strings?.clientFieldPlaceholder || 'Select Client'}
 					disabled={businessBranchFieldDisable}
 					value={marketMonitorFormData.client.Id.toString()}
 					onSelect={handleBusinessBranchDpdown}
@@ -75,10 +80,10 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 			) : (
 				<DropdownField
 					id={`dpDown-businessBranches-${id}`}
-					label={'Unidad'}
+					label={strings?.businessBranchFieldLabel || 'Business Branch Data'}
 					name={'businessBranch'}
 					className='w-full p-2 border rounded mt-2'
-					placeholder={props.businessBranchFieldPlaceholder}
+					placeholder={strings?.businessBranchFieldPlaceholder || 'Select Business Branch Data'}
 					disabled={businessBranchFieldDisable}
 					value={marketMonitorFormData.businessBranch.Id.toString()}
 					onSelect={handleBusinessBranchDpdown}
