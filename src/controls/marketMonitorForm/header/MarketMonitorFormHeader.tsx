@@ -2,10 +2,11 @@ import * as React from 'react';
 
 import { DropdownField } from '@controls/DropdownField';
 import { OptionOnSelectData, Skeleton, useId } from '@fluentui/react-components';
-import { useMarketMonitorForm } from '@hooks/forms/useMarketMonitorForm';
+import { useMarketMonitorFormState } from '@hooks/forms/useMarketMonitorFormState';
 import useBusinessBranchList from '@hooks/useBusinessBranchList';
 import useClientList from '@hooks/useClientList';
 import { useDataContext } from '@hooks/useDataContext';
+import MarketMonitorFormState from '@models/MarketMonitorFormState';
 
 export interface MarketMonitorFormHeaderProps {
 	strings?: {
@@ -21,16 +22,14 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 	const strings = props.strings;
 
 	const { clientService, businessBranchService } = useDataContext();
-	const { marketMonitorFormData, updateMarketMonitorFormData } = useMarketMonitorForm();
+	const { formData, updateField } = useMarketMonitorFormState();
 	const { items: clients, isLoading: clientsLoading } = useClientList(clientService);
 	const { items: branches, isLoading: branchesLoading } = useBusinessBranchList(businessBranchService);
 	const businessBranchFieldDisable = false;
+	const clientFieldDisable = false;
 
 	const handleBusinessBranchDpdown = (name: string, data: OptionOnSelectData): void => {
-		updateMarketMonitorFormData({
-			...marketMonitorFormData,
-			[name]: { ...marketMonitorFormData.businessBranch, Id: Number(data.optionValue) },
-		});
+		updateField(name as keyof MarketMonitorFormState, data.optionValue);
 	};
 
 	return (
@@ -55,8 +54,8 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 					name={'client'}
 					className='w-full p-2 border rounded mt-2'
 					placeholder={strings?.clientFieldPlaceholder || 'Select Client'}
-					disabled={businessBranchFieldDisable}
-					value={marketMonitorFormData.client.Id.toString()}
+					disabled={clientFieldDisable}
+					value={formData?.client?.Id.toString() || ''}
 					onSelect={handleBusinessBranchDpdown}
 					options={clients.map((item) => ({
 						value: item.Id.toString(),
@@ -85,7 +84,7 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 					className='w-full p-2 border rounded mt-2'
 					placeholder={strings?.businessBranchFieldPlaceholder || 'Select Business Branch Data'}
 					disabled={businessBranchFieldDisable}
-					value={marketMonitorFormData.businessBranch.Id.toString()}
+					value={formData?.businessBranch?.Id.toString() || ''}
 					onSelect={handleBusinessBranchDpdown}
 					options={branches.map((item) => ({
 						value: item.Id.toString(),

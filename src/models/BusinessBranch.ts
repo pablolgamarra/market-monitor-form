@@ -1,4 +1,4 @@
-export interface BusinessBranch {
+export default interface BusinessBranch {
 	Id: number;
 	Name: string;
 }

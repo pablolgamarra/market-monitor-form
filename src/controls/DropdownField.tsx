@@ -1,4 +1,4 @@
-import { Dropdown, Field, OptionOnSelectData } from '@fluentui/react-components';
+import { Dropdown, Field, Option, OptionOnSelectData } from '@fluentui/react-components';
 import * as React from 'react';
 
 export interface DropdownFieldProps {
@@ -10,7 +10,7 @@ export interface DropdownFieldProps {
 	required?: boolean;
 	disabled: boolean;
 	onSelect: (name: string, data: OptionOnSelectData) => void;
-	className: string;
+	className?: string;
 	options: { value: string; label: string }[];
 }
 
@@ -40,7 +40,16 @@ export const DropdownField: React.FC<DropdownFieldProps> = ({
 				onOptionSelect={(e, data) => onSelect(name, data)}
 				value={value}
 				disabled={disabled}
-			/>
+			>
+				{options.map((option) => (
+					<Option
+						key={`${option.value}-option`}
+						value={option.value}
+					>
+						{option.label}
+					</Option>
+				))}
+			</Dropdown>
 		</Field>
 	);
 };

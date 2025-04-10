@@ -1,6 +1,6 @@
-import { ProductFamily } from '@models/ProductFamily';
+import ProductFamily from '@models/ProductFamily';
 
-export interface Supplier {
+export default interface Supplier {
 	Id: number;
 	Name: string;
 	ProductFamilyProvided: ProductFamily[];

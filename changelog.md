@@ -1,37 +1,33 @@
-# Changelog
+✨ Features
+form: add custom hooks to manage Market Monitor form state
 
--   Disabled the no-unexpected-any rule in ESLint.
+form: create context provider for form using useMarketMonitorForm
 
--   Added pnpjs, sp, and graph libraries.
+form: define ProductFamilyInformation model and MarketMonitorFormState interface
 
--   Created the services folder.
+hooks: add hooks to retrieve SharePoint list items
 
--   Added a SharePoint (SP) service to retrieve lists.
+♻️ Refactors
+models: move models from /types to /models and update to use default exports
 
--   Defined new aliases in tsconfig, gulpfile, and webpack.extend.js.
+services: restructure legacy services into /services with alias support
 
--   Added $€®¥09@'s changes in gulpfile.js and package.json to enable automatic project version updates.
+aliases: update tsconfig, gulpfile, and webpack config with aliases for @services, @models, @common, @hooks, and @context
 
--   Copied files from src/webparts/marketMonitorForm/services to src/services.
+enums: move enums into new /common folder
 
--   Created the common folder.
+📦 Chores
+eslint: disable no-unexpected-any rule
 
--   Created enum files inside the common folder.
+eslint: remove no-floating-promises rule
 
--   Created the models folder.
+deps: add @pnp/sp, @pnp/graph, and @pnp/logging
 
--   Refactored previous models from /src/marketMonitorForm/types and moved them to the new /src/models folder.
+tailwind: install and configure Tailwind CSS
 
--   Moved previous services to the new structure.
+npm: modify npm scripts in package.json
 
--   Refactored services.
+gulp: add custom logic in gulpfile.js and package.json for version updates
 
----
-
--   Add hooks and context aliases in tsconfig, gulpfile, and webpack.extend.js
--   Install tailwind
--   Modify npm scripts on package.json
--   Removed no-floating-promises rules in ESLint
--   Hooks for the forms created
--   Hooks to get items lists created
--
+🔧 Maintenance
+project: copy legacy files from /webparts/marketMonitorForm/services to new /services location

@@ -1,7 +1,7 @@
 import { Status } from '@common/Status';
-import { AgroPeriod } from '@models/AgroPeriod';
+import AgroPeriod from '@models/AgroPeriod';
 
-export interface ProductFamily {
+export default interface ProductFamily {
 	Id: number;
 	Name: string;
 	MeasureUnit: string;

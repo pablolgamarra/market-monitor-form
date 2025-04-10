@@ -1,51 +1,23 @@
-import * as React from 'react';
+import React, { createContext, ReactNode } from 'react';
 
-import { AgroPeriod } from '@models/AgroPeriod';
-import { BusinessBranch } from '@models/BusinessBranch';
-import { Client } from '@models/Client';
-import { Cng } from '@models/Cng';
-import { ProductFamily } from '@models/ProductFamily';
-import { Supplier } from '@models/Supplier';
-import { createContext, ReactNode, useState } from 'react';
+import { useMarketMonitorFormState } from '@hooks/forms/useMarketMonitorFormState';
+import MarketMonitorFormState from '@models/MarketMonitorFormState';
+import ProductFamilyInformation from '@models/ProductFamilyInformation';
 
-export interface MarketMonitorFormProductsInformation {
-	productFamily: ProductFamily;
-	buyedVolume: string;
-	mainSupplier: Supplier;
+export interface MarketMonitorFormContextProps {
+	formData: MarketMonitorFormState;
+	setFormData: (data: MarketMonitorFormState) => void;
+	updateField: (key: keyof MarketMonitorFormState, value: any) => void;
+	updateProductInfo: (index: number, value: Partial<ProductFamilyInformation>) => void;
 }
 
-interface MarketMonitorFormData {
-	id: string;
-	cng: Cng;
-	client: Client;
-	businessBranch: BusinessBranch;
-	agroPeriod: AgroPeriod;
-	productsInformation: MarketMonitorFormProductsInformation[];
-}
-
-export interface IMarketMonitorFormContext {
-	marketMonitorFormData: MarketMonitorFormData;
-	updateMarketMonitorFormData: (newData: Partial<MarketMonitorFormData>) => void;
-}
-
-export const MarketMonitorFormContext = createContext<IMarketMonitorFormContext | undefined>(undefined);
+export const MarketMonitorFormContext = createContext<MarketMonitorFormContextProps | undefined>(undefined);
 
 export const MarketMonitorFormProvider = ({ children }: { children: ReactNode }): React.ReactElement => {
-	const [marketMonitorFormData, setMarketMonitorFormData] = useState<MarketMonitorFormData>({
-		id: '',
-		cng: {} as Cng,
-		client: {} as Client,
-		businessBranch: {} as BusinessBranch,
-		agroPeriod: {} as AgroPeriod,
-		productsInformation: [] as MarketMonitorFormProductsInformation[],
-	});
-
-	const updateMarketMonitorFormData = (newData: Partial<MarketMonitorFormData>): void => {
-		setMarketMonitorFormData((prev) => ({ ...prev, ...newData }));
-	};
+	const { formData, setFormData, updateField, updateProductInfo } = useMarketMonitorFormState();
 
 	return (
-		<MarketMonitorFormContext.Provider value={{ marketMonitorFormData, updateMarketMonitorFormData }}>
+		<MarketMonitorFormContext.Provider value={{ formData, setFormData, updateField, updateProductInfo }}>
 			{children}
 		</MarketMonitorFormContext.Provider>
 	);

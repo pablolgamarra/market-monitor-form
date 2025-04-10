@@ -1,6 +1,6 @@
-import { BusinessBranch } from '@models/BusinessBranch';
+import BusinessBranch from '@models/BusinessBranch';
 
-export interface Cng {
+export default interface Cng {
 	Id: number;
 	Name: string;
 	SAPCode: string;
