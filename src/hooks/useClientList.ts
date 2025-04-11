@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Client } from '@models/Client';
-import { IClientService } from '@services/business/interfaces/IClientService';
+import Client from '@models/Client';
+import IClientService from '@services/business/interfaces/IClientService';
 
 export default function useClientList(service: IClientService): {
 	items: Client[];
@@ -15,6 +15,7 @@ export default function useClientList(service: IClientService): {
 	useEffect(() => {
 		const fetchClients = async (): Promise<void> => {
 			try {
+				console.log('PORRA');
 				setLoading(true);
 				const data = await service.getAll();
 				setClients(data);

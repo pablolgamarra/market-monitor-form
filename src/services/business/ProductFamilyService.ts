@@ -1,10 +1,10 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { AgroPeriod } from '@models/AgroPeriod';
-import { ProductFamily } from '@models/ProductFamily';
+import AgroPeriod from '@models/AgroPeriod';
+import ProductFamily from '@models/ProductFamily';
 import { ProductFamilyResponse } from '@models/spServiceResponse/ProductFamilyResponse';
 import { AgroPeriodService } from '@services/business/AgroPeriodService';
-import { IAgroPeriodService } from '@services/business/interfaces/IAgroPeriodService';
-import { IProductFamilyService } from '@services/business/interfaces/IProductFamilyService';
+import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
+import IProductFamilyService from '@services/business/interfaces/IProductFamilyService';
 import { ISPService } from '@services/core/spService/ISPService';
 import { SPService } from '@services/core/spService/SPService';
 
@@ -17,7 +17,7 @@ export class ProductFamilyService implements IProductFamilyService {
 	private _SPService!: ISPService;
 	private _agroPeriodService!: IAgroPeriodService;
 
-	private listName: string = 'ProductFamily';
+	private listName: string = '';
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -27,6 +27,17 @@ export class ProductFamilyService implements IProductFamilyService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing ProductFamilyService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 

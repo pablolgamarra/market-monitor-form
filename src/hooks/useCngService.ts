@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Cng } from '@models/Cng';
-import { ICngService } from '@services/business/interfaces/ICngService';
+import Cng from '@models/Cng';
+import ICngService from '@services/business/interfaces/ICngService';
 
 export default function useCngList(service: ICngService): {
 	items: Cng[];

@@ -1,30 +1,40 @@
-const updateField = (key: keyof typeof formData, value: any) => {
-	setFormData((prev) => ({
-		...prev,
-		[key]: value,
-	}));
+import MarketMonitorFormState from '@models/MarketMonitorFormState';
+import ProductFamilyInformation from '@models/ProductFamilyInformation';
+import { useState } from 'react';
+
+const initialFormData: MarketMonitorFormState = {
+	id: undefined,
+	client: undefined,
+	businessBranch: undefined,
+	agroPeriod: undefined,
+	cng: undefined,
+	productFamilyInformation: [],
 };
 
-// Actualiza un producto en productFamilyInformation
-const updateProductInfo = (index: number, value: Partial<(typeof formData.productFamilyInformation)[0]>) => {
-	setFormData((prev) => {
-		const updated = [...prev.productFamilyInformation];
-		updated[index] = { ...updated[index], ...value };
-		return { ...prev, productFamilyInformation: updated };
-	});
-};
+export const useMarketMonitorForm = (): {
+	formData: MarketMonitorFormState;
+	setFormData: React.Dispatch<React.SetStateAction<MarketMonitorFormState>>;
 
-// Cuando se selecciona el periodo
-const handleSelectPeriod = (period: string) => {
-	updateField('agroPeriod', period);
+	updateField: (key: keyof MarketMonitorFormState, value: any) => void;
+	updateProductInfo: (index: number, value: Partial<ProductFamilyInformation>) => void;
+} => {
+	const [formData, setFormData] = useState<MarketMonitorFormState>(initialFormData);
 
-	// Simula carga de familias según periodo
-	const familias = getFamiliasByPeriodo(period); // Implementa esta función
-	const newProductInfo = familias.map((familia: ProductFamily) => ({
-		productFamily: familia,
-		mainSupplier: undefined,
-		buyedVolume: undefined,
-	}));
-	updateField('productFamilyInformation', newProductInfo);
-	nextStep(); // Avanza automáticamente
+	const updateField = (key: keyof typeof formData, value: any): void => {
+		setFormData((prev) => ({
+			...prev,
+			[key]: value,
+		}));
+		console.log('formDataUpdated', formData);
+	};
+
+	const updateProductInfo = (index: number, value: Partial<ProductFamilyInformation>): void => {
+		setFormData((prev) => {
+			const updated = [...prev.productFamilyInformation];
+			updated[index] = { ...updated[index], ...value };
+			return { ...prev, productFamilyInformation: updated };
+		});
+	};
+
+	return { formData, setFormData, updateField, updateProductInfo };
 };

@@ -10,7 +10,12 @@
 		"build": "gulp bundle",
 		"clean": "gulp clean",
 		"test": "gulp test",
-		"serve": "fast-serve",
+		"bundle": "npm-run-all tailwindscss build",
+		"bundle:ship": "npm-run-all tailwindcss build:ship",
+		"webpack:serve": "fast-serve",
+		"serve": "npm-run-all -p tailwindcss:watch webpack:serve",
+		"tailwindcss": "tailwindcss -i ./assets/tailwind.css -o ./assets/dist/tailwind.css --minify --postcss ./postcss.config.js",
+		"tailwindcss:watch": "tailwindcss -i ./assets/tailwind.css -o ./assets/dist/tailwind.css --watch --minify --postcss ./postcss.config.js",
 		"publish": "gulp clean && gulp build && gulp bundle --ship",
 		"postpublish": "gulp package-solution --ship"
 	},

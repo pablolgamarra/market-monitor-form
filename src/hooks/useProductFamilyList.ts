@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { ProductFamily } from '@models/ProductFamily';
-import { IProductFamilyService } from '@services/business/interfaces/IProductFamilyService';
+import ProductFamily from '@models/ProductFamily';
+import IProductFamilyService from '@services/business/interfaces/IProductFamilyService';
 
 export default function useProductFamilyList(service: IProductFamilyService): {
 	items: ProductFamily[];

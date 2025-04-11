@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { BusinessBranch } from '@models/BusinessBranch';
-import { IBusinessBranchService } from '@services/business/interfaces/IBusinessBranchService';
+import BusinessBranch from '@models/BusinessBranch';
+import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
 
 export default function useBusinessBranchList(service: IBusinessBranchService): {
 	items: BusinessBranch[];

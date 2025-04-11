@@ -1,6 +1,7 @@
-import { MarketInformation } from '@models/MarketInformation';
+import MarketInformation from '@models/MarketInformation';
 
-export interface IMarketInformationService {
+export default interface IMarketInformationService {
+	configure(listName: string): void;
 	getAll(): Promise<MarketInformation[]>;
 	getById(id: number): Promise<MarketInformation>;
 	getPaged(

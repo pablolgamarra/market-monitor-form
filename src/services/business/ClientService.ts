@@ -1,12 +1,12 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { BusinessBranch } from '@models/BusinessBranch';
-import { Client } from '@models/Client';
-import { Cng } from '@models/Cng';
+import BusinessBranch from '@models/BusinessBranch';
+import Client from '@models/Client';
+import Cng from '@models/Cng';
 import { ClientResponse } from '@models/spServiceResponse/ClientResponse';
 import { BusinessBranchService } from '@services/business/BusinessBranchService';
-import { IBusinessBranchService } from '@services/business/interfaces/IBusinessBranchService';
-import { IClientService } from '@services/business/interfaces/IClientService';
-import { ICngService } from '@services/business/interfaces/ICngService';
+import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
+import IClientService from '@services/business/interfaces/IClientService';
+import ICngService from '@services/business/interfaces/ICngService';
 import { ISPService } from '@services/core/spService/ISPService';
 import { SPService } from '@services/core/spService/SPService';
 
@@ -20,7 +20,7 @@ export class ClientService implements IClientService {
 	private _businessBranchService!: IBusinessBranchService;
 	private _cngService!: ICngService;
 
-	private listName: string = 'Client';
+	private listName: string = '';
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -30,6 +30,17 @@ export class ClientService implements IClientService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing ClientService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { Supplier } from '@models/Supplier';
-import { ISupplierService } from '@services/business/interfaces/ISupplierService';
+import Supplier from '@models/Supplier';
+import ISupplierService from '@services/business/interfaces/ISupplierService';
 
 export default function useSupplierList(service: ISupplierService): {
 	items: Supplier[];

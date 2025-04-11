@@ -19,11 +19,10 @@ const MarketMonitorForm: FC = () => {
 	return (
 		<MarketMonitorFormProvider>
 			<div className='max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md'>
-				<MonitorFormHeader />
-
 				{step === 1 && <MonitorFormPeriodSelector nextStep={nextStep} />}
+				{step === 2 && <MonitorFormHeader />}
 
-				{step === 2 && (
+				{step === 3 && (
 					<MonitorFormProducts
 						productPage={productPage}
 						nextProduct={nextProduct}

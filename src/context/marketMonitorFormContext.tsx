@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode } from 'react';
 
-import { useMarketMonitorFormState } from '@hooks/forms/useMarketMonitorFormState';
+import { useMarketMonitorForm } from '@hooks/forms/useMarketMonitorForm';
 import MarketMonitorFormState from '@models/MarketMonitorFormState';
 import ProductFamilyInformation from '@models/ProductFamilyInformation';
 
@@ -14,7 +14,7 @@ export interface MarketMonitorFormContextProps {
 export const MarketMonitorFormContext = createContext<MarketMonitorFormContextProps | undefined>(undefined);
 
 export const MarketMonitorFormProvider = ({ children }: { children: ReactNode }): React.ReactElement => {
-	const { formData, setFormData, updateField, updateProductInfo } = useMarketMonitorFormState();
+	const { formData, setFormData, updateField, updateProductInfo } = useMarketMonitorForm();
 
 	return (
 		<MarketMonitorFormContext.Provider value={{ formData, setFormData, updateField, updateProductInfo }}>

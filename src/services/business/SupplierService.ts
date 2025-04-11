@@ -1,10 +1,10 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { ProductFamily } from '@models/ProductFamily';
-import { Supplier } from '@models/Supplier';
+import ProductFamily from '@models/ProductFamily';
+import Supplier from '@models/Supplier';
 import { SupplierResponse } from '@models/spServiceResponse/SupplierResponse';
 import { ProductFamilyService } from '@services/business/ProductFamilyService';
-import { IProductFamilyService } from '@services/business/interfaces/IProductFamilyService';
-import { ISupplierService } from '@services/business/interfaces/ISupplierService';
+import IProductFamilyService from '@services/business/interfaces/IProductFamilyService';
+import ISupplierService from '@services/business/interfaces/ISupplierService';
 import { ISPService } from '@services/core/spService/ISPService';
 import { SPService } from '@services/core/spService/SPService';
 
@@ -17,7 +17,7 @@ export class SupplierService implements ISupplierService {
 	private _SPService!: ISPService;
 	private _productFamilyService!: IProductFamilyService;
 
-	private listName: string = 'Supplier';
+	private listName: string = '';
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -27,6 +27,17 @@ export class SupplierService implements ISupplierService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing SupplierService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 

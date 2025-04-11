@@ -1,6 +1,7 @@
-import { BusinessBranch } from '@models/BusinessBranch';
+import BusinessBranch from '@models/BusinessBranch';
 
-export interface IBusinessBranchService {
+export default interface IBusinessBranchService {
+	configure(listName: string): void;
 	getAll(): Promise<BusinessBranch[]>;
 	getById(id: number): Promise<BusinessBranch>;
 	getPaged(

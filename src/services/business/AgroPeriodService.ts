@@ -1,7 +1,7 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { AgroPeriod } from '@models/AgroPeriod';
+import AgroPeriod from '@models/AgroPeriod';
 import { AgroPeriodResponse } from '@models/spServiceResponse/AgroPeriodResponse';
-import { IAgroPeriodService } from '@services/business/interfaces/IAgroPeriodService';
+import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
 import { ISPService } from '@services/core/spService/ISPService';
 import { SPService } from '@services/core/spService/SPService';
 
@@ -13,7 +13,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 
 	private _SPService!: ISPService;
 
-	private listName: string = 'Periodos%20Cultivo';
+	private listName!: string;
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -22,6 +22,18 @@ export class AgroPeriodService implements IAgroPeriodService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing AgroPeriodService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				console.log(`ListName not valid -> ${listName}`);
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 

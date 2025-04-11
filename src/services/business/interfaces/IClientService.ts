@@ -1,6 +1,7 @@
-import { Client } from '@models/Client';
+import Client from '@models/Client';
 
-export interface IClientService {
+export default interface IClientService {
+	configure(listName: string): void;
 	getAll(): Promise<Client[]>;
 	getById(id: number): Promise<Client>;
 	getPaged(pageSize: number, requestedPage: number): Promise<{ clientsPage: Client[]; count: number }>;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { AgroPeriod } from '@models/AgroPeriod';
-import { IAgroPeriodService } from '@services/business/interfaces/IAgroPeriodService';
+import AgroPeriod from '@models/AgroPeriod';
+import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
 
 export default function useAgroPeriodList(service: IAgroPeriodService): {
 	items: AgroPeriod[];

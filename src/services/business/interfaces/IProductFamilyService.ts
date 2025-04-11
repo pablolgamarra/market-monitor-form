@@ -1,6 +1,7 @@
-import { ProductFamily } from '@models/ProductFamily';
+import ProductFamily from '@models/ProductFamily';
 
-export interface IProductFamilyService {
+export default interface IProductFamilyService {
+	configure(listName: string): void;
 	getAll(): Promise<ProductFamily[]>;
 	getById(id: number): Promise<ProductFamily>;
 	getPaged(pageSize: number, requestedPage: number): Promise<{ productFamiliesPage: ProductFamily[]; count: number }>;

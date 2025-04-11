@@ -1,7 +1,7 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { BusinessBranch } from '@models/BusinessBranch';
+import BusinessBranch from '@models/BusinessBranch';
 import { BusinessBranchResponse } from '@models/spServiceResponse/BusinessBranchResponse';
-import { IBusinessBranchService } from '@services/business/interfaces/IBusinessBranchService';
+import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
 import { ISPService } from '@services/core/spService/ISPService';
 import { SPService } from '@services/core/spService/SPService';
 
@@ -13,7 +13,7 @@ export class BusinessBranchService implements IBusinessBranchService {
 
 	private _SPService!: ISPService;
 
-	private listName: string = 'Unidades';
+	private listName: string = '';
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -22,6 +22,17 @@ export class BusinessBranchService implements IBusinessBranchService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing BusinessBranchService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 

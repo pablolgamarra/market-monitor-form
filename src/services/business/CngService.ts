@@ -1,10 +1,10 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { BusinessBranch } from '@models/BusinessBranch';
-import { Cng } from '@models/Cng';
+import BusinessBranch from '@models/BusinessBranch';
+import Cng from '@models/Cng';
 import { CngResponse } from '@models/spServiceResponse/CngResponse';
 import { BusinessBranchService } from '@services/business/BusinessBranchService';
-import { IBusinessBranchService } from '@services/business/interfaces/IBusinessBranchService';
-import { ICngService } from '@services/business/interfaces/ICngService';
+import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
+import ICngService from '@services/business/interfaces/ICngService';
 import { ISPService } from '@services/core/spService/ISPService';
 import { SPService } from '@services/core/spService/SPService';
 
@@ -17,7 +17,7 @@ export class CngService implements ICngService {
 	private _SPService!: ISPService;
 	private _businessBranchService!: IBusinessBranchService;
 
-	private listName: string = 'Cng';
+	private listName: string = '';
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -27,6 +27,17 @@ export class CngService implements ICngService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing CngService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 

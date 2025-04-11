@@ -1,6 +1,7 @@
-import { Cng } from '@models/Cng';
+import Cng from '@models/Cng';
 
-export interface ICngService {
+export default interface ICngService {
+	configure(listName: string): void;
 	getAll(): Promise<Cng[]>;
 	getById(id: number): Promise<Cng>;
 	getPaged(pageSize: number, requestedPage: number): Promise<{ cngsPage: Cng[]; count: number }>;

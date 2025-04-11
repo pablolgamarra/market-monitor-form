@@ -108,12 +108,10 @@ build.initialize(gulp);
 
 build.configureWebpack.mergeConfig({
 	additionalConfiguration: (generatedConfiguration) => {
-		generatedConfiguration.resolve.alias['@'] = path.resolve(__dirname, 'lib/webparts/marketMonitorForm/');
-		generatedConfiguration.resolve.alias['@clientes'] = path.resolve(
+		generatedConfiguration.resolve.alias['@monitorForm'] = path.resolve(
 			__dirname,
-			'lib/webparts/marketMonitorClientesList/',
+			'lib/webparts/marketMonitorForm/',
 		);
-		generatedConfiguration.resolve.alias['@cngs'] = path.resolve(__dirname, 'lib/webparts/marketMonitorCngList/');
 		generatedConfiguration.resolve.alias['@common'] = path.resolve(__dirname, 'lib/common');
 		generatedConfiguration.resolve.alias['@services'] = path.resolve(__dirname, 'lib/services');
 		generatedConfiguration.resolve.alias['@models'] = path.resolve(__dirname, 'lib/models');

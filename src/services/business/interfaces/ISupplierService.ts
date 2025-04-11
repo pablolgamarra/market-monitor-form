@@ -1,6 +1,7 @@
-import { Supplier } from '@models/Supplier';
+import Supplier from '@models/Supplier';
 
-export interface ISupplierService {
+export default interface ISupplierService {
+	configure(listName: string): void;
 	getAll(): Promise<Supplier[]>;
 	getById(id: number): Promise<Supplier>;
 	getPaged(pageSize: number, requestedPage: number): Promise<{ suppliersPage: Supplier[]; count: number }>;

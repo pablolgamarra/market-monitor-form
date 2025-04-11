@@ -1,8 +1,8 @@
 import { DropdownField } from '@controls/DropdownField';
 import { RadioGroupField } from '@controls/RadioGroupField';
 import { OptionOnSelectData, RadioGroupOnChangeData, Title2, useId } from '@fluentui/react-components';
-import { useMarketMonitorFormState } from '@hooks/forms/useMarketMonitorFormState';
 import { useDataContext } from '@hooks/useDataContext';
+import { useMarketMonitorFormContext } from '@hooks/useMarketMonitorFormContext';
 import useProductFamilyList from '@hooks/useProductFamilyList';
 import useSupplierList from '@hooks/useSupplierList';
 import ProductFamily from '@models/ProductFamily';
@@ -26,11 +26,13 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 }: PageProps) => {
 	const id = useId('productFamily-');
 
-	const { formData } = useMarketMonitorFormState();
+	const { formData, updateProductInfo } = useMarketMonitorFormContext();
 	const { productFamilyService, supplierService } = useDataContext();
 	const { items: productFamiliesList } = useProductFamilyList(productFamilyService);
 	const { items: suppliersList } = useSupplierList(supplierService);
-	const productFamily: ProductFamily = productFamiliesList.find((productFamily) => productFamily.Id === productPage);
+	const productFamily: ProductFamily | undefined = productFamiliesList.find(
+		(productFamily) => productFamily.Id === productPage,
+	);
 	const pageInformation = formData.productFamilyInformation[productPage];
 
 	const volumes = [
@@ -67,12 +69,12 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 				id={`${id}`}
 				key={`${id}${productPage}-title`}
 			>
-				{productFamily.Name}
+				{productFamily?.Name}
 			</Title2>
 			<RadioGroupField
 				id={`${id}${productPage}-buyed-volume`}
 				name='buyedVolume'
-				label={`Volumen de ${productFamily.Name} Ya Comprado`}
+				label={`Volumen de ${productFamily?.Name} Ya Comprado`}
 				value={pageInformation.buyedVolume || ''}
 				onChange={handleBuyedVolumeSelect}
 				options={volumes.map((volume) => ({
@@ -86,7 +88,7 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 				id={`${id}${productPage}-supplier`}
 				name='mainSupplier'
 				placeholder='Seleccione un Proveedor'
-				label={`Proveedor Principal de ${productFamily.Name}`}
+				label={`Proveedor Principal de ${productFamily?.Name}`}
 				value={pageInformation.mainSupplier?.Id.toString() || ''}
 				onSelect={handleMainSupplierSelect}
 				options={suppliersList.map((supplier: Supplier) => ({

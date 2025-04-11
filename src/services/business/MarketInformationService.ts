@@ -1,19 +1,19 @@
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
-import { AgroPeriod } from '@models/AgroPeriod';
-import { Client } from '@models/Client';
-import { Cng } from '@models/Cng';
-import { MarketInformation } from '@models/MarketInformation';
-import { ProductFamily } from '@models/ProductFamily';
+import AgroPeriod from '@models/AgroPeriod';
+import Client from '@models/Client';
+import Cng from '@models/Cng';
+import MarketInformation from '@models/MarketInformation';
+import ProductFamily from '@models/ProductFamily';
 import { MarketInformationResponse } from '@models/spServiceResponse/MarketInformationResponse';
-import { Supplier } from '@models/Supplier';
+import Supplier from '@models/Supplier';
 import { AgroPeriodService } from '@services/business/AgroPeriodService';
 import { ClientService } from '@services/business/ClientService';
-import { IAgroPeriodService } from '@services/business/interfaces/IAgroPeriodService';
-import { IClientService } from '@services/business/interfaces/IClientService';
-import { ICngService } from '@services/business/interfaces/ICngService';
-import { IMarketInformationService } from '@services/business/interfaces/IMarketInformationService';
-import { IProductFamilyService } from '@services/business/interfaces/IProductFamilyService';
-import { ISupplierService } from '@services/business/interfaces/ISupplierService';
+import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
+import IClientService from '@services/business/interfaces/IClientService';
+import ICngService from '@services/business/interfaces/ICngService';
+import IMarketInformationService from '@services/business/interfaces/IMarketInformationService';
+import IProductFamilyService from '@services/business/interfaces/IProductFamilyService';
+import ISupplierService from '@services/business/interfaces/ISupplierService';
 import { ProductFamilyService } from '@services/business/ProductFamilyService';
 import { SupplierService } from '@services/business/SupplierService';
 import { ISPService } from '@services/core/spService/ISPService';
@@ -32,7 +32,7 @@ export class MarketInformationService implements IMarketInformationService {
 	private _supplierService!: ISupplierService;
 	private _cngService!: ICngService;
 
-	private listName: string = 'MarketInformation';
+	private listName: string = '';
 
 	constructor(serviceScope: ServiceScope) {
 		try {
@@ -45,6 +45,17 @@ export class MarketInformationService implements IMarketInformationService {
 			});
 		} catch (e) {
 			throw new Error(`Error initializing MarketInformationService -> ${e}`);
+		}
+	}
+
+	public configure(listName: string): void {
+		try {
+			if (!listName) {
+				throw new Error(`ListName not valid`);
+			}
+			this.listName = listName;
+		} catch (e) {
+			throw new Error(`Error configuring service -> ${e}`);
 		}
 	}
 
