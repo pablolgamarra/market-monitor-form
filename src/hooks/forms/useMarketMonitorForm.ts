@@ -8,7 +8,7 @@ const initialFormData: MarketMonitorFormState = {
 	businessBranch: undefined,
 	agroPeriod: undefined,
 	cng: undefined,
-	productFamilyInformation: [],
+	productFamilyInformation: [] as ProductFamilyInformation[],
 };
 
 export const useMarketMonitorForm = (): {
@@ -25,7 +25,6 @@ export const useMarketMonitorForm = (): {
 			...prev,
 			[key]: value,
 		}));
-		console.log('formDataUpdated', formData);
 	};
 
 	const updateProductInfo = (index: number, value: Partial<ProductFamilyInformation>): void => {
