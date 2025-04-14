@@ -4,6 +4,7 @@ import Client from '@models/Client';
 import Cng from '@models/Cng';
 import { ClientResponse } from '@models/spServiceResponse/ClientResponse';
 import { BusinessBranchService } from '@services/business/BusinessBranchService';
+import { CngService } from '@services/business/CngService';
 import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
 import IClientService from '@services/business/interfaces/IClientService';
 import ICngService from '@services/business/interfaces/ICngService';
@@ -27,6 +28,7 @@ export class ClientService implements IClientService {
 			serviceScope.whenFinished(() => {
 				this._SPService = serviceScope.consume(SPService.servicekey);
 				this._businessBranchService = serviceScope.consume(BusinessBranchService.serviceKey);
+				this._cngService = serviceScope.consume(CngService.serviceKey);
 			});
 		} catch (e) {
 			throw new Error(`Error initializing ClientService -> ${e}`);
@@ -83,7 +85,30 @@ export class ClientService implements IClientService {
 
 			return results;
 		} catch (e) {
-			throw new Error(`Error retrieving all supliers -> ${e}`);
+			throw new Error(`Error retrieving all clients -> ${e}`);
+		}
+	}
+
+	public async getAllFiltered(filter: string): Promise<Client[]> {
+		try {
+			if (!filter) {
+				throw Error(`Filter not valid`);
+			}
+			const queryResults: ClientResponse[] = await this._SPService.getItemsFiltered(this.listName, filter);
+			const businessBranchList: BusinessBranch[] = await this._businessBranchService.getAll();
+			const cngList: Cng[] = await this._cngService.getAll();
+
+			const results: Client[] = queryResults.map((item) => {
+				const businessBranch =
+					businessBranchList.find((businessBranch) => businessBranch.Id === item.UnidadId) ||
+					({} as BusinessBranch);
+				const cng = cngList.find((cng) => item.Codigo_x0020_SAP_x0020_CNGId === cng.Id) || ({} as Cng);
+				return this.mapToClient(item, cng, businessBranch);
+			});
+
+			return results;
+		} catch (e) {
+			throw new Error(`Error retrieving all clients -> ${e}`);
 		}
 	}
 
