@@ -1,9 +1,9 @@
 import * as React from 'react';
 
 import { DropdownField } from '@controls/DropdownField';
-import { InfoLabel, OptionOnSelectData, Skeleton, useId } from '@fluentui/react-components';
+import { InfoLabel, OptionOnSelectData, Skeleton, Spinner, useId } from '@fluentui/react-components';
 import useBusinessBranchList from '@hooks/useBusinessBranchList';
-import useClientList from '@hooks/useClientList';
+import { useClientListFiltered } from '@hooks/useClientList';
 import { useDataContext } from '@hooks/useDataContext';
 import { useMarketMonitorFormContext } from '@hooks/useMarketMonitorFormContext';
 import MarketMonitorFormState from '@models/MarketMonitorFormState';
@@ -15,6 +15,7 @@ export interface MarketMonitorFormHeaderProps {
 		clientFieldLabel: string;
 		clientFieldPlaceholder: string;
 	};
+	nextStep(): void;
 }
 
 const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
@@ -23,19 +24,36 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 
 	const { clientService, businessBranchService } = useDataContext();
 	const { formData, updateField } = useMarketMonitorFormContext();
-	const { items: clients, isLoading: clientsLoading } = useClientList(clientService);
 	const { items: branches, isLoading: branchesLoading } = useBusinessBranchList(businessBranchService);
+
+	const { items: businessBranchClients, isLoading: clientsLoading } = useClientListFiltered(
+		clientService,
+		formData.businessBranch ? `UnidadId eq ${formData.businessBranch?.Id}` : '',
+		formData.businessBranch?.Id,
+	);
+
 	const businessBranchFieldDisable = false;
 	const clientFieldDisable = false;
 
-	const filteredClients = clients.filter((client) => client.BusinessBranch.Id === formData.businessBranch?.Id);
-
-	const handleBusinessBranchDpdown = (name: string, data: OptionOnSelectData): void => {
+	const handleBusinessBranchSelected = (name: string, data: OptionOnSelectData): void => {
 		const selectedBranch = branches.find((branch) => branch.Id.toString() === data.optionValue);
 		updateField(name as keyof MarketMonitorFormState, selectedBranch);
 	};
 
-	console.log('MonitorFormHeader', { formData, branches, clients, filteredClients });
+	const handleClientSelected = (name: string, data: OptionOnSelectData): void => {
+		const selectedClient = businessBranchClients.find((client) => client.Id.toString() === data.optionValue);
+		updateField(name as keyof MarketMonitorFormState, selectedClient);
+	};
+
+	React.useEffect(() => {
+		const goForward = (): void => {
+			if (formData.businessBranch && formData.client) {
+				props.nextStep();
+			}
+		};
+
+		goForward();
+	}, [formData.businessBranch, formData.client]);
 
 	return (
 		<div className='tw-mb-4'>
@@ -70,7 +88,7 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 					placeholder={strings?.businessBranchFieldPlaceholder || 'Select Business Branch Data'}
 					disabled={businessBranchFieldDisable}
 					value={formData?.businessBranch?.Name || ''}
-					onSelect={handleBusinessBranchDpdown}
+					onSelect={handleBusinessBranchSelected}
 					options={branches.map((item) => ({
 						value: item.Id.toString(),
 						label: item.Name,
@@ -79,16 +97,7 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 			)}
 			{clientsLoading ? (
 				<>
-					<Skeleton
-						animation='pulse'
-						appearance='opaque'
-						className='tw-h-8 tw-w-full tw-mb-2 tw-bg-gray-300'
-					/>
-					<Skeleton
-						animation='pulse'
-						appearance='opaque'
-						className='tw-h-8 tw-w-full tw-bg-gray-300'
-					/>
+					<Spinner label={'Loading clients for selected business branch'} />
 				</>
 			) : (
 				<DropdownField
@@ -98,9 +107,9 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 					className='tw-w-full tw-p-2 tw-border tw-rounded mt-2'
 					placeholder={strings?.clientFieldPlaceholder || 'Select Client'}
 					disabled={clientFieldDisable}
-					value={formData?.client?.Id?.toString() || ''}
-					onSelect={handleBusinessBranchDpdown}
-					options={filteredClients.map((item) => ({
+					value={formData?.client?.Name || ''}
+					onSelect={handleClientSelected}
+					options={businessBranchClients.map((item) => ({
 						value: item.Id.toString(),
 						label: item.Name,
 					}))}
