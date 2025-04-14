@@ -1,11 +1,12 @@
 import { DropdownField } from '@controls/DropdownField';
 import { RadioGroupField } from '@controls/RadioGroupField';
-import { OptionOnSelectData, RadioGroupOnChangeData, Title2, useId } from '@fluentui/react-components';
+import { OptionOnSelectData, RadioGroupOnChangeData, Text, Title2, useId } from '@fluentui/react-components';
 import { useDataContext } from '@hooks/useDataContext';
 import { useMarketMonitorFormContext } from '@hooks/useMarketMonitorFormContext';
 import useProductFamilyList from '@hooks/useProductFamilyList';
 import useSupplierList from '@hooks/useSupplierList';
 import ProductFamily from '@models/ProductFamily';
+import ProductFamilyInformation from '@models/ProductFamilyInformation';
 import Supplier from '@models/Supplier';
 import React from 'react';
 
@@ -30,10 +31,16 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 	const { productFamilyService, supplierService } = useDataContext();
 	const { items: productFamiliesList } = useProductFamilyList(productFamilyService);
 	const { items: suppliersList } = useSupplierList(supplierService);
+
 	const productFamily: ProductFamily | undefined = productFamiliesList.find(
-		(productFamily) => productFamily.Id === productPage,
+		(pFamily: ProductFamily, index: number) => {
+			if (index === productPage) {
+				return pFamily;
+			}
+		},
 	);
-	const pageInformation = formData.productFamilyInformation[productPage];
+
+	const pageInformation = formData.productFamilyInformation[productPage] ?? ({} as ProductFamilyInformation);
 
 	const volumes = [
 		{ value: '0%', label: '0%' },
@@ -75,7 +82,7 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 				id={`${id}${productPage}-buyed-volume`}
 				name='buyedVolume'
 				label={`Volumen de ${productFamily?.Name} Ya Comprado`}
-				value={pageInformation.buyedVolume || ''}
+				value={(pageInformation.buyedVolume && pageInformation.buyedVolume) || ''}
 				onChange={handleBuyedVolumeSelect}
 				options={volumes.map((volume) => ({
 					value: volume.value,
@@ -98,39 +105,15 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 				disabled={false}
 				required
 			/>
-			{/* formData.informacionCompras.map((producto, index) => (
-				<div
-					key={index}
-					className='mb-4'
-				>
-					<input
-						type='text'
-						placeholder='Familia Producto'
-						value={producto.familiaProducto}
-						onChange={(e) => {
-							const updated = [...formData.informacionCompras];
-							updated[index].familiaProducto = e.target.value;
-							updateFormData({ informacionCompras: updated });
-						}}
-						className='w-full p-2 border rounded'
-					/>
-				</div>
-			))
-			
-            <button
-				onClick={addProduct}
-				className='px-4 py-2 bg-green-500 text-white rounded'
-			>
-				Agregar Producto
-			</button> */}
 			<button
-				onClick={prevStep}
+				onClick={productPage === 0 ? prevStep : prevProduct}
 				className='mr-2 px-4 py-2 bg-gray-400 text-white rounded'
 			>
 				Atrás
 			</button>
+			<Text>Página {productPage}</Text>
 			<button
-				onClick={nextStep}
+				onClick={productPage + 1 === productFamiliesList.length ? nextStep : nextProduct}
 				className='px-4 py-2 bg-blue-500 text-white rounded'
 			>
 				Siguiente
