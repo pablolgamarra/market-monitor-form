@@ -5,9 +5,10 @@ import { MarketMonitorFormProvider } from '@context/marketMonitorFormContext';
 import MonitorFormHeader from '@controls/marketMonitorForm/header/MarketMonitorFormHeader';
 import MonitorFormPeriodSelector from '@controls/marketMonitorForm/periodSelector/MarketMonitorFormPeriodSelector';
 import MonitorFormProducts from '@controls/marketMonitorForm/products/MarketMonitorFormProducts';
+import MonitorFormInfoCheck from './infoCheck/MarketMonitorFormInfoCheck';
 
 const MarketMonitorForm: FC = () => {
-	const [step, setStep] = useState<number>(1);
+	const [step, setStep] = useState<number>(3);
 	const [productPage, setProductPage] = useState<number>(0);
 
 	const nextStep = (): void => setStep((prev) => prev + 1);
@@ -29,6 +30,12 @@ const MarketMonitorForm: FC = () => {
 						prevProduct={prevProduct}
 						nextStep={nextStep}
 						prevStep={prevStep}
+					/>
+				)}
+				{step === 4 && (
+					<MonitorFormInfoCheck
+						prevStep={prevStep}
+						nextStep={nextStep}
 					/>
 				)}
 			</div>
