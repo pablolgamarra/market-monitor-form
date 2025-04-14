@@ -15,7 +15,6 @@ export default function useClientList(service: IClientService): {
 	useEffect(() => {
 		const fetchClients = async (): Promise<void> => {
 			try {
-				console.log('PORRA');
 				setLoading(true);
 				const data = await service.getAll();
 				setClients(data);
@@ -28,6 +27,39 @@ export default function useClientList(service: IClientService): {
 
 		fetchClients();
 	}, [service]);
+
+	return { items: clients, isLoading: loading, error: error };
+}
+
+export function useClientListFiltered(
+	service: IClientService,
+	filter: string,
+	trigger: any,
+): {
+	items: Client[];
+	isLoading: boolean;
+	error: string | undefined;
+} {
+	const [clients, setClients] = useState<Client[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
+	const [error, setError] = useState<string | undefined>(undefined);
+
+	useEffect(() => {
+		const fetchClients = async (): Promise<void> => {
+			try {
+				setLoading(true);
+				console.log(filter);
+				const data = await service.getAllFiltered(filter);
+				setClients(data);
+			} catch (err) {
+				setError(`Error fetching Clients  ${err}`);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchClients();
+	}, [trigger]);
 
 	return { items: clients, isLoading: loading, error: error };
 }
