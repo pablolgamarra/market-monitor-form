@@ -1,4 +1,5 @@
 import MarketInformation from '@models/MarketInformation';
+import MarketMonitorFormState from '@models/MarketMonitorFormState';
 
 export default interface IMarketInformationService {
 	configure(listName: string): void;
@@ -11,4 +12,5 @@ export default interface IMarketInformationService {
 	createItem(marketInformation: MarketInformation): Promise<boolean>;
 	updateItem(marketInformation: MarketInformation): Promise<boolean>;
 	deleteItem(marketInformation: MarketInformation): Promise<boolean>;
+    uploadItemFromState(state: MarketMonitorFormState):Promise<boolean>;
 }

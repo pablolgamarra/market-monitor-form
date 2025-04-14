@@ -3,6 +3,7 @@ import AgroPeriod from '@models/AgroPeriod';
 import Client from '@models/Client';
 import Cng from '@models/Cng';
 import MarketInformation from '@models/MarketInformation';
+import MarketMonitorFormState from '@models/MarketMonitorFormState';
 import ProductFamily from '@models/ProductFamily';
 import { MarketInformationResponse } from '@models/spServiceResponse/MarketInformationResponse';
 import Supplier from '@models/Supplier';
@@ -89,6 +90,38 @@ export class MarketInformationService implements IMarketInformationService {
 			VolumenYaComprado: item.BuyedVolume,
 			ID: item.Id,
 		};
+	}
+
+	private isFormStateValid(state: MarketMonitorFormState): boolean {
+		return (
+			!!state.client &&
+			!!state.agroPeriod &&
+			!!state.cng &&
+			state.productFamilyInformation.length > 0 &&
+			state.productFamilyInformation.every((pf) => !!pf.productFamily && !!pf.buyedVolume)
+		);
+	}
+
+	private parseStateToSPFormat(state: NonNullable<MarketMonitorFormState>): MarketInformationResponse[] {
+		return (
+			state.productFamilyInformation
+				// Validamos que al menos tenga la familia de producto
+				.filter((pFamily) => pFamily.productFamily)
+				.map(
+					(pFamily): MarketInformationResponse =>
+						({
+							// Estos IDs podrían ser omitidos si SharePoint los genera automáticamente
+							Id: 0,
+							ID: 0,
+							ClienteId: state.client?.Id ?? null,
+							Periodo_x0020_de_x0020_CultivoId: state.agroPeriod?.Id ?? null,
+							CNGId: state.cng?.Id ?? null,
+							Familia_x0020_de_x0020_ProductoId: pFamily.productFamily?.Id ?? null,
+							Proveedor_x0020_PrincipalId: pFamily.mainSupplier?.Id ?? null,
+							VolumenYaComprado: pFamily.buyedVolume ?? '',
+						} as MarketInformationResponse),
+				)
+		);
 	}
 
 	public async getAll(): Promise<MarketInformation[]> {
@@ -238,6 +271,21 @@ export class MarketInformationService implements IMarketInformationService {
 			return true;
 		} catch (e) {
 			throw Error(`Error deleting marketinformation data -> ${e}`);
+		}
+	}
+
+	public async uploadItemFromState(state: MarketMonitorFormState): Promise<boolean> {
+		try {
+			if (!this.isFormStateValid(state)) {
+				throw Error('Incomplete form, cannot be uploaded to Sharepoint');
+			}
+
+			const dataUpload = this.parseStateToSPFormat(state);
+
+			console.log('Ready to upload:', dataUpload);
+			return true;
+		} catch (e) {
+			throw Error(`Error uploading Market Information Data -> ${e}`);
 		}
 	}
 }
