@@ -1,3 +1,4 @@
+import { Status } from '@common/Status';
 import { ServiceKey, ServiceScope } from '@microsoft/sp-core-library';
 import AgroPeriod from '@models/AgroPeriod';
 import { AgroPeriodResponse } from '@models/spServiceResponse/AgroPeriodResponse';
@@ -41,6 +42,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 		return {
 			Id: item.Id,
 			Name: item.Title,
+			Status: item.Activo as Status,
 		};
 	}
 
@@ -48,6 +50,7 @@ export class AgroPeriodService implements IAgroPeriodService {
 		return {
 			Id: item.Id,
 			Title: item.Name,
+			Activo: item.Status,
 		};
 	}
 
