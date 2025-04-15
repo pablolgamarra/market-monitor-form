@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { ButtonField } from '@controls/ButtonField';
 import { Title2, useId } from '@fluentui/react-components';
-import useAgroPeriodList from '@hooks/useAgroPeriodList';
+import { useActiveAgroPeriodsList } from '@hooks/useAgroPeriodList';
 import { useDataContext } from '@hooks/useDataContext';
 import { useMarketMonitorFormContext } from '@hooks/useMarketMonitorFormContext';
 import AgroPeriod from '@models/AgroPeriod';
@@ -17,7 +17,7 @@ const MonitorFormPeriodSelector: React.FC<PageProps> = ({ nextStep }: PageProps)
 
 	const { updateField } = useMarketMonitorFormContext();
 	const { agroPeriodService } = useDataContext();
-	const { items: agroPeriods } = useAgroPeriodList(agroPeriodService);
+	const { items: agroPeriods } = useActiveAgroPeriodsList(agroPeriodService);
 
 	const handleAgroPeriodSelected = (name: string, ev: React.MouseEvent<HTMLButtonElement>): void => {
 		const agroPeriod = agroPeriods.find((period) => period.Name === ev.currentTarget.value);
