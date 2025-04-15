@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Supplier from '@models/Supplier';
 import ISupplierService from '@services/business/interfaces/ISupplierService';
@@ -30,3 +30,11 @@ export default function useSupplierList(service: ISupplierService): {
 
 	return { items: suppliers, isLoading: loading, error: error };
 }
+
+export const useSuppliersForFamily = (service: ISupplierService, familyId: number): Supplier[] => {
+	const { items: suppliers } = useSupplierList(service);
+	return useMemo(
+		() => suppliers.filter((s) => s.ProductFamilyProvided.map((pFamily) => pFamily.Id === familyId)),
+		[suppliers, familyId],
+	);
+};

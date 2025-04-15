@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import ProductFamily from '@models/ProductFamily';
 import IProductFamilyService from '@services/business/interfaces/IProductFamilyService';
@@ -30,3 +30,11 @@ export default function useProductFamilyList(service: IProductFamilyService): {
 
 	return { items: productfamilys, isLoading: loading, error: error };
 }
+
+export const useActiveFamiliesForPeriod = (service: IProductFamilyService, agroPeriodId: number): ProductFamily[] => {
+	const { items: families } = useProductFamilyList(service);
+	return useMemo(
+		() => families.filter((f) => f.Status && f.AgroPeriod.map((aPeriod) => aPeriod.Id === agroPeriodId)),
+		[families, agroPeriodId],
+	);
+};
