@@ -6,6 +6,7 @@ import useBusinessBranchList from '@hooks/useBusinessBranchList';
 import { useClientListFiltered } from '@hooks/useClientList';
 import { useDataContext } from '@hooks/useDataContext';
 import { useMarketMonitorFormContext } from '@hooks/useMarketMonitorFormContext';
+import Cng from '@models/Cng';
 import MarketMonitorFormState from '@models/MarketMonitorFormState';
 
 export interface MarketMonitorFormHeaderProps {
@@ -22,7 +23,7 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 	const id = useId('marketMonitorFormHeader');
 	const strings = props.strings;
 
-	const { clientService, businessBranchService } = useDataContext();
+	const { clientService, businessBranchService, cngService, spWebpartContext } = useDataContext();
 	const { formData, updateField } = useMarketMonitorFormContext();
 	const { items: branches, isLoading: branchesLoading } = useBusinessBranchList(businessBranchService);
 
@@ -55,17 +56,34 @@ const MonitorFormHeader: React.FC<MarketMonitorFormHeaderProps> = (props) => {
 		goForward();
 	}, [formData.businessBranch, formData.client]);
 
+	React.useEffect(() => {
+		const setCng = async (): Promise<void> => {
+			const user = spWebpartContext.pageContext.user;
+			const cngList = await cngService.getAll();
+			console.log(user);
+
+			const cng = cngList.find((cng: Cng) => cng.Email === user.email);
+
+			console.log(cngList);
+			console.log(cng);
+
+			if (cng) {
+				updateField('cng', cng);
+			}
+		};
+
+		setCng();
+	}, []);
+
 	return (
 		<div className='tw-mb-4'>
-			<InfoLabel
-				info={
-					<>
-						El periodo de Cultivo actual es: {formData.agroPeriod?.Name} <br />
-					</>
-				}
-			>
-				Periodo de Cultivo Seleccionado: {formData.agroPeriod?.Name}
-			</InfoLabel>
+			<InfoLabel>Periodo de Cultivo Seleccionado: {formData.agroPeriod?.Name}</InfoLabel>
+			<br />
+			{formData.cng && (
+				<InfoLabel>
+					{formData.cng?.Name} - {formData.cng?.Role} - {formData.cng?.BusinessBranch.Name}
+				</InfoLabel>
+			)}
 			{branchesLoading ? (
 				<>
 					<Skeleton
