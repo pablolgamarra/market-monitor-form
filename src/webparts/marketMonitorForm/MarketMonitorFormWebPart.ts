@@ -53,20 +53,6 @@ export default class MarketMonitorFormWebPart extends BaseClientSideWebPart<IMar
 	private app!: React.FunctionComponentElement<DataProviderProps>;
 
 	public async render(): Promise<void> {
-		this.app = React.createElement(
-			DataProvider,
-			{
-				agroPeriodService: this.agroPeriodService,
-				businessBranchService: this.businessBranchService,
-				clientService: this.clientService,
-				cngService: this.cngService,
-				supplierService: this.supplierService,
-				marketInformationService: this.marketInformationService,
-				productFamilyService: this.productFamilyService,
-				spWebpartContext: this.context,
-			},
-			React.createElement(MarketMonitorForm, {}),
-		);
 		ReactDom.render(this.app, this.domElement);
 	}
 
@@ -110,6 +96,21 @@ export default class MarketMonitorFormWebPart extends BaseClientSideWebPart<IMar
 
 			this.productFamilyService = this.context.serviceScope.consume(ProductFamilyService.serviceKey);
 			this.productFamilyService.configure(configs.productFamilyListName);
+
+			this.app = React.createElement(
+				DataProvider,
+				{
+					agroPeriodService: this.agroPeriodService,
+					businessBranchService: this.businessBranchService,
+					clientService: this.clientService,
+					cngService: this.cngService,
+					supplierService: this.supplierService,
+					marketInformationService: this.marketInformationService,
+					productFamilyService: this.productFamilyService,
+					spWebpartContext: this.context,
+				},
+				React.createElement(MarketMonitorForm, {}),
+			);
 		} catch (e) {
 			console.error(e);
 			this.app = React.createElement(
