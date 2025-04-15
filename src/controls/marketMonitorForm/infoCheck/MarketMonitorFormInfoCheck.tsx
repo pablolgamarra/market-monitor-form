@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { InputField } from '@controls/InputField';
-import { Button, Divider, Title2, Title3, Tree, TreeItem, TreeItemLayout, useId } from '@fluentui/react-components';
+import { Button, Divider, Title2, Tree, TreeItem, TreeItemLayout, useId } from '@fluentui/react-components';
 import { useMarketMonitorFormContext } from '@hooks/useMarketMonitorFormContext';
 import ProductFamilyInformation from '@models/ProductFamilyInformation';
 
@@ -51,19 +51,14 @@ const MonitorFormInfoCheck: FC<MarketMonitorFormInfoCheckProps> = (props) => {
 				value={formData.cng?.Name}
 			/>
 			<Divider>Products Information</Divider>
-			<Tree aria-label='Productos'>
+			<Tree aria-label='Productos Cargados'>
 				{formData.productFamilyInformation.map((info: ProductFamilyInformation) => (
 					<TreeItem
 						key={info.productFamily?.Name}
 						itemType='branch'
 					>
-						<TreeItemLayout> </TreeItemLayout>
-						<Tree>
-							<TreeItem itemType='leaf'>
-								<TreeItemLayout>
-									<Title3>{info.productFamily?.Name}</Title3>
-								</TreeItemLayout>
-							</TreeItem>
+						<TreeItemLayout>{info.productFamily?.Name}</TreeItemLayout>
+						<Tree aria-label={info.productFamily?.Name}>
 							<TreeItem itemType='leaf'>
 								<TreeItemLayout>
 									<InputField
@@ -78,17 +73,18 @@ const MonitorFormInfoCheck: FC<MarketMonitorFormInfoCheckProps> = (props) => {
 								</TreeItemLayout>
 							</TreeItem>
 							<TreeItem itemType='leaf'>
-								<TreeItemLayout>
-									<InputField
-										id={`${id}-${info.productFamily?.Name}`}
-										key={`${id}-${info.productFamily?.Name}`}
-										name={`${info.productFamily?.Name}`}
-										type='text'
-										label={`${info.productFamily?.Name} Main Supplier`}
-										placeholder='No data'
-										value={info.mainSupplier?.Name}
-									/>
-								</TreeItemLayout>
+								<InputField
+									id={`${id}-${info.productFamily?.Name}`}
+									key={`${id}-${info.productFamily?.Name}`}
+									name={`${info.productFamily?.Name}`}
+									type='text'
+									label={`${info.productFamily?.Name} Main Supplier`}
+									placeholder='No data'
+									value={info.mainSupplier?.Name}
+								/>
+							</TreeItem>
+							<TreeItem itemType='leaf'>
+								<TreeItemLayout />
 							</TreeItem>
 						</Tree>
 					</TreeItem>
