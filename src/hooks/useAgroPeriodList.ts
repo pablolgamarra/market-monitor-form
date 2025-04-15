@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
+import { Status } from '@common/Status';
 import AgroPeriod from '@models/AgroPeriod';
 import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
 
@@ -30,3 +31,8 @@ export default function useAgroPeriodList(service: IAgroPeriodService): {
 
 	return { items: agroPeriods, isLoading: loading, error: error };
 }
+
+export const useActiveAgroPeriodsList = (service: IAgroPeriodService): { items: AgroPeriod[] } => {
+	const { items: periods } = useAgroPeriodList(service);
+	return { items: useMemo(() => periods.filter((p) => p.Status === Status.Active), [periods]) };
+};
