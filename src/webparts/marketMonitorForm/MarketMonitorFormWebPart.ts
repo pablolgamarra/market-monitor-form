@@ -63,6 +63,7 @@ export default class MarketMonitorFormWebPart extends BaseClientSideWebPart<IMar
 				supplierService: this.supplierService,
 				marketInformationService: this.marketInformationService,
 				productFamilyService: this.productFamilyService,
+				spWebpartContext: this.context,
 			},
 			React.createElement(MarketMonitorForm, {}),
 		);
@@ -89,7 +90,6 @@ export default class MarketMonitorFormWebPart extends BaseClientSideWebPart<IMar
 				throw new Error('Missing required lists names in the webpart configuration panel');
 			}
 
-			console.log(configs);
 			this.agroPeriodService = this.context.serviceScope.consume(AgroPeriodService.serviceKey);
 			this.agroPeriodService.configure(configs.agroPeriodListName);
 
@@ -122,6 +122,7 @@ export default class MarketMonitorFormWebPart extends BaseClientSideWebPart<IMar
 					supplierService: this.supplierService,
 					marketInformationService: this.marketInformationService,
 					productFamilyService: this.productFamilyService,
+					spWebpartContext: this.context,
 				},
 				React.createElement(ErrorComponent, { message: `${e}` }),
 			);

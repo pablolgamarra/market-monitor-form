@@ -1,4 +1,5 @@
 import { DataContext } from '@context/dataContext';
+import { WebPartContext } from '@microsoft/sp-webpart-base';
 import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
 import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
 import IClientService from '@services/business/interfaces/IClientService';
@@ -16,6 +17,7 @@ export const useDataContext = (): {
 	marketInformationService: IMarketInformationService;
 	productFamilyService: IProductFamilyService;
 	supplierService: ISupplierService;
+	spWebpartContext: WebPartContext;
 } => {
 	const context = useContext(DataContext);
 

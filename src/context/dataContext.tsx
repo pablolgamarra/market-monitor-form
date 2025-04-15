@@ -1,3 +1,4 @@
+import { WebPartContext } from '@microsoft/sp-webpart-base';
 import IAgroPeriodService from '@services/business/interfaces/IAgroPeriodService';
 import IBusinessBranchService from '@services/business/interfaces/IBusinessBranchService';
 import IClientService from '@services/business/interfaces/IClientService';
@@ -17,6 +18,7 @@ export interface DataProviderProps {
 	marketInformationService: IMarketInformationService;
 	productFamilyService: IProductFamilyService;
 	supplierService: ISupplierService;
+	spWebpartContext: WebPartContext;
 }
 
 export const DataContext = React.createContext<DataProviderProps>({} as DataProviderProps);
@@ -30,6 +32,7 @@ export const DataProvider: React.FunctionComponent<DataProviderProps> = ({
 	marketInformationService,
 	productFamilyService,
 	supplierService,
+	spWebpartContext,
 }: React.PropsWithChildren<DataProviderProps>) => {
 	return (
 		<DataContext.Provider
@@ -41,6 +44,7 @@ export const DataProvider: React.FunctionComponent<DataProviderProps> = ({
 				marketInformationService: marketInformationService,
 				productFamilyService: productFamilyService,
 				supplierService: supplierService,
+				spWebpartContext: spWebpartContext,
 			}}
 		>
 			{children}
