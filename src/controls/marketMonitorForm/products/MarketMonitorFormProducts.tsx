@@ -32,16 +32,6 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 	const { items: productFamiliesList } = useProductFamilyList(productFamilyService);
 	const { items: suppliersList } = useSupplierList(supplierService);
 
-	const productFamily: ProductFamily | undefined = productFamiliesList.find(
-		(pFamily: ProductFamily, index: number) => {
-			if (index === productPage) {
-				return pFamily;
-			}
-		},
-	);
-
-	const pageInformation = formData.productFamilyInformation[productPage] ?? ({} as ProductFamilyInformation);
-
 	const volumes = [
 		{ value: '0%', label: '0%' },
 		{ value: '10%', label: '10%' },
@@ -56,6 +46,37 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 		{ value: '100%', label: '100%' },
 		{ value: 'N/S%', label: 'No Sabe' },
 	];
+
+	const productFamily: ProductFamily | undefined = productFamiliesList.find(
+		(pFamily: ProductFamily, index: number) => {
+			if (index === productPage) {
+				return pFamily;
+			}
+		},
+	);
+
+	const pageInformation = formData.productFamilyInformation[productPage] ?? ({} as ProductFamilyInformation);
+
+	const updateStateProductFamily = (): void => {
+		const updated = { ...pageInformation, productFamily: productFamily };
+		updateProductInfo(productPage, updated);
+	};
+
+	const handleForwardBtnClick = (): void => {
+		updateStateProductFamily();
+		if (productPage + 1 === productFamiliesList.length) {
+			nextStep();
+		}
+		nextProduct();
+	};
+
+	const handleBackwardBtnClick = (): void => {
+		updateStateProductFamily();
+		if (productPage === 0) {
+			prevStep();
+		}
+		prevProduct();
+	};
 
 	const handleBuyedVolumeSelect = (name: string, data: RadioGroupOnChangeData): void => {
 		const updated = { ...pageInformation, buyedVolume: data.value };
@@ -106,14 +127,14 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 				required
 			/>
 			<button
-				onClick={productPage === 0 ? prevStep : prevProduct}
+				onClick={handleBackwardBtnClick}
 				className='mr-2 px-4 py-2 bg-gray-400 text-white rounded'
 			>
 				Atrás
 			</button>
 			<Text>Página {productPage}</Text>
 			<button
-				onClick={productPage + 1 === productFamiliesList.length ? nextStep : nextProduct}
+				onClick={handleForwardBtnClick}
 				className='px-4 py-2 bg-blue-500 text-white rounded'
 			>
 				Siguiente
