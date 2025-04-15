@@ -8,7 +8,7 @@ import MonitorFormProducts from '@controls/marketMonitorForm/products/MarketMoni
 import MonitorFormInfoCheck from './infoCheck/MarketMonitorFormInfoCheck';
 
 const MarketMonitorForm: FC = () => {
-	const [step, setStep] = useState<number>(3);
+	const [step, setStep] = useState<number>(1);
 	const [productPage, setProductPage] = useState<number>(0);
 
 	const nextStep = (): void => setStep((prev) => prev + 1);
