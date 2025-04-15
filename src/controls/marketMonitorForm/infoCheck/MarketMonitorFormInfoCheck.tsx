@@ -73,18 +73,17 @@ const MonitorFormInfoCheck: FC<MarketMonitorFormInfoCheckProps> = (props) => {
 								</TreeItemLayout>
 							</TreeItem>
 							<TreeItem itemType='leaf'>
-								<InputField
-									id={`${id}-${info.productFamily?.Name}`}
-									key={`${id}-${info.productFamily?.Name}`}
-									name={`${info.productFamily?.Name}`}
-									type='text'
-									label={`${info.productFamily?.Name} Main Supplier`}
-									placeholder='No data'
-									value={info.mainSupplier?.Name}
-								/>
-							</TreeItem>
-							<TreeItem itemType='leaf'>
-								<TreeItemLayout />
+								<TreeItemLayout>
+									<InputField
+										id={`${id}-${info.productFamily?.Name}`}
+										key={`${id}-${info.productFamily?.Name}`}
+										name={`${info.productFamily?.Name}`}
+										type='text'
+										label={`${info.productFamily?.Name} Main Supplier`}
+										placeholder='No data'
+										value={info.mainSupplier?.Name}
+									/>
+								</TreeItemLayout>
 							</TreeItem>
 						</Tree>
 					</TreeItem>
