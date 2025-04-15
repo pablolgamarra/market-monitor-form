@@ -44,7 +44,7 @@ const MonitorFormProducts: React.FC<PageProps> = ({
 		{ value: '80%', label: '80%' },
 		{ value: '90%', label: '90%' },
 		{ value: '100%', label: '100%' },
-		{ value: 'N/S%', label: 'No Sabe' },
+		{ value: 'N/S', label: 'No Sabe' },
 	];
 
 	const productFamily: ProductFamily | undefined = productFamiliesList.find(
